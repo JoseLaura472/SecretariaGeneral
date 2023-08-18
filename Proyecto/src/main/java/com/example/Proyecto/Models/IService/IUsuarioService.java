@@ -12,4 +12,6 @@ public interface IUsuarioService {
 	public Usuario findOne(Long id);
 
     public void delete(Long id);
+
+    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona);
 }

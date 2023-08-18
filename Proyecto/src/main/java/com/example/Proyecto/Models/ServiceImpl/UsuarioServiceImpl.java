@@ -15,24 +15,26 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
     @Override
     public List<Usuario> findAll() {
-        // TODO Auto-generated method stub
         return (List<Usuario>) usuarioDao.findAll();
     }
 
     @Override
     public void save(Usuario usuario) {
-        // TODO Auto-generated method stub
         usuarioDao.save(usuario);
     }
 
     @Override
     public Usuario findOne(Long id) {
-        // TODO Auto-generated method stub
         return usuarioDao.findById(id).orElse(null);
     }
 
     @Override
     public void delete(Long id) {
         usuarioDao.deleteById(id);
+    }
+
+    @Override
+    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona) {
+        return usuarioDao.insertar_adm(usuario_nom, contrasena, id_persona);
     }
 }
