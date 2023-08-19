@@ -1,0 +1,33 @@
+-- NOMBRE: PROCEDIMIENTOS SECRETARIA
+-- AUTOR: JUAN JOSÉ LAURA BILBAO
+
+-- ENCRYPTADOR DE CONTRASEÑAS
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+------------------->
+
+-- INSERTAR USUARIO CON ENCRYPTACION
+CREATE OR REPLACE FUNCTION public.insertar_adm(usuariou character varying, contrasenau character varying, id_personau integer)
+ RETURNS Integer
+ LANGUAGE plpgsql
+AS $function$
+declare
+    respuesta Integer;
+begin
+	
+	if(select count(usuario.id_persona) from usuario where usuario.id_persona = id_personaU or usuario.usuario_nom  = usuarioU) = 0	
+	then
+	INSERT INTO public.usuario
+	(contrasena, estado, usuario_nom, id_persona)
+	VALUES(crypt(contrasenaU, gen_salt('bf')), 'P', usuarioU, id_personaU)
+	returning id_usuario into respuesta;
+	else
+	respuesta:= 0;
+	end if;
+
+ 	return respuesta;
+END;
+$function$;
+
+------------------------( Usuario_nom, contrasena, id_persona)
+select * from insertar_adm('ADM', '123', 1) 
+------------------->

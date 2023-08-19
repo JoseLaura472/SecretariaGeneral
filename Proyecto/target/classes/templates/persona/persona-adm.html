@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Sources Datatable</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">DataTables</a>
+                            </li>
+                            <li class="breadcrumb-item active">Sources Datatable
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Persona</h4>
+                                <a class="heading-elements-toggle"><i
+                                        class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>El registro corresponde a la información de la Persona.</p>
+                                    </div>
+                                    <th:block th:if="${persona.id_persona != null}">
+                                        <form class="form" action="/adm/PersonaModF" method="post" novalidate>
+                                    </th:block>
+                                    <th:block th:if="${persona.id_persona == null}">
+                                        <form id="form1" class="form" action="/PersonaF" method="post" novalidate>
+                                    </th:block>
+                                    <input type="hidden" th:field="${persona.id_persona}">
+                                    <div class="form-body">
+                                        <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos
+                                                Personales</strong></h4>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Nombres</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.nombre_persona}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Apellido Paterno</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.ap_paterno_persona}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Apellido Materno</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.ap_materno_persona}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>N° de C.I.</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.ci_persona}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4 class="form-section"><i class="icon icon-call-in"></i><strong>Datos de
+                                                Contacto</strong></h4>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Correo Electronico</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.email_persona}" type="email"
+                                                            name="email" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>N° de Contacto</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${persona.telefono_persona}" type="text"
+                                                            name="email" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="content-body">
+                <!-- HTML (DOM) sourced data -->
+                <section id="html">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">HTML (DOM) sourced data</h4>
+                                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content collpase show">
+                                    <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap">
+                                        <p class="card-text">The foundation for DataTables is progressive enhancement, so it is very adept at reading
+                                            table information directly from the DOM. This example shows how easy it is to add searching, ordering and paging
+                                            to your HTML table by simply running DataTables on it.
+                                        </p>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered sourced-data">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Position</th>
+                                                        <th>Office</th>
+                                                        <th>Age</th>
+                                                        <th>Start date</th>
+                                                        <th>Salary</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Tiger Nixon</td>
+                                                        <td>System Architect</td>
+                                                        <td>Edinburgh</td>
+                                                        <td>61</td>
+                                                        <td>2011/04/25</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>Accountant</td>
+                                                        <td>Tokyo</td>
+                                                        <td>63</td>
+                                                        <td>2011/07/25</td>
+                                                        <td>$170,750</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Position</th>
+                                                        <th>Office</th>
+                                                        <th>Age</th>
+                                                        <th>Start date</th>
+                                                        <th>Salary</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--/ HTML (DOM) sourced data -->
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <div th:replace="layout/script :: script"></div>
+
+</body>
+<!-- END: Body-->
+
+</html>
