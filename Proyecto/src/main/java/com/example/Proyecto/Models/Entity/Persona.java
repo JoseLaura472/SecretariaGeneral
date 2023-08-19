@@ -1,6 +1,7 @@
 package com.example.Proyecto.Models.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -21,8 +24,8 @@ import lombok.Setter;
 @Table(name = "persona")
 @Setter
 @Getter
-public class Persona implements Serializable{
-    private static final long serialVersionUID = 2629195288020321924L;
+public class Persona  extends SigaUsicRevisiones{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_persona;
@@ -34,7 +37,20 @@ public class Persona implements Serializable{
     private String email_persona;
     private String estado_persona;
 
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    private Date fecNacimiento;
+
+    private String sexo_persona;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.EAGER)
     private List<Usuario> usuarios;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.EAGER)
+    private List<Autoridad> autoridad;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona", fetch = FetchType.EAGER)
+    private List<Representante> representante;
 }
