@@ -37,4 +37,9 @@ public class UsuarioServiceImpl implements IUsuarioService{
     public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona) {
         return usuarioDao.insertar_adm(usuario_nom, contrasena, id_persona);
     }
+
+    @Override
+    public Long validar_adm(String usuario_nom, String contrasena) {
+        return usuarioDao.validar_adm(usuario_nom, contrasena);
+    }
 }

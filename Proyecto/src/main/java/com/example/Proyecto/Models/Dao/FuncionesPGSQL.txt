@@ -18,7 +18,7 @@ begin
 	then
 	INSERT INTO public.usuario
 	(contrasena, estado, usuario_nom, id_persona)
-	VALUES(crypt(contrasenaU, gen_salt('bf')), 'P', usuarioU, id_personaU)
+	VALUES(crypt(contrasenaU, gen_salt('bf')), 'ADM', usuarioU, id_personaU)
 	returning id_usuario into respuesta;
 	else
 	respuesta:= 0;
@@ -31,3 +31,16 @@ $function$;
 ------------------------( Usuario_nom, contrasena, id_persona)
 select * from insertar_adm('ADM', '123', 1) 
 ------------------->
+
+-- LOGIN
+CREATE OR REPLACE FUNCTION public.validar_adm(usuariou character varying, contrasenau character varying)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+declare
+    res Integer;
+begin
+	select usuario.id_usuario into res from usuario where usuario.usuario_nom  = usuarioU and usuario.contrasena = crypt(contrasenaU, contrasena);
+	return res;
+END;
+$function$;
