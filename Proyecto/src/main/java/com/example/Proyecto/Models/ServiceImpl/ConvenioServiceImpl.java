@@ -1,0 +1,39 @@
+package com.example.Proyecto.Models.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.Proyecto.Models.Dao.IConvenioDao;
+
+import com.example.Proyecto.Models.Entity.Convenio;
+import com.example.Proyecto.Models.IService.IConvenioService;
+
+@Service
+public class ConvenioServiceImpl implements IConvenioService {
+
+     @Autowired
+     private IConvenioDao convenioDao;
+
+    @Override
+    public List<Convenio> findAll() {
+       return (List<Convenio>) convenioDao.findAll();
+    }
+
+    @Override
+    public void save(Convenio convenio) {
+       convenioDao.save(convenio);
+    }
+
+    @Override
+    public Convenio findOne(Long id) {
+       return convenioDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public void delete(Long id) {
+     convenioDao.deleteById(id);
+    }
+    
+}
