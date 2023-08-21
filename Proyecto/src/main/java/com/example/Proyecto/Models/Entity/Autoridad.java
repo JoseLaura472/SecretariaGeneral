@@ -50,7 +50,7 @@ public class Autoridad extends SigaUsicRevisiones{
     //Tabla Consejo
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_persona")
+    @JoinColumn(name = "id_consejo")
     private Consejo consejo;
 
     @JsonIgnore
