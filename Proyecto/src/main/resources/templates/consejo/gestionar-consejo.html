@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Sources Datatable</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">DataTables</a>
+                            </li>
+                            <li class="breadcrumb-item active">Sources Datatable
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Consejo</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>El registro corresponde a la información del Consejo.</p>
+                                    </div>
+                                    <th:block th:if="${consejo.id_consejo != null}">
+                                        <form class="form" action="/adm/ConsejoModF" method="post" novalidate>
+                                    </th:block>
+                                    <th:block th:if="${consejo.id_consejo == null}">
+                                        <form id="form1" class="form" action="/adm/ConsejoF" method="post" novalidate>
+                                    </th:block>
+                                    <input type="hidden" th:field="${consejo.id_consejo}">
+                                    <div class="form-body">
+                                        <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos
+                                                del Consejo</strong></h4>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Nombre Consejo</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${consejo.nombre_consejo}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                style="text-transform:uppercase;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Sigla Consejo</h5>
+                                                    <div class="controls">
+                                                        <input th:field="${consejo.sigla_consejo}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                style="text-transform:uppercase;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Lista de Registros</h4>
+                                <a class="heading-elements-toggle"><i
+                                        class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li class="text-success"><a onclick="location.reload()"><i
+                                                    class="ft-rotate-cw text-success"></i> Actualizar</a></li>
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body" id="fragmentContainer">
+                                    <th:block th:replace="consejo/tableFragment :: table"></th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <div th:replace="layout/script :: script"></div>
+
+    <div th:replace="layout/AjaxFormularios :: submit_form1"></div>
+
+    <script>
+        function MandarURL(a) {
+            console.log(a);
+            // Swal.fire({
+            //   title: 'Eliminar Registro?',              
+            //   type: 'error',     
+            //   showCancelButton: true,
+            //   cancelButtonText: "Cancelar",         
+            //   html:
+            //   "<a"+
+            //   " class='btn btn-danger btn-min-width' "+
+            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
+            // });
+            Swal.fire({
+                title: 'Eliminar Registro?',
+                type: 'error',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: 'Cancelar',
+                cancelButtonAriaLabel: 'Thumbs down',
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+                cancelButtonClass: 'btn btn-danger ml-1',
+            })
+        }
+    </script>
+
+</body>
+<!-- END: Body-->
+
+</html>

@@ -35,5 +35,4 @@ public class ConsejoServiceImpl implements IConsejoService {
     public void delete(Long id) {
         consejoDao.deleteById(id);
     }
-    
 }

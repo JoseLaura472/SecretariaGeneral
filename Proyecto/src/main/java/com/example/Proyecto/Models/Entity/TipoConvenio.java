@@ -33,7 +33,7 @@ public class TipoConvenio extends SigaUsicRevisiones{
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoConvenio", fetch = FetchType.EAGER)
-    private List<TipoConvenio> tipoConvenio;
+    private List<Convenio> convenios;
 
 
 

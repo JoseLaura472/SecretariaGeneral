@@ -44,3 +44,31 @@ begin
 	return res;
 END;
 $function$;
+------------------->
+
+-- REGISTRO DE CONSEJO
+
+CREATE OR REPLACE FUNCTION public.insertar_consejo(nombrecon character varying, siglacon character varying)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+    respuesta integer;
+BEGIN
+	if(select count(consejo.nombre_consejo) from consejo where consejo.nombre_consejo  = nombrecon) = 0
+	then 
+	INSERT INTO public.consejo
+	(nombre_consejo, sigla_consejo, estado_consejo)
+	VALUES(nombrecon, siglacon, 'A');
+	respuesta := 1;
+	return respuesta;
+ 	end if;
+ 
+ 	if(select count(consejo.nombre_consejo) from consejo where consejo.nombre_consejo  = nombrecon) <> 0
+ 	then
+ 	respuesta := 0;
+ 	return respuesta;
+ 	end if;
+END;
+$function$;
+------------------->

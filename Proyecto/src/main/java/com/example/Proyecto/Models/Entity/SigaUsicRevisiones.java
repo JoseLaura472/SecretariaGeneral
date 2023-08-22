@@ -26,7 +26,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Setter
 @Getter
 public abstract class SigaUsicRevisiones implements Serializable {
-    
+    private static final long serialVersionUID = 2629195288020321924L;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "_registro")
     @CreatedDate

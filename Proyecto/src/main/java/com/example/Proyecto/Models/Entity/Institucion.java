@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "consejo")
+@Table(name = "institucion")
 @Setter
 @Getter
 public class Institucion extends SigaUsicRevisiones{
@@ -32,6 +32,6 @@ public class Institucion extends SigaUsicRevisiones{
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "institucion", fetch = FetchType.EAGER)
-    private List<Institucion> institucion;
+    private List<Convenio> convenios;
 
 }
