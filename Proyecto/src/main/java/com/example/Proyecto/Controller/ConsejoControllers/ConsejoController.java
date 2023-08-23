@@ -31,24 +31,18 @@ public class ConsejoController {
     @RequestMapping(value = "ConsejoR", method = RequestMethod.GET)
     public String ConsejoR(HttpServletRequest request, @Validated Consejo consejo, Model model) throws Exception {
 
-        if (request.getSession().getAttribute("usuario_nom") != null) {
 
-            List<Consejo> consejos = consejoService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (Consejo consejo2 : consejos) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(consejo2.getId_consejo()));
-                encryptedIds.add(id_encryptado);
-            }
-            model.addAttribute("consejo", new Consejo());
-            model.addAttribute("consejos", consejos);
-            model.addAttribute("id_encryptado", encryptedIds);
-            
-            return "consejo/gestionar-consejo";
-        
-
-        } else {
-            return "redirect:/";
+        List<Consejo> consejos = consejoService.findAll();
+        List<String> encryptedIds = new ArrayList<>();
+        for (Consejo consejo2 : consejos) {
+            String id_encryptado = Encryptar.encrypt(Long.toString(consejo2.getId_consejo()));
+            encryptedIds.add(id_encryptado);
         }
+        model.addAttribute("consejo", new Consejo());
+        model.addAttribute("consejos", consejos);
+        model.addAttribute("id_encryptado", encryptedIds);
+        
+        return "consejo/gestionar-consejo";
         
     }
 
