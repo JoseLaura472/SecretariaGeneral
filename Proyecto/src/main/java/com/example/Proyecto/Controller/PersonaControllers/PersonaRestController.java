@@ -13,22 +13,20 @@ import com.example.Proyecto.Models.IService.IUsuarioService;
 @Controller
 public class PersonaRestController {
 
-    @Autowired
+	@Autowired
 	private IPersonaService personaService;
 
-    @Autowired
+	@Autowired
 	private IUsuarioService usuarioService;
-    
-    @RequestMapping(value = "/PersonaF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
+
+	@RequestMapping(value = "/PersonaF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
 	public String PersonaF(@Validated Persona persona) { // validar los datos capturados (1)
 
 		persona.setEstado_persona("A");
 		personaService.save(persona);
 
-        usuarioService.insertar_adm(persona.getEmail_persona(), persona.getCi_persona(),
-                    Math.toIntExact(persona.getId_persona()));
-
-        
+		usuarioService.insertar_adm(persona.getEmail_persona(), persona.getCi_persona(),
+				Math.toIntExact(persona.getId_persona()));
 
 		return "redirect:/adm/PersonaR";
 	}

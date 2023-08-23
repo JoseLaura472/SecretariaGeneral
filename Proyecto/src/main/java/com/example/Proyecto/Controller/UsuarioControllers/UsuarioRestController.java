@@ -15,13 +15,15 @@ import com.example.Proyecto.Models.IService.IUsuarioService;
 @RestController
 @CrossOrigin
 public class UsuarioRestController {
-    
+
     @Autowired
-	private IUsuarioService usuarioService;
-    
+    private IUsuarioService usuarioService;
+
     @PostMapping(value = "LoginF")
-    public String PersonaF(HttpServletRequest request, @RequestParam(name="usuario_nom",required = false)String usuario_nom, @RequestParam(name="contrasena",required = false)String contrasena){
-        
+    public String PersonaF(HttpServletRequest request,
+            @RequestParam(name = "usuario_nom", required = false) String usuario_nom,
+            @RequestParam(name = "contrasena", required = false) String contrasena) {
+
         Long resultado = usuarioService.validar_adm(usuario_nom, contrasena);
 
         if (resultado != null) {
@@ -32,25 +34,24 @@ public class UsuarioRestController {
                 session.setAttribute("usuario", usuario);
                 session.setAttribute("persona", usuario.getPersona());
                 return "A";
-            }else{
+            } else {
                 if (usuario.getEstado().equals("P")) {
-                HttpSession session = request.getSession(true);
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("persona", usuario.getPersona());
-                return "P";
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("usuario", usuario);
+                    session.setAttribute("persona", usuario.getPersona());
+                    return "P";
                 }
                 if (usuario.getEstado().equals("AP")) {
-                HttpSession session = request.getSession(true);
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("persona", usuario.getPersona());
-                return "AP";
-                }
-                else{
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("usuario", usuario);
+                    session.setAttribute("persona", usuario.getPersona());
+                    return "AP";
+                } else {
                     return "2";
                 }
             }
-            
-        }else{
+
+        } else {
             return "2";
         }
     }

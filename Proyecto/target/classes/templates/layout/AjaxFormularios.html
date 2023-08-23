@@ -37,7 +37,7 @@
                                 if (data == 0) {
                                     Swal.fire({
                                         title: "Información ya Registrada",
-                                        text: "Ya se Encuentra un Registro con el mismo NOMBRE DE REQUISITO",
+                                        text: "Ya se Encuentra un Registro con el mismo NOMBRE",
                                         type: "error",
                                         confirmButtonClass: 'btn btn-warning',
                                         buttonsStyling: false,
@@ -55,6 +55,71 @@
                     function loadFragment() {
                         $.ajax({
                             url: '/adm/tableConsejos', // The controller endpoint that returns the fragment
+                            method: 'GET',
+                            success: function (data) {
+                                $('#fragmentContainer').html(data);
+                                $('.zero-configuration').DataTable();
+                            },
+                            error: function (error) {
+                                console.log('Failed to load fragment:', error);
+                            }
+                        });
+                    }
+                });
+            });
+
+        </script>
+    </div>
+
+    <div th:fragment="submit_form2">
+        <script>
+            $(document).ready(function () {
+                $('#form1').submit(function (event) {
+                    event.preventDefault(); // Evita el envío del formulario por defecto
+
+                    var form = $(this);
+                    var submitBtn = form.find('button[type="submit"]'); // Encuentra el botón de envío del formulario
+                    submitBtn.prop('disabled', true); // Desactiva el botón
+
+                    var url = form.attr('action');
+                    var formData = form.serialize(); // Serializa los datos del formulario
+
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            if (data != 0) {
+                                Swal.fire({
+                                    title: "Información Registrada",
+                                    text: "Registro Guardado Exitosamente",
+                                    type: "success",
+                                    confirmButtonClass: 'btn btn-success',
+                                    buttonsStyling: false,
+                                });
+                            } else {
+                                if (data == 0) {
+                                    Swal.fire({
+                                        title: "Información ya Registrada",
+                                        text: "Ya se Encuentra un Registro con el mismo NOMBRE",
+                                        type: "error",
+                                        confirmButtonClass: 'btn btn-warning',
+                                        buttonsStyling: false,
+                                    });
+                                }
+                            }
+                            submitBtn.prop('disabled', false); // Reactiva el botón después de recibir la respuesta
+                            form[0].reset(); // Limpia los datos del formulario                        
+                            loadFragment();
+                        },
+                        error: function () {
+                            submitBtn.prop('disabled', false); // Reactiva el botón en caso de error
+                        }
+                    });
+                    function loadFragment() {
+                        $.ajax({
+                            url: '/adm/tableTpConvenios', // The controller endpoint that returns the fragment
                             method: 'GET',
                             success: function (data) {
                                 $('#fragmentContainer').html(data);

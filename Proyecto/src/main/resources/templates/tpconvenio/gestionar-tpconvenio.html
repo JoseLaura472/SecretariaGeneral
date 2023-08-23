@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Consejo</h4>
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Tipo Convenio</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -55,25 +55,27 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
                                     <div class="card-text">
-                                        <p>El registro corresponde a la información del Consejo.</p>
+                                        <p>El registro corresponde a la información del Tipo Convenio.</p>
                                     </div>
-                                    <th:block th:if="${consejo.id_consejo != null}">
-                                        <form class="form" action="/adm/ConsejoModF" method="post" novalidate>
+                                    <th:block th:if="${tipoConvenio.id_tipo_convenio != null}">
+                                        <form class="form" action="/adm/TipoConvenioModF" method="post" novalidate>
                                     </th:block>
-                                    <th:block th:if="${consejo.id_consejo == null}">
-                                        <form id="form1" class="form" action="/adm/ConsejoF" method="post" novalidate>
+                                    <th:block th:if="${tipoConvenio.id_tipo_convenio == null}">
+                                        <form id="form1" class="form" action="/adm/TipoConvenioF" method="post"
+                                            novalidate>
                                     </th:block>
-                                    <input type="hidden" th:field="${consejo.id_consejo}">
+                                    <input type="hidden" th:field="${tipoConvenio.id_tipo_convenio}">
                                     <div class="form-body">
                                         <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos
-                                                del Consejo</strong></h4>
+                                                del Tipo Convenio</strong></h4>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
-                                                    <h5>Nombre Consejo</h5>
+                                                    <h5>Nombre Tipo Convenio</h5>
                                                     <div class="controls">
-                                                        <input th:field="${consejo.nombre_consejo}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
+                                                        <input th:field="${tipoConvenio.nombre_tipo_convenio}"
+                                                            type="text" name="text" class="form-control mb-1 square"
+                                                            required
                                                             data-validation-required-message="Deber Ingresar los Datos"
                                                             onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                             style="text-transform:uppercase;">
@@ -82,10 +84,11 @@
                                             </div>
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
-                                                    <h5>Sigla Consejo</h5>
+                                                    <h5>Sigla Tipo Convenio</h5>
                                                     <div class="controls">
-                                                        <input th:field="${consejo.sigla_consejo}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
+                                                        <input th:field="${tipoConvenio.sigla_tipo_convenio}"
+                                                            type="text" name="text" class="form-control mb-1 square"
+                                                            required
                                                             data-validation-required-message="Deber Ingresar los Datos"
                                                             onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                             style="text-transform:uppercase;">
@@ -127,7 +130,7 @@
                             </div>
                             <div class="card-content collapse show">
                                 <div class="card-body" id="fragmentContainer">
-                                    <th:block th:replace="consejo/tableFragment :: table"></th:block>
+                                    <th:block th:replace="tpconvenio/tableFragmentTp :: table"></th:block>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +146,7 @@
 
     <div th:replace="layout/script :: script"></div>
 
-    <div th:replace="layout/AjaxFormularios :: submit_form1"></div>
+    <div th:replace="layout/AjaxFormularios :: submit_form2"></div>
 
     <script>
         function MandarURL(a) {
@@ -164,7 +167,7 @@
                 showCloseButton: true,
                 showCancelButton: true,
                 focusConfirm: false,
-                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-tpconvenio/' + a + '" >Eliminar</a>',
                 confirmButtonAriaLabel: 'Thumbs up, great!',
                 cancelButtonText: 'Cancelar',
                 cancelButtonAriaLabel: 'Thumbs down',

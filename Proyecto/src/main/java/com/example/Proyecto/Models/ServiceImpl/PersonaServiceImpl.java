@@ -10,10 +10,10 @@ import com.example.Proyecto.Models.Entity.Persona;
 import com.example.Proyecto.Models.IService.IPersonaService;
 
 @Service
-public class PersonaServiceImpl implements IPersonaService{
+public class PersonaServiceImpl implements IPersonaService {
 
     @Autowired
-     private IPersonaDao personaDao;
+    private IPersonaDao personaDao;
 
     @Override
     public List<Persona> findAll() {
@@ -34,5 +34,5 @@ public class PersonaServiceImpl implements IPersonaService{
     public void delete(Long id) {
         personaDao.deleteById(id);
     }
-    
+
 }

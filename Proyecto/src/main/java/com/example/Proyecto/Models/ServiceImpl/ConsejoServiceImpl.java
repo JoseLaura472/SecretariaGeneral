@@ -12,18 +12,17 @@ import com.example.Proyecto.Models.IService.IConsejoService;
 @Service
 public class ConsejoServiceImpl implements IConsejoService {
 
-
     @Autowired
-     private IConsejoDao consejoDao;
+    private IConsejoDao consejoDao;
 
     @Override
     public List<Consejo> findAll() {
-       return (List<Consejo>) consejoDao.findAll();
+        return (List<Consejo>) consejoDao.findAll();
     }
 
     @Override
     public void save(Consejo consejo) {
-      consejoDao.save(consejo);
+        consejoDao.save(consejo);
     }
 
     @Override

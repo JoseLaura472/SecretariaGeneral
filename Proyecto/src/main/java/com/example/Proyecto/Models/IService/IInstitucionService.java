@@ -8,9 +8,9 @@ public interface IInstitucionService {
 
     public List<Institucion> findAll();
 
-	public void save(Institucion institucion);
+    public void save(Institucion institucion);
 
-	public Institucion findOne(Long id);
+    public Institucion findOne(Long id);
 
     public void delete(Long id);
 }

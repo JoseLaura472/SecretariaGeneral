@@ -20,7 +20,7 @@ import lombok.Setter;
 @Table(name = "usuario")
 @Getter
 @Setter
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
     private static final long serialVersionUID = 2629195288020321924L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,8 @@ public class Usuario implements Serializable{
     private String contrasena;
     private String estado;
 
-    //Tabla Persona
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Persona
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_persona")
     private Persona persona;

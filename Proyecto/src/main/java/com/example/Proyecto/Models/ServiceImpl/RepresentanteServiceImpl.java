@@ -12,18 +12,17 @@ import com.example.Proyecto.Models.IService.IRepresentanteService;
 @Service
 public class RepresentanteServiceImpl implements IRepresentanteService {
 
-      @Autowired
-     private IRepresentanteDao representanteDao;
-
+    @Autowired
+    private IRepresentanteDao representanteDao;
 
     @Override
     public List<Representante> findAll() {
-    return (List<Representante>) representanteDao.findAll();
+        return (List<Representante>) representanteDao.findAll();
     }
 
     @Override
     public void save(Representante representante) {
-       representanteDao.save(representante);
+        representanteDao.save(representante);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class RepresentanteServiceImpl implements IRepresentanteService {
 
     @Override
     public void delete(Long id) {
-     representanteDao.deleteById(id);
+        representanteDao.deleteById(id);
     }
-    
+
 }

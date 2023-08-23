@@ -12,19 +12,19 @@
         <table class="table table-striped table-bordered zero-configuration">
             <thead>
                 <tr>
-                    <th>Nombre Consejo</th>
-                    <th>Sigla Consejo</th>
+                    <th>Nombre Tipo Convenio</th>
+                    <th>Sigla Tipo Convenio</th>
                     <th>Operaciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="con, index : ${consejos}" th:if="${con.estado_consejo != 'X'}">
-                    <td th:text="${con.nombre_consejo}"></td>
-                    <td th:text="${con.sigla_consejo}"></td>
+                <tr th:each="tpcon, index : ${tipoConvenios}" th:if="${tpcon.estado_tipo_convenio != 'X'}">
+                    <td th:text="${tpcon.nombre_tipo_convenio}"></td>
+                    <td th:text="${tpcon.sigla_tipo_convenio}"></td>
                     <td>
                         <center>
                             <a class="btn btn-warning round text-white"
-                                th:href="${'/adm/editar-consejo/'+id_encryptado[__${index.index}__]}">
+                                th:href="${'/adm/editar-tpconvenio/'+id_encryptado[__${index.index}__]}">
                                 <i class="la la-cog"></i>
                             </a>
                             <a th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white"

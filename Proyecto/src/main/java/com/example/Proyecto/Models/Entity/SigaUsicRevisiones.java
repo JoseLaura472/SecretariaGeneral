@@ -20,9 +20,8 @@ import javax.persistence.Transient;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-
 @MappedSuperclass
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Setter
 @Getter
 public abstract class SigaUsicRevisiones implements Serializable {
@@ -30,12 +29,12 @@ public abstract class SigaUsicRevisiones implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "_registro")
     @CreatedDate
-    private Date registro  = new Timestamp(System.currentTimeMillis());
+    private Date registro = new Timestamp(System.currentTimeMillis());
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "_modificacion")
     @LastModifiedDate
-    private Date modificacion    = new Timestamp(System.currentTimeMillis());
+    private Date modificacion = new Timestamp(System.currentTimeMillis());
 
     @Transient // Indica que este campo no se mapea a la base de datos
     private int gestion;

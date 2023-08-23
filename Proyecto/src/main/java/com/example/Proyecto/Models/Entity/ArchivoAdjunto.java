@@ -20,8 +20,8 @@ import lombok.Setter;
 @Table(name = "archivo_adjunto")
 @Setter
 @Getter
-public class ArchivoAdjunto extends SigaUsicRevisiones{
-    
+public class ArchivoAdjunto extends SigaUsicRevisiones {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -13,27 +13,27 @@ import com.example.Proyecto.Models.IService.IConvenioService;
 @Service
 public class ConvenioServiceImpl implements IConvenioService {
 
-     @Autowired
-     private IConvenioDao convenioDao;
+   @Autowired
+   private IConvenioDao convenioDao;
 
-    @Override
-    public List<Convenio> findAll() {
-       return (List<Convenio>) convenioDao.findAll();
-    }
+   @Override
+   public List<Convenio> findAll() {
+      return (List<Convenio>) convenioDao.findAll();
+   }
 
-    @Override
-    public void save(Convenio convenio) {
-       convenioDao.save(convenio);
-    }
+   @Override
+   public void save(Convenio convenio) {
+      convenioDao.save(convenio);
+   }
 
-    @Override
-    public Convenio findOne(Long id) {
-       return convenioDao.findById(id).orElse(null);
-    }
+   @Override
+   public Convenio findOne(Long id) {
+      return convenioDao.findById(id).orElse(null);
+   }
 
-    @Override
-    public void delete(Long id) {
-     convenioDao.deleteById(id);
-    }
-    
+   @Override
+   public void delete(Long id) {
+      convenioDao.deleteById(id);
+   }
+
 }

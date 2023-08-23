@@ -20,8 +20,8 @@ import lombok.Setter;
 @Table(name = "tipo_convenio")
 @Setter
 @Getter
-public class TipoConvenio extends SigaUsicRevisiones{
-    
+public class TipoConvenio extends SigaUsicRevisiones {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_tipo_convenio;
@@ -29,14 +29,10 @@ public class TipoConvenio extends SigaUsicRevisiones{
     private String nombre_tipo_convenio;
     private String sigla_tipo_convenio;
 
-     private String estado_tipo_convenio;
+    private String estado_tipo_convenio;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoConvenio", fetch = FetchType.EAGER)
     private List<Convenio> convenios;
-
-
-
-
 
 }

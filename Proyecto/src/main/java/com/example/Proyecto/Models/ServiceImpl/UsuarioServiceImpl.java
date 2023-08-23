@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import com.example.Proyecto.Models.Dao.IUsuarioDao;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IUsuarioService;
+
 @Service
-public class UsuarioServiceImpl implements IUsuarioService{
+public class UsuarioServiceImpl implements IUsuarioService {
     @Autowired
     private IUsuarioDao usuarioDao;
 

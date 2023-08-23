@@ -27,10 +27,8 @@ public class ConsejoController {
     @Autowired
     private IConsejoService consejoService;
 
-
     @RequestMapping(value = "ConsejoR", method = RequestMethod.GET)
     public String ConsejoR(HttpServletRequest request, @Validated Consejo consejo, Model model) throws Exception {
-
 
         List<Consejo> consejos = consejoService.findAll();
         List<String> encryptedIds = new ArrayList<>();
@@ -41,13 +39,13 @@ public class ConsejoController {
         model.addAttribute("consejo", new Consejo());
         model.addAttribute("consejos", consejos);
         model.addAttribute("id_encryptado", encryptedIds);
-        
+
         return "consejo/gestionar-consejo";
-        
+
     }
 
     @RequestMapping(value = "ConsejoF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-    public String PersonaF(HttpServletRequest request, @Validated Consejo consejo) { // validar los datos capturados (1)
+    public String ConsejoF(HttpServletRequest request, @Validated Consejo consejo) { // validar los datos capturados (1)
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         consejo.setId_usu(usuario.getId_usuario());

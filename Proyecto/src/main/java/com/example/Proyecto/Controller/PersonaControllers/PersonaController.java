@@ -17,10 +17,10 @@ import com.example.Proyecto.Models.Otros.Encryptar;
 @Controller
 @RequestMapping("/adm")
 public class PersonaController {
-    
+
     @Autowired
-	private IPersonaService personaService;
-    
+    private IPersonaService personaService;
+
     @RequestMapping(value = "PersonaR", method = RequestMethod.GET)
     public String PersonaR(@Validated Persona persona, Model model) throws Exception {
 
@@ -32,9 +32,8 @@ public class PersonaController {
         }
         model.addAttribute("personas", personas);
         model.addAttribute("id_encryptado", encryptedIds);
-        
+
         return "persona/persona-adm";
     }
 
-    
 }

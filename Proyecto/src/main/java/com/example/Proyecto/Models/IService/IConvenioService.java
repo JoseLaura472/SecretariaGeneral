@@ -4,13 +4,12 @@ import java.util.List;
 
 import com.example.Proyecto.Models.Entity.Convenio;
 
-
 public interface IConvenioService {
-      public List<Convenio> findAll();
+    public List<Convenio> findAll();
 
-	public void save(Convenio convenio);
+    public void save(Convenio convenio);
 
-	public Convenio findOne(Long id);
+    public Convenio findOne(Long id);
 
     public void delete(Long id);
 }

@@ -22,7 +22,7 @@ import lombok.Setter;
 @Table(name = "convenio")
 @Setter
 @Getter
-public class Convenio extends SigaUsicRevisiones{
+public class Convenio extends SigaUsicRevisiones {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,41 +38,40 @@ public class Convenio extends SigaUsicRevisiones{
     private Date fecha_inicio;
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
-     private Date fecha_final;
+    private Date fecha_final;
 
-
-    //Tabla Autoridad
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Autoridad
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_autoridad")
     private Autoridad autoridad;
 
-    //Tabla Representante
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Representante
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_representante")
     private Representante representante;
 
-    //Tabla TipoConvenio
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla TipoConvenio
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tipo_convenio")
     private TipoConvenio tipoConvenio;
 
-    //Tabla Institucion
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Institucion
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_institucion")
     private Institucion institucion;
 
-    //Tabla Consejo
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Consejo
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_consejo")
     private Consejo consejo;
 
-    //Tabla Archivo Adjunto
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Archivo Adjunto
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_archivo_adjunto")
     private ArchivoAdjunto archivoAdjunto;

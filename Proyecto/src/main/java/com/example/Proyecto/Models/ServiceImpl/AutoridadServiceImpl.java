@@ -12,12 +12,12 @@ import com.example.Proyecto.Models.IService.IAutoridadService;
 @Service
 public class AutoridadServiceImpl implements IAutoridadService {
 
-     @Autowired
-     private IAutoridadDao autoridadDao;
+    @Autowired
+    private IAutoridadDao autoridadDao;
 
     @Override
     public List<Autoridad> findAll() {
-       return (List<Autoridad>) autoridadDao.findAll();
+        return (List<Autoridad>) autoridadDao.findAll();
     }
 
     @Override
@@ -34,5 +34,5 @@ public class AutoridadServiceImpl implements IAutoridadService {
     public void delete(Long id) {
         autoridadDao.deleteById(id);
     }
-    
+
 }

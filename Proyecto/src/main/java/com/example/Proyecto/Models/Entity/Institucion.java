@@ -20,8 +20,8 @@ import lombok.Setter;
 @Table(name = "institucion")
 @Setter
 @Getter
-public class Institucion extends SigaUsicRevisiones{
-    
+public class Institucion extends SigaUsicRevisiones {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_institucion;

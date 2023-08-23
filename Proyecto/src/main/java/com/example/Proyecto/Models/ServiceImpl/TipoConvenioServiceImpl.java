@@ -13,13 +13,12 @@ import com.example.Proyecto.Models.IService.ITipoConvenioService;
 @Service
 public class TipoConvenioServiceImpl implements ITipoConvenioService {
 
-
-     @Autowired
-     private ITipoConvenioDao tipoConvenioDao;
+    @Autowired
+    private ITipoConvenioDao tipoConvenioDao;
 
     @Override
     public List<TipoConvenio> findAll() {
-    return (List<TipoConvenio>) tipoConvenioDao.findAll();
+        return (List<TipoConvenio>) tipoConvenioDao.findAll();
     }
 
     @Override
@@ -34,7 +33,7 @@ public class TipoConvenioServiceImpl implements ITipoConvenioService {
 
     @Override
     public void delete(Long id) {
-      tipoConvenioDao.deleteById(id);
+        tipoConvenioDao.deleteById(id);
     }
-    
+
 }

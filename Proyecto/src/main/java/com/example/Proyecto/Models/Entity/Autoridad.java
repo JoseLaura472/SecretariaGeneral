@@ -26,13 +26,13 @@ import lombok.Setter;
 @Table(name = "autoridad")
 @Setter
 @Getter
-public class Autoridad extends SigaUsicRevisiones{
-    
+public class Autoridad extends SigaUsicRevisiones {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_autoridad;
 
-     @DateTimeFormat(pattern = "yyy-MM-dd")
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_inicio;
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
@@ -40,15 +40,14 @@ public class Autoridad extends SigaUsicRevisiones{
 
     private String estado_autoridad;
 
-
-    //Tabla Persona
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Persona
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_persona")
     private Persona persona;
 
-    //Tabla Consejo
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // Tabla Consejo
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_consejo")
     private Consejo consejo;
