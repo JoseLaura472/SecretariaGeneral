@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="table-responsive" th:fragment="table">
+        <table class="table table-striped table-bordered zero-configuration">
+            <thead>
+                <tr>
+                    <th>Representante</th>
+                    <th>Autoridad</th>
+                    <th>Gestión</th>
+                    <th>Nro Convenio</th>
+                    <th>Nro Folio</th>
+                    <th>Objeto Convenio</th>
+                    <th>Acciones</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="con, index : ${convenios}" th:if="${con.estado_convenio != 'X'}">
+                    <td th:text="${con.representante.persona.nombre_persona}+' '+${con.representante.persona.ap_paterno_persona}+' '+${con.representante.persona.ap_materno_persona}"></td>
+                    <td th:text="${con.autoridad.persona.nombre_persona}+' '+${con.autoridad.persona.ap_paterno_persona}+' '+${con.autoridad.persona.ap_materno_persona}"></td>
+                    <td th:text="${con.gestion_convenio}"></td>
+                    <td th:text="${con.numero_convenio}"></td>
+                    <td th:text="${con.folio_convenio}"></td>
+                    <td th:text="${con.objeto_convenio}"></td>
+                    <td>
+                        <center>
+                            <div class="btn-group mr-1 mb-1">
+                                <button type="button" class="btn btn-icon btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Ver Archivo</a>
+                                    <a class="dropdown-item" href="#">Editar</a>
+                                    <a class="dropdown-item" href="#">Eliminar</a>
+                            
+                                </div>
+                            </div>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

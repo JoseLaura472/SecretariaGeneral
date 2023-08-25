@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+           
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Convenio</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                  
+                                    <th:block th:if="${convenio.id_convenio != null}">
+                                        <form class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <th:block th:if="${convenio.id_convenio == null}">
+                                        <form id="form123" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <input type="hidden" th:field="${convenio.id_convenio}">
+                                    <div class="form-body">
+                                       
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Representantes</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags" th:field="${convenio.representante}"
+                                                        name="id_representante">
+                                                        <option th:each="rep : ${representantes}"
+                                                            th:value="${rep.id_representante}"
+                                                            th:if="${rep.estado_representante != 'X'}"
+                                                            th:text="${rep.persona.nombre_persona}+' '+${rep.persona.ap_paterno_persona}+' '+${rep.persona.ap_materno_persona}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Autoridades</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags2" th:field="${convenio.autoridad}"
+                                                        name="id_autoridad">
+                                                        <option th:each="aut : ${autoridades}"
+                                                            th:value="${aut.id_autoridad}"
+                                                            th:if="${aut.estado_autoridad != 'X'}"
+                                                            th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}+' '+${aut.persona.ap_materno_persona}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Tipos de Convenio</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags3" th:field="${convenio.tipoConvenio}"
+                                                        name="id_tipo_convenio">
+                                                        <option th:each="tcn : ${tipoConvenios}"
+                                                            th:value="${tcn.id_tipo_convenio}"
+                                                            th:if="${tcn.estado_tipo_convenio != 'X'}"
+                                                            th:text="${tcn.nombre_tipo_convenio}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                           
+                                          </h4>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Instituciones</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags4" th:field="${convenio.institucion}"
+                                                        name="id_institucion">
+                                                        <option th:each="ins : ${instituciones}"
+                                                            th:value="${ins.id_institucion}"
+                                                            th:if="${ins.estado_institucion != 'X'}"
+                                                            th:text="${ins.nombre_institucion}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Consejos</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags5" th:field="${convenio.consejo}"
+                                                        name="id_consejo">
+                                                        <option th:each="csj : ${consejos}"
+                                                            th:value="${csj.id_consejo}"
+                                                            th:if="${csj.estado_consejo != 'X'}"
+                                                            th:text="${csj.nombre_consejo}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Número del Convenio </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${convenio.numero_convenio}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Folio del Convenio </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${convenio.folio_convenio}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Objeto del Convenio </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${convenio.objeto_convenio}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Gestión</h5>
+                                                    <select class="select2 form-control square" 
+                                                        id="select2-tags6" th:field="${convenio.gestion_convenio}"
+                                                        name="gestion">
+                                                        <option value="">Seleccione una Gestión</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2002">2002</option>
+                                                        <option value="2003">2003</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2006">2006</option>
+                                                        <option value="2007">2007</option>
+                                                        <option value="2008">2008</option>
+                                                        <option value="2009">2009</option>
+                                                        <option value="2010">2010</option>
+                                                        <option value="2011">2011</option>
+                                                        <option value="2012">2012</option>
+                                                        <option value="2013">2013</option>
+                                                        <option value="2014">2014</option>
+                                                        <option value="2015">2015</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                        <option value="2030">2030</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <label for="date12">Fecha Inicio</label>
+                                                    <input type="date" class="form-control" id="date12">
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <label for="date13">Fecha Final</label>
+                                                    <input type="date" class="form-control" id="date13">
+                                                    </div>
+                                            </div>
+
+                                           
+                                            <div class="col-lg-5 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Adjuntar Archivo</h5>
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" id="exampleInputFile" name="archivo">
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+          
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <div th:replace="layout/script :: script"></div>
+
+    <div th:replace="layout/AjaxFormularios :: submit_form1"></div>
+
+    <script>
+        function MandarURL(a) {
+            console.log(a);
+            // Swal.fire({
+            //   title: 'Eliminar Registro?',              
+            //   type: 'error',     
+            //   showCancelButton: true,
+            //   cancelButtonText: "Cancelar",         
+            //   html:
+            //   "<a"+
+            //   " class='btn btn-danger btn-min-width' "+
+            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
+            // });
+            Swal.fire({
+                title: 'Eliminar Registro?',
+                type: 'error',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: 'Cancelar',
+                cancelButtonAriaLabel: 'Thumbs down',
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+                cancelButtonClass: 'btn btn-danger ml-1',
+            })
+        }
+    </script>
+
+</body>
+<!-- END: Body-->
+
+</html>
