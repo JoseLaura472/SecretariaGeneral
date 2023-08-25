@@ -30,7 +30,7 @@ public class ConsejoController {
     @RequestMapping(value = "ConsejoR", method = RequestMethod.GET)
     public String ConsejoR(HttpServletRequest request, @Validated Consejo consejo, Model model) throws Exception {
 
-        if (request.getSession().getAttribute("usuario") != null) {
+        if (request.getSession().getAttribute("persona") != null) {
 
         List<Consejo> consejos = consejoService.findAll();
         List<String> encryptedIds = new ArrayList<>();
