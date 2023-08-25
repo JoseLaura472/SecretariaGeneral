@@ -61,34 +61,47 @@
                                         <form class="form" action="/adm/RepresentanteModF" method="post" novalidate>
                                     </th:block>
                                     <th:block th:if="${representante.id_representante == null}">
-                                        <form id="form1" class="form" action="/adm/RepresentanteF" method="post" novalidate>
+                                        <form id="form1" class="form" action="/adm/RepresentanteF" method="post"
+                                            novalidate>
                                     </th:block>
                                     <input type="hidden" th:field="${representante.id_representante}">
                                     <div class="form-body">
                                         <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos
                                                 del Representante</strong></h4>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-12">
+                                            
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Persona</h5>
+                                                    <div class="controls">
+                                                        <select class="select2 form-control square"
+                                                            id="select2-tags" th:field="${representante.persona}"
+                                                            name="id_persona">
+                                                            <option th:each="per : ${personas}"
+                                                                th:value="${per.id_persona}"
+                                                                th:if="${per.estado_persona != 'X'}"
+                                                                th:text="${per.nombre_persona}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Fecha Inicio</h5>
                                                     <div class="controls">
                                                         <input th:field="${representante.fecha_inicio}" type="date"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos"
-                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                            style="text-transform:uppercase;">
+                                                            name="text" class="form-control mb-1 square" required>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Fecha Final</h5>
                                                     <div class="controls">
                                                         <input th:field="${representante.fecha_final}" type="date"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos"
-                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                            style="text-transform:uppercase;">
+                                                            name="text" class="form-control mb-1 square" required>
                                                     </div>
                                                 </div>
                                             </div>
