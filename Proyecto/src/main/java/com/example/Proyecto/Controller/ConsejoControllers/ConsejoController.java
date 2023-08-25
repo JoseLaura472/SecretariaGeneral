@@ -30,6 +30,8 @@ public class ConsejoController {
     @RequestMapping(value = "ConsejoR", method = RequestMethod.GET)
     public String ConsejoR(HttpServletRequest request, @Validated Consejo consejo, Model model) throws Exception {
 
+        if (request.getSession().getAttribute("usuario") != null) {
+
         List<Consejo> consejos = consejoService.findAll();
         List<String> encryptedIds = new ArrayList<>();
         for (Consejo consejo2 : consejos) {
@@ -41,6 +43,10 @@ public class ConsejoController {
         model.addAttribute("id_encryptado", encryptedIds);
 
         return "consejo/gestionar-consejo";
+
+		} else {
+			return "redirect:/";
+		}
 
     }
 
