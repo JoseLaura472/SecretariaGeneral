@@ -62,7 +62,7 @@ public class RepresentanteController {
 
 		representante.setEstado_representante("A");
 		representanteService.save(representante);
-		return "redirect:/RepresentanteR";
+		return "redirect:/adm/RepresentanteR";
 	}
 
 	@RequestMapping(value = "/editar-representante/{id_representante}")
@@ -79,7 +79,7 @@ public class RepresentanteController {
                 encryptedIds.add(id_encryptado);
             }
             model.addAttribute("representantes", representantes);
-			model.addAttribute("personas", personaService.findAll());;
+			model.addAttribute("personas", personaService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
             return "representante/gestionar-representante";
 
@@ -91,7 +91,10 @@ public class RepresentanteController {
 
 	// FUNCION PARA GUARDAR EL departamento
 	@RequestMapping(value = "/RepresentanteModF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-	public String departamentoModF(@Validated Representante representante, RedirectAttributes redirectAttrs) { // validar los datos capturados (1)
+	public String departamentoModF(HttpServletRequest request, @Validated Representante representante, RedirectAttributes redirectAttrs) { 
+        
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        representante.setId_usu(usuario.getId_usuario());
 
 		representante.setEstado_representante("A");
 		representanteService.save(representante);
@@ -99,17 +102,21 @@ public class RepresentanteController {
 	}
 
 	// FUNCION PARA ELIMINAR EL REGISTRO DE departamento
-	@RequestMapping(value = "/eliminar-representante/{id_representante}")
-	public String eliminar_p(@PathVariable("id_representante") Long id_representante) {
-
-		Representante representante = representanteService.findOne(id_representante);
-
-		representante.setEstado_representante("X");
-
-		representanteService.save(representante);
-		return "redirect:/RepresentanteR";
-
-	}
+	@RequestMapping(value = "/eliminar-representante/{id_representate}")
+    public String eliminar_c(HttpServletRequest request, @PathVariable("id_representate") String id_representate)
+            throws Exception {
+        try {
+            Long id_rep = Long.parseLong(Encryptar.decrypt(id_representate));
+            Representante representante = representanteService.findOne(id_rep);
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            representante.setId_usu(usuario.getId_usuario());
+            representante.setEstado_representante("X");
+            representanteService.save(representante);
+            return "redirect:/adm/RepresentanteR";
+        } catch (Exception e) {
+            return "redirect:/adm/InicioAdm";
+        }
+    }
 
 	@GetMapping("/tableRepresentantes")
     public String tableRequisitos(@Validated Representante representante, Model model) throws Exception {

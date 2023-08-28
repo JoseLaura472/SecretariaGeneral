@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="table-responsive" th:fragment="table">
+        <table class="table table-striped table-bordered zero-configuration">
+            <thead>
+                <tr>
+                    <th>Persona Autoridad</th>
+                    <th>Consejo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Operaciones</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr th:each="auto, index : ${autoridades}" th:if="${auto.estado_autoridad != 'X'}" >
+                    <td th:text="${auto.consejo.nombre_consejo}"></td>
+                    <td th:text="${auto.persona.nombre_persona}"></td>
+                    <td th:text="${auto.fecha_inicio}"></td>
+                    <td th:text="${auto.fecha_final}"></td>
+                    <td>
+                        <center>
+                            <a class="btn btn-warning round text-white"
+                                th:href="${'/adm/editar-autoridad/'+id_encryptado[__${index.index}__]}">
+                                <i class="la la-cog"></i>
+                            </a>
+                            <a th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white" onclick="MandarURL(this.id)">
+                                <i class="la la-trash"></i>
+                            </a>
+                            <!-- <a class="btn btn-warning round btn-min-width box-shadow-3 mr-1 mb-1" th:attr="onclick=${'MandarURL('+id_encryptado[__${index.index}__]+')'}" th:href="${'/adm/editar-persona/'+id_encryptado[__${index.index}__]}"><i class="la la-trash"></i></a> -->
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+
+</html>
