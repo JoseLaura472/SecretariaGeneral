@@ -42,10 +42,10 @@
                                 <div class="card-body">
                                   
                                     <th:block th:if="${convenio.id_convenio != null}">
-                                        <form class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form id="miFormulario" class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <th:block th:if="${convenio.id_convenio == null}">
-                                        <form id="form123" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form id="miFormulario" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${convenio.id_convenio}">
                                     <div class="form-body">
@@ -54,7 +54,8 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Representantes</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags" th:field="${convenio.representante}"
                                                         name="id_representante">
                                                         <option th:each="rep : ${representantes}"
@@ -69,7 +70,8 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Autoridades</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags2" th:field="${convenio.autoridad}"
                                                         name="id_autoridad">
                                                         <option th:each="aut : ${autoridades}"
@@ -84,7 +86,8 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Tipos de Convenio</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags3" th:field="${convenio.tipoConvenio}"
                                                         name="id_tipo_convenio">
                                                         <option th:each="tcn : ${tipoConvenios}"
@@ -100,7 +103,8 @@
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Instituciones</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags4" th:field="${convenio.institucion}"
                                                         name="id_institucion">
                                                         <option th:each="ins : ${instituciones}"
@@ -115,7 +119,8 @@
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Consejos</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags5" th:field="${convenio.consejo}"
                                                         name="id_consejo">
                                                         <option th:each="csj : ${consejos}"
@@ -133,7 +138,7 @@
                                                     <div class="controls">
                                                         <input th:field="${convenio.numero_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Debe Ingresar los Datos">
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +149,7 @@
                                                     <div class="controls">
                                                         <input th:field="${convenio.folio_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Debe Ingresar los Datos">
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,7 +160,7 @@
                                                     <div class="controls">
                                                         <input th:field="${convenio.objeto_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Debe Ingresar los Datos">
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,7 +168,8 @@
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Gestión</h5>
-                                                    <select class="select2 form-control square" 
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
                                                         id="select2-tags6" th:field="${convenio.gestion_convenio}"
                                                         name="gestion">
                                                         <option value="">Seleccione una Gestión</option>
@@ -199,19 +205,22 @@
                                                         <option value="2029">2029</option>
                                                         <option value="2030">2030</option>
                                                     </select>
+                                                    <p id="errorMensaje" style="color: red;"></p>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <label for="date12">Fecha Inicio</label>
-                                                    <input type="date" class="form-control" id="date12">
+                                                    <input type="date" class="form-control" id="date12" required
+                                                    data-validation-required-message="Debe Ingresar una Fecha">
                                                     </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <label for="date13">Fecha Final</label>
-                                                    <input type="date" class="form-control" id="date13">
+                                                    <input type="date" class="form-control" id="date13"  required
+                                                    data-validation-required-message="Debe Ingresar una Fecha">
                                                     </div>
                                             </div>
 
@@ -220,7 +229,9 @@
                                                 <div class="form-group">
                                                     <h5>Adjuntar Archivo</h5>
                                                     <div class="form-group">
-                                                        <input type="file" class="form-control-file" id="exampleInputFile" name="archivo">
+                                                        <input type="file" class="form-control-file" id="exampleInputFile" name="archivo"
+                                                        required
+                                                    data-validation-required-message="Debe Seleccionar un Documento">
                                                        
                                                     </div>
                                                 </div>
@@ -251,6 +262,25 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
+    <script>
+        var selectElement = document.getElementById("select2-tags6");
+        var errorMensaje = document.getElementById("errorMensaje");
+    
+        selectElement.addEventListener("input", function() {
+            if (this.value !== "") {
+                errorMensaje.textContent = "";
+            }
+        });
+    
+        document.getElementById("miFormulario").addEventListener("submit", function(event) {
+            if (selectElement.value === "") {
+                errorMensaje.textContent = "Debe seleccionar una opción";
+                event.preventDefault();
+            } else {
+                errorMensaje.textContent = "";
+            }
+        });
+    </script>
     <div th:replace="layout/script :: script"></div>
 
     <div th:replace="layout/AjaxFormularios :: submit_form1"></div>
