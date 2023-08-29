@@ -48,6 +48,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" tabindex="-1" id="ModalEvaluacion" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <div>
+
+
+                            <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
+                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             </section>
           
         </div>
@@ -59,7 +74,21 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
+    <script type="text/javascript">
+        function renombrar(id_archivo_adjunto) {
+            var id_a = id_archivo_adjunto;
 
+            //alert(id_archivo_adjunto);
+
+            $("#ModalEvaluacion").modal("show");
+
+            $("#id_a").val(id_a);
+
+            $("#iframe-pdf").attr("src", `../../../adm/openFileConvenio/${id_a}`)
+
+
+        }
+    </script>
    
 
     <script>
@@ -81,7 +110,7 @@
                 showCloseButton: true,
                 showCancelButton: true,
                 focusConfirm: false,
-                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
+                confirmButtonText: '<a class="text-white" href="../../../adm/eliminar-convenio/' + a + '" >Eliminar</a>',
                 confirmButtonAriaLabel: 'Thumbs up, great!',
                 cancelButtonText: 'Cancelar',
                 cancelButtonAriaLabel: 'Thumbs down',

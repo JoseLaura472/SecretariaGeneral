@@ -42,12 +42,13 @@
                                 <div class="card-body">
                                   
                                     <th:block th:if="${convenio.id_convenio != null}">
-                                        <form id="miFormulario" class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form  class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <th:block th:if="${convenio.id_convenio == null}">
-                                        <form id="miFormulario" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form id="form1" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${convenio.id_convenio}">
+                                    <input type="hidden" name="id_archivo_adjunto" th:field="${convenio.archivoAdjunto.id}">
                                     <div class="form-body">
                                        
                                         <div class="row">
@@ -212,6 +213,7 @@
                                                 <div class="form-group">
                                                     <label for="date12">Fecha Inicio</label>
                                                     <input type="date" class="form-control" id="date12" required
+                                                    th:field="${convenio.fecha_inicio}"
                                                     data-validation-required-message="Debe Ingresar una Fecha">
                                                     </div>
                                             </div>
@@ -219,7 +221,8 @@
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
                                                     <label for="date13">Fecha Final</label>
-                                                    <input type="date" class="form-control" id="date13"  required
+                                                    <input type="date" class="form-control" id="date13"
+                                                    th:field="${convenio.fecha_final}"  required
                                                     data-validation-required-message="Debe Ingresar una Fecha">
                                                     </div>
                                             </div>
@@ -229,9 +232,9 @@
                                                 <div class="form-group">
                                                     <h5>Adjuntar Archivo</h5>
                                                     <div class="form-group">
-                                                        <input type="file" class="form-control-file" id="exampleInputFile" name="archivo"
-                                                        required
-                                                    data-validation-required-message="Debe Seleccionar un Documento">
+                                                        <input type="file" class="form-control-file" id="exampleInputFile"
+                                                         th:field="${convenio.file}"
+                                                        >
                                                        
                                                     </div>
                                                 </div>
@@ -284,37 +287,8 @@
     </script>
     <div th:replace="layout/script :: script"></div>
 
-    <div th:replace="layout/AjaxFormularios :: submit_form1"></div>
 
-    <script>
-        function MandarURL(a) {
-            console.log(a);
-            // Swal.fire({
-            //   title: 'Eliminar Registro?',              
-            //   type: 'error',     
-            //   showCancelButton: true,
-            //   cancelButtonText: "Cancelar",         
-            //   html:
-            //   "<a"+
-            //   " class='btn btn-danger btn-min-width' "+
-            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
-            // });
-            Swal.fire({
-                title: 'Eliminar Registro?',
-                type: 'error',
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText: 'Cancelar',
-                cancelButtonAriaLabel: 'Thumbs down',
-                confirmButtonClass: 'btn btn-primary',
-                buttonsStyling: false,
-                cancelButtonClass: 'btn btn-danger ml-1',
-            })
-        }
-    </script>
+
 
 </body>
 <!-- END: Body-->

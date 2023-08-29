@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,6 +41,12 @@ public class Convenio extends SigaUsicRevisiones {
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_final;
+
+    @Transient
+    private MultipartFile file; 
+    
+    @Transient
+    private String nombreArchivo; 
 
     // Tabla Autoridad
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
