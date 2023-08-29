@@ -74,7 +74,8 @@
                                                     <div class="controls">
                                                         <input th:field="${persona.nombre_persona}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            style="text-transform:uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,7 +85,8 @@
                                                     <div class="controls">
                                                         <input th:field="${persona.ap_paterno_persona}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            style="text-transform:uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +96,8 @@
                                                     <div class="controls">
                                                         <input th:field="${persona.ap_materno_persona}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
+                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            style="text-transform:uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -149,83 +152,31 @@
                     </div>
                 </div>
             </section>
-            <div class="content-body">
-                <!-- HTML (DOM) sourced data -->
-                <section id="html">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">HTML (DOM) sourced data</h4>
-                                    <a class="heading-elements-toggle"><i
-                                            class="la la-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
-                                        </ul>
-                                    </div>
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Lista de Registros</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li class="text-success"><a onclick="location.reload()"><i
+                                                    class="ft-rotate-cw text-success"></i> Actualizar</a></li>
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
                                 </div>
-                                <div class="card-content collpase show">
-                                    <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap">
-                                        <p class="card-text">The foundation for DataTables is progressive enhancement,
-                                            so it is very adept at reading
-                                            table information directly from the DOM. This example shows how easy it is
-                                            to add searching, ordering and paging
-                                            to your HTML table by simply running DataTables on it.
-                                        </p>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered sourced-data">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Position</th>
-                                                        <th>Office</th>
-                                                        <th>Age</th>
-                                                        <th>Start date</th>
-                                                        <th>Salary</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Tiger Nixon</td>
-                                                        <td>System Architect</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>61</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Garrett Winters</td>
-                                                        <td>Accountant</td>
-                                                        <td>Tokyo</td>
-                                                        <td>63</td>
-                                                        <td>2011/07/25</td>
-                                                        <td>$170,750</td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Position</th>
-                                                        <th>Office</th>
-                                                        <th>Age</th>
-                                                        <th>Start date</th>
-                                                        <th>Salary</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body" id="fragmentContainer">
+                                    <th:block th:replace="persona/tableFragmentPer :: table"></th:block>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-                <!--/ HTML (DOM) sourced data -->
-            </div>
+                </div>
+            </section>
         </div>
     </div>
     <!-- END: Content-->
@@ -235,6 +186,7 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
+    <div th:replace="layout/AjaxFormularios :: submit_form6"></div>
 
 </body>
 <!-- END: Body-->
