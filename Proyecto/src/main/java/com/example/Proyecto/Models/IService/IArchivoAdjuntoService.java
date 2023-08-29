@@ -16,4 +16,6 @@ public interface IArchivoAdjuntoService {
     public void modificarArchivoAdjunto(ArchivoAdjunto archivoAdjunto);
 
     public ArchivoAdjunto buscarArchivoAdjuntoPorConvenio(Long id_convenio);
+
+     public ArchivoAdjunto buscarArchivoAdjuntoPorResolucion(Long id_resolucion);
 }

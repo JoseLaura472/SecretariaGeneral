@@ -16,6 +16,7 @@ public interface IArchivoAdjuntoDao {
     public ArchivoAdjunto buscarArchivoAdjunto(Long id_archivo_adjunto);
 
     public ArchivoAdjunto buscarArchivoAdjuntoPorConvenio(Long id_convenio);
+     public ArchivoAdjunto buscarArchivoAdjuntoPorResolucion(Long id_resolucion);
 
     public void modificarArchivoAdjunto(ArchivoAdjunto archivoAdjunto);
 

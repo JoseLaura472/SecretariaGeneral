@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.Proyecto.Models.Entity.Convenio;
+import com.example.Proyecto.Models.Entity.Resolucion;
 
 
 
@@ -49,6 +50,25 @@ public class AdjuntarArchivo {
     
     return 1; // Adjuntado Correctamente
  }
+
+  public Integer adjuntarArchivoResolucion(Resolucion resolucion, String rutaArchivo) throws FileNotFoundException, IOException{
+
+        // Save file on system
+    file = resolucion.getFile();
+    if (!file.getOriginalFilename().isEmpty()) {
+       BufferedOutputStream outputStream = new BufferedOutputStream(
+             new FileOutputStream(
+                   new File(rutaArchivo, resolucion.getNombreArchivo())));//file.getOriginalFilename())));
+       outputStream.write(file.getBytes());
+       outputStream.flush();
+       outputStream.close();
+    }else{
+       return 0; // Error: No es posible adjuntar
+    }
+    
+    return 1; // Adjuntado Correctamente
+ }
+
 
 
 }

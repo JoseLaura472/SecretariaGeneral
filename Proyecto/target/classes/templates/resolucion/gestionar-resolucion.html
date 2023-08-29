@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+           
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Resolucion</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                  
+                                    <th:block th:if="${resolucion.id_resolucion != null}">
+                                        <form  class="form" action="/adm/ResolucionModF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <th:block th:if="${resolucion.id_resolucion == null}">
+                                        <form id="form1" class="form" action="/adm/ResolucionF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <input type="hidden" th:field="${resolucion.id_resolucion}">
+                                    <input type="hidden" name="id_archivo_adjunto" th:field="${resolucion.archivoAdjunto.id}">
+                                    <div class="form-body">
+                                       
+                                        <div class="row">
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Autoridades</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags2" th:field="${resolucion.autoridad}"
+                                                        name="id_autoridad">
+                                                        <option th:each="aut : ${autoridades}"
+                                                            th:value="${aut.id_autoridad}"
+                                                            th:if="${aut.estado_autoridad != 'X'}"
+                                                            th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}+' '+${aut.persona.ap_materno_persona}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+ 
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Consejos</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags5" th:field="${resolucion.consejo}"
+                                                        name="id_consejo">
+                                                        <option th:each="csj : ${consejos}"
+                                                            th:value="${csj.id_consejo}"
+                                                            th:if="${csj.estado_consejo != 'X'}"
+                                                            th:text="${csj.nombre_consejo}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Número de la Resolución </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${resolucion.numero_resolucion}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Folio de la Resolución </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${resolucion.folio_resolucion}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Objeto de la Resolucion </h5>
+                                                    <div class="controls">
+                                                        <input th:field="${resolucion.objeto_resolucion}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Gestión</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags6" th:field="${resolucion.gestion_resolucion}"
+                                                        name="gestion">
+                                                        <option value="">Seleccione una Gestión</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2002">2002</option>
+                                                        <option value="2003">2003</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2006">2006</option>
+                                                        <option value="2007">2007</option>
+                                                        <option value="2008">2008</option>
+                                                        <option value="2009">2009</option>
+                                                        <option value="2010">2010</option>
+                                                        <option value="2011">2011</option>
+                                                        <option value="2012">2012</option>
+                                                        <option value="2013">2013</option>
+                                                        <option value="2014">2014</option>
+                                                        <option value="2015">2015</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                        <option value="2030">2030</option>
+                                                    </select>
+                                                    <p id="errorMensaje" style="color: red;"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <label for="date12">Fecha Resolución</label>
+                                                    <input type="date" class="form-control" id="date12" required
+                                                    th:field="${resolucion.fecha_resolucion}"
+                                                    data-validation-required-message="Debe Ingresar una Fecha">
+                                                    </div>
+                                            </div>
+
+
+                                           
+                                            <div class="col-lg-5 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Adjuntar Archivo</h5>
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" id="exampleInputFile"
+                                                         th:field="${resolucion.file}"
+                                                        >
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+          
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <footer th:replace="layout/footer :: footer"> </footer>
+
+    <script>
+        var selectElement = document.getElementById("select2-tags6");
+        var errorMensaje = document.getElementById("errorMensaje");
+    
+        selectElement.addEventListener("input", function() {
+            if (this.value !== "") {
+                errorMensaje.textContent = "";
+            }
+        });
+    
+        document.getElementById("miFormulario").addEventListener("submit", function(event) {
+            if (selectElement.value === "") {
+                errorMensaje.textContent = "Debe seleccionar una opción";
+                event.preventDefault();
+            } else {
+                errorMensaje.textContent = "";
+            }
+        });
+    </script>
+    <div th:replace="layout/script :: script"></div>
+
+
+
+
+</body>
+<!-- END: Body-->
+
+</html>

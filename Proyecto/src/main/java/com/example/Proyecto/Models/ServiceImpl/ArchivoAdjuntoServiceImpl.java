@@ -44,6 +44,11 @@ public class ArchivoAdjuntoServiceImpl implements IArchivoAdjuntoService {
         return archivoAdjuntoDao.buscarArchivoAdjuntoPorConvenio(id_convenio);
     }
 
+    @Override
+    public ArchivoAdjunto buscarArchivoAdjuntoPorResolucion(Long id_resolucion) {
+        return archivoAdjuntoDao.buscarArchivoAdjuntoPorResolucion(id_resolucion);
+    }
+
  
 
  
