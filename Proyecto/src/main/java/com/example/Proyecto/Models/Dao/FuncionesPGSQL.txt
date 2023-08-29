@@ -18,7 +18,7 @@ begin
 	then
 	INSERT INTO public.usuario
 	(contrasena, estado, usuario_nom, id_persona)
-	VALUES(crypt(contrasenaU, gen_salt('bf')), 'ADM', usuarioU, id_personaU)
+	VALUES(crypt(contrasenaU, gen_salt('bf')), 'A', usuarioU, id_personaU)
 	returning id_usuario into respuesta;
 	else
 	respuesta:= 0;

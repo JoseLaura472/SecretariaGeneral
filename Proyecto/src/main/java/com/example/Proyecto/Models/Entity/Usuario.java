@@ -34,4 +34,10 @@ public class Usuario implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_persona")
     private Persona persona;
+
+    // Tabla Consejo
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_consejo")
+    private Consejo consejo;
 }

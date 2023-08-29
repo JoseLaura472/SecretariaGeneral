@@ -27,23 +27,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
-import com.example.Proyecto.Models.Entity.Convenio;
+import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Resolucion;
+import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 
 import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
-import com.example.Proyecto.Models.Otros.Encryptar;
-
 
 @Controller
 @RequestMapping("/adm")
 public class ResolucionController {
-     @Autowired
+    @Autowired
     private IResolucionService resolucionService;
-
 
     @Autowired
     private IAutoridadService autoridadService;
@@ -54,35 +52,40 @@ public class ResolucionController {
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
 
-
-
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET) // Pagina principal
     public String ResolucionL(HttpServletRequest request, Model model) {
+        if (request.getSession().getAttribute("usuario") != null) {
+            model.addAttribute("resoluciones", resolucionService.findAll());
 
-        model.addAttribute("resoluciones", resolucionService.findAll());
+            return "resolucion/listar-resolucion";
 
-        return "resolucion/listar-resolucion";
+        } else {
+            return "redirect:/";
+        }
 
     }
 
-    
     @RequestMapping(value = "ResolucionForm", method = RequestMethod.GET)
-    public String ResolucionR(HttpServletRequest request, @Validated Resolucion resolucion, Model model) throws Exception {
+    public String ResolucionR(HttpServletRequest request, @Validated Resolucion resolucion, Model model)
+            throws Exception {
+        if (request.getSession().getAttribute("usuario") != null) {
+            List<Resolucion> resoluciones = resolucionService.findAll();
 
-        List<Resolucion> resoluciones = resolucionService.findAll();
-       
-        model.addAttribute("resolucion", new Resolucion());
-        model.addAttribute("resoluciones", resoluciones);
-        model.addAttribute("consejos", consejoService.findAll());
-        model.addAttribute("autoridades", autoridadService.findAll());
-   
+            model.addAttribute("resolucion", new Resolucion());
+            model.addAttribute("resoluciones", resoluciones);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("autoridades", autoridadService.findAll());
 
-        return "resolucion/gestionar-resolucion";
+            return "resolucion/gestionar-resolucion";
+
+        } else {
+            return "redirect:/";
+        }
 
     }
 
-      // Generador de Caracteres aleatorios
+    // Generador de Caracteres aleatorios
     public String generateRandomAlphaNumericString() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder randomString = new StringBuilder();
@@ -99,79 +102,83 @@ public class ResolucionController {
         return randomString.toString();
     }
 
-     @RequestMapping(value = "/ResolucionF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-    public String ResolucionF(@Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model) throws FileNotFoundException, IOException {// validar los
-                                                                                                          // datos
-                                                                                                          // capturados
+    @RequestMapping(value = "/ResolucionF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
+    public String ResolucionF(@Validated Resolucion resolucion,HttpServletRequest request, RedirectAttributes redirectAttrs, Model model)
+            throws FileNotFoundException, IOException {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
         MultipartFile multipartFile = resolucion.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
-        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();  
-                                                                                                     // (1)
+        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
+        // (1)
         Path rootPath = Paths.get("archivos/resoluciones/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath+"";
-          try {
-                if (!Files.exists(rootPath)) {
-                    Files.createDirectories(rootPath);
-                    System.out.println("Directorio creado: " + rutaDirectorio);
-                } else {
-                    System.out.println("El directorio ya existe: " + rutaDirectorio);
-                }
-            } catch (IOException e) {
-                System.err.println("Error al crear el directorio: " + e.getMessage());
+        String rutaDirectorio = rootAbsolutPath + "";
+        try {
+            if (!Files.exists(rootPath)) {
+                Files.createDirectories(rootPath);
+                System.out.println("Directorio creado: " + rutaDirectorio);
+            } else {
+                System.out.println("El directorio ya existe: " + rutaDirectorio);
             }
+        } catch (IOException e) {
+            System.err.println("Error al crear el directorio: " + e.getMessage());
+        }
         String alfaString = generateRandomAlphaNumericString();
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
         model.addAttribute("di", rutaArchivo);
         List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
-        resolucion.setNombreArchivo((listArchivos.size() + 1)+"-" +alfaString  +".pdf");
+        resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
-        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1)+"-" +alfaString  +".pdf");
-       
+        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+
         archivoAdjunto.setRuta(rutaArchivo);
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
-    
-
+        resolucion.setConsejo(consejo);
         resolucion.setArchivoAdjunto(archivoAdjunto2);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
         return "redirect:/adm/ResolucionL";
-        }
+    }
 
     @RequestMapping(value = "/editar-resolucion/{id_resolucion}")
-    public String editar_p(@PathVariable("id_resolucion") Long id_resolucion, Model model)
+    public String editar_p(@PathVariable("id_resolucion") Long id_resolucion, HttpServletRequest request, Model model)
             throws NumberFormatException, Exception {
+        if (request.getSession().getAttribute("usuario") != null) {
+            Resolucion resolucion = resolucionService.findOne(id_resolucion);
+            model.addAttribute("resolucion", resolucion);
 
-        Resolucion resolucion = resolucionService.findOne(id_resolucion);
-        model.addAttribute("resolucion", resolucion);
+            List<Resolucion> resoluciones = resolucionService.findAll();
 
-        List<Resolucion> resoluciones = resolucionService.findAll();
+            model.addAttribute("resoluciones", resoluciones);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("autoridades", autoridadService.findAll());
 
-        model.addAttribute("resoluciones", resoluciones);
-        model.addAttribute("consejos", consejoService.findAll());
-        model.addAttribute("autoridades", autoridadService.findAll());
-
-        return "resolucion/gestionar-resolucion";
+            return "resolucion/gestionar-resolucion";
+        } else {
+            return "redirect:/";
+        }
 
     }
 
-
-     @PostMapping(value = "/ResolucionModF")
-    public String ResolucionModF(@Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model, HttpServletRequest request)
+    @PostMapping(value = "/ResolucionModF")
+    public String ResolucionModF(@Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request)
             throws IOException {
-                
+
         MultipartFile multipartFile = resolucion.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
-            String alfaString = generateRandomAlphaNumericString();
-      
+        String alfaString = generateRandomAlphaNumericString();
+
         Path rootPath = Paths.get("archivos/resoluciones/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath+"";
+        String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
-      
-        resolucion.setNombreArchivo((alfaString  +".pdf"));
+
+        resolucion.setNombreArchivo((alfaString + ".pdf"));
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
         if (ad == 1) {
             ArchivoAdjunto barchivoAdjunto = archivoAdjuntoService
@@ -180,16 +187,14 @@ public class ResolucionController {
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
         }
-    
+
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
-        return "redirect:/adm/ConvenioL";
+        return "redirect:/adm/ResolucionL";
 
-        
-}
+    }
 
-
-@RequestMapping(value = "/openFileResolucion/{id}", method = RequestMethod.GET, produces = "application/pdf")
+    @RequestMapping(value = "/openFileResolucion/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public @ResponseBody FileSystemResource abrirArchivoMedianteResourse(HttpServletResponse response,
             @PathVariable("id") long id_resolucion) throws FileNotFoundException {
         ArchivoAdjunto ArchivoAdjuntos = archivoAdjuntoService.buscarArchivoAdjuntoPorResolucion(id_resolucion);
@@ -200,17 +205,20 @@ public class ResolucionController {
         return new FileSystemResource(file);
     }
 
-
     @RequestMapping(value = "/eliminar-resolucion/{id_resolucion}")
     public String eliminar_resolucion(HttpServletRequest request, @PathVariable("id_resolucion") Long id_resolucion)
             throws Exception {
-      
+        if (request.getSession().getAttribute("usuario") != null) {
             Resolucion resolucion = resolucionService.findOne(id_resolucion);
-           
+
             resolucion.setEstado_resolucion("X");
             resolucionService.save(resolucion);
 
             return "redirect:/adm/ResolucionL";
+        }else{
+           return "redirect:/";  
         }
+
+    }
 
 }

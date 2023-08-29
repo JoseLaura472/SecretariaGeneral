@@ -38,4 +38,8 @@ public class Consejo extends SigaUsicRevisiones implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
     private List<Convenio> convenio;
+
+      @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    private List<Usuario> usuario;
 }

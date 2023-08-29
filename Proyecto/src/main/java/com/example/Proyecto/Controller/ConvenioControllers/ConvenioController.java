@@ -71,17 +71,21 @@ public class ConvenioController {
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
     public String ConvenioL(HttpServletRequest request, Model model) {
-
-        model.addAttribute("convenios", convenioService.findAll());
+        if (request.getSession().getAttribute("usuario") != null) {
+          model.addAttribute("convenios", convenioService.findAll());
 
         return "convenio/listar-convenio";
+        }else {
+            return "redirect:/";
+        }
+      
 
     }
 
     @RequestMapping(value = "ConvenioForm", method = RequestMethod.GET)
     public String ConvenioR(HttpServletRequest request, @Validated Convenio convenio, Model model) throws Exception {
-
-        List<Convenio> convenios = convenioService.findAll();
+         if (request.getSession().getAttribute("usuario") != null) {
+           List<Convenio> convenios = convenioService.findAll();
         List<String> encryptedIds = new ArrayList<>();
         for (Convenio convenio2 : convenios) {
             String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
@@ -97,6 +101,10 @@ public class ConvenioController {
         model.addAttribute("id_encryptado", encryptedIds);
 
         return "convenio/gestionar-convenio";
+        }else{
+         return "redirect:/";
+        }
+      
 
     }
 
@@ -118,9 +126,11 @@ public class ConvenioController {
     }
 
     @RequestMapping(value = "/ConvenioF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-    public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model) throws FileNotFoundException, IOException {// validar los
-                                                                                                          // datos
-                                                                                                          // capturados
+    public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,HttpServletRequest request) throws FileNotFoundException, IOException {// validar los
+        
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());    
+
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();  
@@ -150,7 +160,7 @@ public class ConvenioController {
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
     
-
+        convenio.setConsejo(consejo);
         convenio.setArchivoAdjunto(archivoAdjunto2);
         convenio.setEstado_convenio("A");
         convenioService.save(convenio);
@@ -160,10 +170,10 @@ public class ConvenioController {
     
 
     @RequestMapping(value = "/editar-convenio/{id_convenio}")
-    public String editar_p(@PathVariable("id_convenio") Long id_convenio, Model model)
+    public String editar_p(@PathVariable("id_convenio") Long id_convenio, Model model,HttpServletRequest request)
             throws NumberFormatException, Exception {
-
-        Convenio convenio = convenioService.findOne(id_convenio);
+          if (request.getSession().getAttribute("usuario") != null) {
+           Convenio convenio = convenioService.findOne(id_convenio);
         model.addAttribute("convenio", convenio);
 
         List<Convenio> convenios = convenioService.findAll();
@@ -176,6 +186,12 @@ public class ConvenioController {
         model.addAttribute("autoridades", autoridadService.findAll());
 
         return "convenio/gestionar-convenio";
+        
+        }else{
+         return "redirect:/";
+        }
+      
+       
 
     }
 
@@ -225,13 +241,17 @@ public class ConvenioController {
     @RequestMapping(value = "/eliminar-convenio/{id_convenio}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_convenio") Long id_convenio)
             throws Exception {
-      
-            Convenio convenio = convenioService.findOne(id_convenio);
+              if (request.getSession().getAttribute("usuario") != null) {
+                 Convenio convenio = convenioService.findOne(id_convenio);
            
             convenio.setEstado_convenio("X");
             convenioService.save(convenio);
 
             return "redirect:/adm/ConvenioL";
+              }else{
+            return "redirect:/";
+              }
+           
         }
     }
 

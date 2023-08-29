@@ -70,22 +70,7 @@
                                             </div>
 
  
-                                            <div class="col-lg-4 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>Consejos</h5>
-                                                    <select class="select2 form-control square" required
-                                                    data-validation-required-message="Debe Seleccionar una opción"
-                                                        id="select2-tags5" th:field="${resolucion.consejo}"
-                                                        name="id_consejo">
-                                                        <option th:each="csj : ${consejos}"
-                                                            th:value="${csj.id_consejo}"
-                                                            th:if="${csj.estado_consejo != 'X'}"
-                                                            th:text="${csj.nombre_consejo}">
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
+                                         
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Número de la Resolución </h5>
@@ -97,7 +82,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Folio de la Resolución </h5>
                                                     <div class="controls">
@@ -108,7 +93,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Objeto de la Resolucion </h5>
                                                     <div class="controls">
@@ -119,7 +104,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Gestión</h5>
                                                     <select class="select2 form-control square" required
@@ -162,7 +147,7 @@
                                                     <p id="errorMensaje" style="color: red;"></p>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label for="date12">Fecha Resolución</label>
                                                     <input type="date" class="form-control" id="date12" required

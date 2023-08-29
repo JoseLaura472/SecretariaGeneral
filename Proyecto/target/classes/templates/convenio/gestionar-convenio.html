@@ -117,21 +117,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>Consejos</h5>
-                                                    <select class="select2 form-control square" required
-                                                    data-validation-required-message="Debe Seleccionar una opción"
-                                                        id="select2-tags5" th:field="${convenio.consejo}"
-                                                        name="id_consejo">
-                                                        <option th:each="csj : ${consejos}"
-                                                            th:value="${csj.id_consejo}"
-                                                            th:if="${csj.estado_consejo != 'X'}"
-                                                            th:text="${csj.nombre_consejo}">
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                    
 
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
