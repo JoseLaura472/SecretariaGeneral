@@ -80,7 +80,7 @@
                                                             <option th:each="per : ${personas}"
                                                                 th:value="${per.id_persona}"
                                                                 th:if="${per.estado_persona != 'X'}"
-                                                                th:text="${per.nombre_persona}">
+                                                                th:text="${per.nombre_persona}+' '+${per.ap_paterno_persona}+' '+${per.ap_materno_persona}">
                                                             </option>
                                                         </select>
                                                     </div>

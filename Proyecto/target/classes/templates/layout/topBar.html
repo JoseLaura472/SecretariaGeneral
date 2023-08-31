@@ -48,7 +48,7 @@
                         
                         <li class="dropdown dropdown-user nav-item"><a
                                 class="dropdown-toggle nav-link dropdown-user-link" href="#"
-                                data-toggle="dropdown"><span class="mr-1 user-name text-bold-700">John Doe</span><span
+                                data-toggle="dropdown"><span class="mr-1 user-name text-bold-700" th:text="${session.usuario.persona.nombre_persona}+' '+${session.usuario.persona.ap_paterno_persona}+' '+${session.usuario.persona.ap_materno_persona}">John Doe</span><span
                                     class="avatar avatar-online"><img
                                         src="../../../app-assets/images/portrait/small/avatar-s-19.png"
                                         alt="avatar"><i></i></span></a>

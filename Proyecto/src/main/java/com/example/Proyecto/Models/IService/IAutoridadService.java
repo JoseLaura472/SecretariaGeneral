@@ -13,4 +13,6 @@ public interface IAutoridadService {
     public Autoridad findOne(Long id);
 
     public void delete(Long id);
+
+    public List<Autoridad> autoridadPorIdConsejo(Long id_consejo);
 }

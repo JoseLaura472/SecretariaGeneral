@@ -70,12 +70,14 @@ public class ResolucionController {
     public String ResolucionR(HttpServletRequest request, @Validated Resolucion resolucion, Model model)
             throws Exception {
         if (request.getSession().getAttribute("usuario") != null) {
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
             List<Resolucion> resoluciones = resolucionService.findAll();
 
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("autoridades", autoridadService.findAll());
+            model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
 
             return "resolucion/gestionar-resolucion";
 

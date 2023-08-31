@@ -3,6 +3,7 @@
 <!-- BEGIN: Head-->
 
 <head th:replace="layout/head :: head">
+  
 </head>
 <!-- END: Head-->
 
@@ -42,10 +43,10 @@
                                 <div class="card-body">
                                   
                                     <th:block th:if="${convenio.id_convenio != null}">
-                                        <form  class="form" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form  class="form row-separator" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <th:block th:if="${convenio.id_convenio == null}">
-                                        <form id="form1" class="form" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form id="form1" class="form " action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${convenio.id_convenio}">
                                     <input type="hidden" name="id_archivo_adjunto" th:field="${convenio.archivoAdjunto.id}">
@@ -143,7 +144,7 @@
 
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
-                                                    <h5>Objeto del Convenio </h5>
+                                                    <h5>Resumen del Convenio </h5>
                                                     <div class="controls">
                                                         <input th:field="${convenio.objeto_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
@@ -183,7 +184,7 @@
                                                         <option value="2020">2020</option>
                                                         <option value="2021">2021</option>
                                                         <option value="2022">2022</option>
-                                                        <option value="2023">2023</option>
+                                                        <option value="2023" >2023</option>
                                                         <option value="2024">2024</option>
                                                         <option value="2025">2025</option>
                                                         <option value="2026">2026</option>
@@ -214,6 +215,8 @@
                                             </div>
 
                                            
+                                            <textarea class="form-control info" id="tareaColor1" rows="3">Textarea font Color</textarea>
+                                           
                                             <div class="col-lg-5 col-md-12">
                                                 <div class="form-group">
                                                     <h5>Adjuntar Archivo</h5>
@@ -225,6 +228,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            
                                           
                                         </div>
                                     </div>
@@ -272,7 +277,6 @@
         });
     </script>
     <div th:replace="layout/script :: script"></div>
-
 
 
 

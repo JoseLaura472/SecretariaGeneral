@@ -35,4 +35,9 @@ public class AutoridadServiceImpl implements IAutoridadService {
         autoridadDao.deleteById(id);
     }
 
+    @Override
+    public List<Autoridad> autoridadPorIdConsejo(Long id_consejo) {
+        return (List<Autoridad>) autoridadDao.autoridadPorIdConsejo(id_consejo);
+    }
+
 }

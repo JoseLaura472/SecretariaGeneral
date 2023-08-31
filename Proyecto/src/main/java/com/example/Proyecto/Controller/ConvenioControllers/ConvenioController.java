@@ -91,13 +91,18 @@ public class ConvenioController {
             String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
             encryptedIds.add(id_encryptado);
         }
+
+         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+
         model.addAttribute("convenio", new Convenio());
         model.addAttribute("convenios", convenios);
         model.addAttribute("consejos", consejoService.findAll());
         model.addAttribute("instituciones", institucionService.findAll());
         model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
         model.addAttribute("representantes", representanteService.findAll());
-        model.addAttribute("autoridades", autoridadService.findAll());
+        model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
         model.addAttribute("id_encryptado", encryptedIds);
 
         return "convenio/gestionar-convenio";
