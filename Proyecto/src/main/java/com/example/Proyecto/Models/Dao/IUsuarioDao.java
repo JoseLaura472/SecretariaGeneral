@@ -7,8 +7,8 @@ import com.example.Proyecto.Models.Entity.Usuario;
 
 public interface IUsuarioDao extends CrudRepository<Usuario, Long> {
 
-    @Query(value = "select * from insertar_adm(?1, ?2, ?3)", nativeQuery = true)
-    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona);
+    @Query(value = "select * from insertar_adm(?1, ?2, ?3, ?4)", nativeQuery = true)
+    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona, Integer id_consejo);
 
     @Query(value = "select * from validar_adm(?1, ?2)", nativeQuery = true)
     public Long validar_adm(String usuario_nom, String contrasena);

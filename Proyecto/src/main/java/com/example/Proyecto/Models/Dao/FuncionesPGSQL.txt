@@ -6,7 +6,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 ------------------->
 
 -- INSERTAR USUARIO CON ENCRYPTACION
-CREATE OR REPLACE FUNCTION public.insertar_adm(usuariou character varying, contrasenau character varying, id_personau integer)
+CREATE OR REPLACE FUNCTION public.insertar_adm(usuariou character varying, contrasenau character varying, id_personau integer, id_consejou integer)
  RETURNS Integer
  LANGUAGE plpgsql
 AS $function$
@@ -17,8 +17,8 @@ begin
 	if(select count(usuario.id_persona) from usuario where usuario.id_persona = id_personaU or usuario.usuario_nom  = usuarioU) = 0	
 	then
 	INSERT INTO public.usuario
-	(contrasena, estado, usuario_nom, id_persona)
-	VALUES(crypt(contrasenaU, gen_salt('bf')), 'A', usuarioU, id_personaU)
+	(contrasena, estado, usuario_nom, id_persona, id_consejo)
+	VALUES(crypt(contrasenaU, gen_salt('bf')), 'A', usuarioU, id_personaU, id_consejou)
 	returning id_usuario into respuesta;
 	else
 	respuesta:= 0;

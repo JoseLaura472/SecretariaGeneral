@@ -6,7 +6,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Persona;
+import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.IService.IUsuarioService;
 
@@ -19,14 +21,18 @@ public class PersonaRestController {
 	@Autowired
 	private IUsuarioService usuarioService;
 
+	@Autowired
+	private IConsejoService consejoService;
+
 	@RequestMapping(value = "/PersonaF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
 	public String PersonaF(@Validated Persona persona) { // validar los datos capturados (1)
 
 		persona.setEstado_persona("A");
 		personaService.save(persona);
-
+		Long id_consejo = (long) 1;
+		Consejo consejo = consejoService.findOne(id_consejo);
 		usuarioService.insertar_adm(persona.getEmail_persona(), persona.getCi_persona(),
-				Math.toIntExact(persona.getId_persona()));
+				Math.toIntExact(persona.getId_persona()), Math.toIntExact(consejo.getId_consejo()));
 
 		return "redirect:/adm/PersonaR";
 	}

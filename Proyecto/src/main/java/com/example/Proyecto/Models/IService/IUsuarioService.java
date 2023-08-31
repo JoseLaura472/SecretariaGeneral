@@ -13,7 +13,7 @@ public interface IUsuarioService {
 
     public void delete(Long id);
 
-    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona);
+    public Long insertar_adm(String usuario_nom, String contrasena, Integer id_persona, Integer id_consejo);
 
     public Long validar_adm(String usuario_nom, String contrasena);
 }

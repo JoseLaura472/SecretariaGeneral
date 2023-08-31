@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+           
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Usuario</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                  
+                                    <th:block th:if="${usuario.id_usuario != null}">
+                                        <form  class="form" action="/UsuarioModF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <th:block th:if="${usuario.id_usuario == null}">
+                                        <form id="form1" class="form" action="/UsuarioF" method="post" novalidate  enctype="multipart/form-data">
+                                    </th:block>
+                                    <input type="hidden" th:field="${usuario.id_usuario}">
+                                    <div class="form-body">
+                                       
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Persona</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags" th:field="${usuario.persona}"
+                                                        name="id_persona">
+                                                        <option th:each="per : ${personas}"
+                                                            th:value="${per.id_persona}"
+                                                            th:if="${per.estado_persona != 'X'}"
+                                                            th:text="${per.nombre_persona}+' '+${per.ap_paterno_persona}+' '+${per.ap_materno_persona}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-3 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Rol</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags6" th:field="${usuario.estado}"
+                                                        name="estadp">
+                                                        <option value="">Seleccione un Rol</option>
+                                                        <option value="Administrativo">Administrativo</option>
+                                                        <option value="Autoridad">Autoridad</option>
+
+                                                    </select>
+                                                    <p id="errorMensaje" style="color: red;"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Consejo</h5>
+                                                    <select class="select2 form-control square" required
+                                                    data-validation-required-message="Debe Seleccionar una opción"
+                                                        id="select2-tags" th:field="${usuario.consejo}"
+                                                        name="id_consejo">
+                                                        <option th:each="con : ${consejos}"
+                                                            th:value="${con.id_consejo}"
+                                                            th:if="${con.estado_consejo != 'X'}"
+                                                            th:text="${con.nombre_consejo}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <input th:field="${usuario.usuario_nom}" type="hidden"
+                                            name="text" class="form-control mb-1 square">
+
+
+                                            <input th:field="${usuario.contrasena}" type="hidden"
+                                            name="text" class="form-control mb-1 square">
+
+                                  
+
+                                    
+                                          
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+          
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <footer th:replace="layout/footer :: footer"> </footer>
+
+    <script>
+ 
+        var errorMensaje = document.getElementById("errorMensaje");
+    
+        selectElement.addEventListener("input", function() {
+            if (this.value !== "") {
+                errorMensaje.textContent = "";
+            }
+        });
+    
+        document.getElementById("miFormulario").addEventListener("submit", function(event) {
+            if (selectElement.value === "") {
+                errorMensaje.textContent = "Debe seleccionar una opción";
+                event.preventDefault();
+            } else {
+                errorMensaje.textContent = "";
+            }
+        });
+    </script>
+    <div th:replace="layout/script :: script"></div>
+
+
+
+
+</body>
+<!-- END: Body-->
+
+</html>
