@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Proyecto.Models.Dao.IConvenioDao;
-
+import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.IService.IConvenioService;
 
@@ -36,4 +36,8 @@ public class ConvenioServiceImpl implements IConvenioService {
       convenioDao.deleteById(id);
    }
 
+   @Override
+   public List<Convenio> convenioPorIdConsejo(Long id_consejo) {
+      return (List<Convenio>) convenioDao.convenioPorIdConsejo(id_consejo);
+      }
 }

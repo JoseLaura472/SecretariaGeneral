@@ -72,7 +72,12 @@ public class ConvenioController {
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
     public String ConvenioL(HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
-          model.addAttribute("convenios", convenioService.findAll());
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+   
+
+
+
+          model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
 
         return "convenio/listar-convenio";
         }else {
@@ -203,7 +208,8 @@ public class ConvenioController {
     @PostMapping(value = "/ConvenioModF")
     public String ConvenioModF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model, HttpServletRequest request)
             throws IOException {
-                
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());    
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
@@ -223,7 +229,7 @@ public class ConvenioController {
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
         }
-    
+        convenio.setConsejo(consejo);
         convenio.setEstado_convenio("A");
         convenioService.save(convenio);
         return "redirect:/adm/ConvenioL";
