@@ -97,7 +97,7 @@ public class ConvenioController {
             encryptedIds.add(id_encryptado);
         }
 
-         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
 
 
