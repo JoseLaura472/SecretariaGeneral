@@ -43,6 +43,17 @@ import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
 import com.example.Proyecto.Models.Otros.Encryptar;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
+import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
+import org.apache.pdfbox.pdmodel.graphics.state.RenderingMode;
+import org.apache.pdfbox.text.PDFTextStripper;
+
 @Controller
 @RequestMapping("/adm")
 public class ConvenioController {
@@ -72,49 +83,43 @@ public class ConvenioController {
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
     public String ConvenioL(HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-   
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
+            model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
 
-
-          model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
-
-        return "convenio/listar-convenio";
-        }else {
+            return "convenio/listar-convenio";
+        } else {
             return "redirect:/";
         }
-      
 
     }
 
     @RequestMapping(value = "ConvenioForm", method = RequestMethod.GET)
     public String ConvenioR(HttpServletRequest request, @Validated Convenio convenio, Model model) throws Exception {
-         if (request.getSession().getAttribute("usuario") != null) {
-           List<Convenio> convenios = convenioService.findAll();
-        List<String> encryptedIds = new ArrayList<>();
-        for (Convenio convenio2 : convenios) {
-            String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
-            encryptedIds.add(id_encryptado);
+        if (request.getSession().getAttribute("usuario") != null) {
+            List<Convenio> convenios = convenioService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (Convenio convenio2 : convenios) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
+                encryptedIds.add(id_encryptado);
+            }
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            model.addAttribute("convenio", new Convenio());
+            model.addAttribute("convenios", convenios);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("instituciones", institucionService.findAll());
+            model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
+            model.addAttribute("representantes", representanteService.findAll());
+            model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
+            model.addAttribute("id_encryptado", encryptedIds);
+
+            return "convenio/gestionar-convenio";
+        } else {
+            return "redirect:/";
         }
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-
-
-        model.addAttribute("convenio", new Convenio());
-        model.addAttribute("convenios", convenios);
-        model.addAttribute("consejos", consejoService.findAll());
-        model.addAttribute("instituciones", institucionService.findAll());
-        model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
-        model.addAttribute("representantes", representanteService.findAll());
-        model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
-        model.addAttribute("id_encryptado", encryptedIds);
-
-        return "convenio/gestionar-convenio";
-        }else{
-         return "redirect:/";
-        }
-      
 
     }
 
@@ -136,91 +141,130 @@ public class ConvenioController {
     }
 
     @RequestMapping(value = "/ConvenioF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-    public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,HttpServletRequest request) throws FileNotFoundException, IOException {// validar los
-        
+    public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request) throws FileNotFoundException, IOException {// validar los
+
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());    
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
 
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
-        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();  
-                                                                                                     // (1)
+        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
+        // (1)
         Path rootPath = Paths.get("archivos/convenios/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath+"";
-          try {
-                if (!Files.exists(rootPath)) {
-                    Files.createDirectories(rootPath);
-                    System.out.println("Directorio creado: " + rutaDirectorio);
-                } else {
-                    System.out.println("El directorio ya existe: " + rutaDirectorio);
-                }
-            } catch (IOException e) {
-                System.err.println("Error al crear el directorio: " + e.getMessage());
+        String rutaDirectorio = rootAbsolutPath + "";
+        try {
+            if (!Files.exists(rootPath)) {
+                Files.createDirectories(rootPath);
+                System.out.println("Directorio creado: " + rutaDirectorio);
+            } else {
+                System.out.println("El directorio ya existe: " + rutaDirectorio);
             }
+        } catch (IOException e) {
+            System.err.println("Error al crear el directorio: " + e.getMessage());
+        }
+
+        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        String rutaDirectorioM = rootAbsolutPathM + "/";
+
         String alfaString = generateRandomAlphaNumericString();
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
+        String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
         model.addAttribute("di", rutaArchivo);
         List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
-        convenio.setNombreArchivo((listArchivos.size() + 1)+"-" +alfaString  +".pdf");
+        convenio.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
         Integer ad = adjuntarArchivo.adjuntarArchivoConvenio(convenio, rutaArchivo);
-        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1)+"-" +alfaString  +".pdf");
-       
+        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+
         archivoAdjunto.setRuta(rutaArchivo);
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
-    
+
+        // Ruta completa del archivo PDF que recibes
+        String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+
+        // Ruta donde guardarás el PDF con marca de agua
+        String pdfOutputPath = rutaArchivo + File.separator + "convenio_con_marca.pdf";
+
+        // Ruta del PDF de la marca de agua
+        String watermarkPdfPath = rutaDirectorioM +"marcaejem.pdf";
+
+    try {
+        // Cargar el PDF original
+        PDDocument document = PDDocument.load(new File(pdfFilePath));
+
+        // Cargar el archivo de marca de agua (previamente creado)
+        PDDocument watermarkDocument = PDDocument.load(new File(watermarkPdfPath));
+
+        // Obtén la primera página del PDF de marca de agua
+        PDPage watermarkPage = watermarkDocument.getPage(0);
+
+        // Itera a través de las páginas del PDF original
+        for (PDPage page : document.getPages()) {
+            // Agrega la página de marca de agua al PDF original
+            document.addPage(watermarkPage);
+        }
+
+        // Guarda el PDF resultante con la marca de agua
+        document.save(new File(pdfOutputPath));
+        document.close();
+        watermarkDocument.close();
+    } catch (IOException e) {
+        // Manejo de errores
+    }
+
+
+
         convenio.setConsejo(consejo);
         convenio.setArchivoAdjunto(archivoAdjunto2);
         convenio.setEstado_convenio("A");
         convenioService.save(convenio);
         return "redirect:/adm/ConvenioL";
-        }
-
-    
+    }
 
     @RequestMapping(value = "/editar-convenio/{id_convenio}")
-    public String editar_p(@PathVariable("id_convenio") Long id_convenio, Model model,HttpServletRequest request)
+    public String editar_p(@PathVariable("id_convenio") Long id_convenio, Model model, HttpServletRequest request)
             throws NumberFormatException, Exception {
-          if (request.getSession().getAttribute("usuario") != null) {
-           Convenio convenio = convenioService.findOne(id_convenio);
-        model.addAttribute("convenio", convenio);
+        if (request.getSession().getAttribute("usuario") != null) {
+            Convenio convenio = convenioService.findOne(id_convenio);
+            model.addAttribute("convenio", convenio);
 
-        List<Convenio> convenios = convenioService.findAll();
+            List<Convenio> convenios = convenioService.findAll();
 
-        model.addAttribute("convenios", convenios);
-        model.addAttribute("consejos", consejoService.findAll());
-        model.addAttribute("instituciones", institucionService.findAll());
-        model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
-        model.addAttribute("representantes", representanteService.findAll());
-        model.addAttribute("autoridades", autoridadService.findAll());
+            model.addAttribute("convenios", convenios);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("instituciones", institucionService.findAll());
+            model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
+            model.addAttribute("representantes", representanteService.findAll());
+            model.addAttribute("autoridades", autoridadService.findAll());
 
-        return "convenio/gestionar-convenio";
-        
-        }else{
-         return "redirect:/";
+            return "convenio/gestionar-convenio";
+
+        } else {
+            return "redirect:/";
         }
-      
-       
 
     }
 
     @PostMapping(value = "/ConvenioModF")
-    public String ConvenioModF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model, HttpServletRequest request)
+    public String ConvenioModF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request)
             throws IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());    
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
-            String alfaString = generateRandomAlphaNumericString();
-      
+        String alfaString = generateRandomAlphaNumericString();
+
         Path rootPath = Paths.get("archivos/convenios/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath+"";
+        String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
-      
-        convenio.setNombreArchivo((alfaString  +".pdf"));
+
+        convenio.setNombreArchivo((alfaString + ".pdf"));
         Integer ad = adjuntarArchivo.adjuntarArchivoConvenio(convenio, rutaArchivo);
         if (ad == 1) {
             ArchivoAdjunto barchivoAdjunto = archivoAdjuntoService
@@ -234,8 +278,7 @@ public class ConvenioController {
         convenioService.save(convenio);
         return "redirect:/adm/ConvenioL";
 
-        
-}
+    }
 
     @RequestMapping(value = "/openFileConvenio/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public @ResponseBody FileSystemResource abrirArchivoMedianteResourse(HttpServletResponse response,
@@ -248,25 +291,19 @@ public class ConvenioController {
         return new FileSystemResource(file);
     }
 
-
     @RequestMapping(value = "/eliminar-convenio/{id_convenio}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_convenio") Long id_convenio)
             throws Exception {
-              if (request.getSession().getAttribute("usuario") != null) {
-                 Convenio convenio = convenioService.findOne(id_convenio);
-           
+        if (request.getSession().getAttribute("usuario") != null) {
+            Convenio convenio = convenioService.findOne(id_convenio);
+
             convenio.setEstado_convenio("X");
             convenioService.save(convenio);
 
             return "redirect:/adm/ConvenioL";
-              }else{
+        } else {
             return "redirect:/";
-              }
-           
         }
+
     }
-
-
-    
-
-
+}
