@@ -30,8 +30,12 @@ public class Institucion extends SigaUsicRevisiones {
     private String sigla_institucion;
     private String estado_institucion;
 
+    //@JsonIgnore
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "institucion", fetch = FetchType.EAGER)
+    //private List<Convenio> convenios;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "institucion", fetch = FetchType.EAGER)
-    private List<Convenio> convenios;
+    private List<Representante> representantes;
 
 }

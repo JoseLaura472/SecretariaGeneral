@@ -67,10 +67,10 @@ public class Convenio extends SigaUsicRevisiones {
     private TipoConvenio tipoConvenio;
 
     // Tabla Institucion
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_institucion")
-    private Institucion institucion;
+    //@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "id_institucion")
+    //private Institucion institucion;
 
     // Tabla Consejo
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

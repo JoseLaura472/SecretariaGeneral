@@ -46,6 +46,12 @@ public class Representante extends SigaUsicRevisiones {
     @JoinColumn(name = "id_persona")
     private Persona persona;
 
+    // Tabla Institucion
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_institucion")
+    private Institucion institucion;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "representante", fetch = FetchType.EAGER)
     private List<Convenio> convenio;
