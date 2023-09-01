@@ -12,4 +12,6 @@ public interface IConvenioService {
     public Convenio findOne(Long id);
 
     public void delete(Long id);
+
+    public List<Convenio> convenioPorIdConsejo(Long id_consejo);
 }
