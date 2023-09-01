@@ -56,7 +56,11 @@ public class ResolucionController {
     @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET) // Pagina principal
     public String ResolucionL(HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
-            model.addAttribute("resoluciones", resolucionService.findAll());
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            model.addAttribute("resoluciones", resolucionService.resolucionPorIdConsejo(consejo.getId_consejo()));
 
             return "resolucion/listar-resolucion";
 
@@ -169,7 +173,8 @@ public class ResolucionController {
     public String ResolucionModF(@Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model,
             HttpServletRequest request)
             throws IOException {
-
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
         MultipartFile multipartFile = resolucion.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
@@ -189,7 +194,7 @@ public class ResolucionController {
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
         }
-
+        resolucion.setConsejo(consejo);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
         return "redirect:/adm/ResolucionL";
