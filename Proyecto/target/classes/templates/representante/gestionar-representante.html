@@ -75,12 +75,31 @@
                                                     <h5>Persona</h5>
                                                     <div class="controls">
                                                         <select class="select2 form-control square"
-                                                            id="select2-tags" th:field="${representante.persona}"
+                                                            id="select2-tags1" th:field="${representante.persona}"
                                                             name="id_persona">
+                                                            <option value="">Seleccione una opción</option>
                                                             <option th:each="per : ${personas}"
                                                                 th:value="${per.id_persona}"
                                                                 th:if="${per.estado_persona != 'X'}"
                                                                 th:text="${per.nombre_persona}+' '+${per.ap_paterno_persona}+' '+${per.ap_materno_persona}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="form-group">
+                                                    <h5>Institución</h5>
+                                                    <div class="controls">
+                                                        <select class="select2 form-control square"
+                                                            id="select2-tags" th:field="${representante.institucion}"
+                                                            name="id_institucion">
+                                                            <option value="">Seleccione una opción</option>
+                                                            <option th:each="inst : ${instituciones}"
+                                                                th:value="${inst.id_institucion}"
+                                                                th:if="${inst.estado_institucion != 'X'}"
+                                                                th:text="${inst.nombre_institucion}">
                                                             </option>
                                                         </select>
                                                     </div>

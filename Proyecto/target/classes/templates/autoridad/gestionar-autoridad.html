@@ -77,6 +77,7 @@
                                                         <select class="select2 form-control square"
                                                             id="select2-tags1" th:field="${autoridad.persona}"
                                                             name="id_persona">
+                                                            <option value="">Seleccione una opción</option>
                                                             <option th:each="per : ${personas}"
                                                                 th:value="${per.id_persona}"
                                                                 th:if="${per.estado_persona != 'X'}"
@@ -94,6 +95,7 @@
                                                         <select class="select2 form-control square"
                                                             id="select2-tags" th:field="${autoridad.consejo}"
                                                             name="id_consejo">
+                                                            <option value="">Seleccione una opción</option>
                                                             <option th:each="con : ${consejos}"
                                                                 th:value="${con.id_consejo}"
                                                                 th:if="${con.estado_consejo != 'X'}"

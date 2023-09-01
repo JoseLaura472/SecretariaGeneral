@@ -19,6 +19,7 @@ import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Representante;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IConsejoService;
+import com.example.Proyecto.Models.IService.IInstitucionService;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.IService.IRepresentanteService;
 import com.example.Proyecto.Models.Otros.Encryptar;
@@ -33,6 +34,9 @@ public class RepresentanteController {
     @Autowired
     private IPersonaService personaService;
 
+    @Autowired
+    private IInstitucionService institucionService;
+
     @RequestMapping(value = "/RepresentanteR", method = RequestMethod.GET) // Pagina principal
 	public String Representante(@Validated Representante representante, Model model, HttpServletRequest request) throws Exception {
 
@@ -46,6 +50,7 @@ public class RepresentanteController {
 
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("personas", personaService.findAll());
+            model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
 
             return "representante/gestionar-representante";
@@ -80,6 +85,7 @@ public class RepresentanteController {
             }
             model.addAttribute("representantes", representantes);
 			model.addAttribute("personas", personaService.findAll());
+            model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
             return "representante/gestionar-representante";
 
