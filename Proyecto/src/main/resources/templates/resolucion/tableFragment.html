@@ -13,10 +13,11 @@
         <table class="table table-striped table-bordered zero-configuration">
             <thead>
                 <tr>
-                    <th>Autoridad</th>
                     <th>Nro resolución</th>
+                    <th>Autoridad</th>
+                  
                     <th>Nro Folio</th>
-                    <th>Objeto resolución</th>
+     
                     <th>Fecha Resolución</th>
                     <th>Acciones</th>
                     
@@ -24,10 +25,11 @@
             </thead>
             <tbody>
                 <tr th:each="res, index : ${resoluciones}" th:if="${res.estado_resolucion != 'X'}">
-                    <td th:text="${res.autoridad.persona.nombre_persona}+' '+${res.autoridad.persona.ap_paterno_persona}+' '+${res.autoridad.persona.ap_materno_persona}"></td>
                     <td th:text="${res.numero_resolucion}"></td>
+                    <td th:text="${res.autoridad.persona.nombre_persona}+' '+${res.autoridad.persona.ap_paterno_persona}+' '+${res.autoridad.persona.ap_materno_persona}"></td>
+                   
                     <td th:text="${res.folio_resolucion}"></td>
-                    <td th:text="${res.objeto_resolucion}"></td>
+           
                     <td th:text="${res.fecha_resolucion}"></td>
                     <td>
                         <center>

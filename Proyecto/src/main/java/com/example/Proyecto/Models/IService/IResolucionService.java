@@ -13,4 +13,6 @@ public interface IResolucionService {
     public Resolucion findOne(Long id);
 
     public void delete(Long id);
+
+    public List<Resolucion> resolucionPorIdConsejo(Long id_consejo);
 }
