@@ -39,6 +39,7 @@
                                 <button type="button" class="btn btn-icon btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"  th:onclick="renombrar([[${con.id_convenio}]])">Ver Archivo</a>
+                                    <a class="dropdown-item"  th:onclick="abrirDocumento([[${con.ruta_marca_convenio}]])">Ver Archivo con Marca</a>
                                     <a class="dropdown-item"  th:href="${'/adm/editar-convenio/'+con.id_convenio}">Editar</a>
                                     <a class="dropdown-item" th:id="${con.id_convenio}" onclick="MandarURL(this.id)">Eliminar</a>
                             

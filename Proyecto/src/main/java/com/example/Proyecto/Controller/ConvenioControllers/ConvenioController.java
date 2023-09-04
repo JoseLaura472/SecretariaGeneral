@@ -15,7 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -43,16 +47,17 @@ import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
 import com.example.Proyecto.Models.Otros.Encryptar;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.PDResources;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
-import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
-import org.apache.pdfbox.pdmodel.graphics.state.RenderingMode;
-import org.apache.pdfbox.text.PDFTextStripper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/adm")
@@ -120,30 +125,6 @@ public class ConvenioController {
         } else {
             return "redirect:/";
         }
-
-<<<<<<< HEAD
-=======
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-
-
-        model.addAttribute("convenio", new Convenio());
-        model.addAttribute("convenios", convenios);
-        model.addAttribute("consejos", consejoService.findAll());
-        model.addAttribute("instituciones", institucionService.findAll());
-        model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
-        model.addAttribute("representantes", representanteService.findAll());
-        model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
-        model.addAttribute("id_encryptado", encryptedIds);
-
-        return "convenio/gestionar-convenio";
-        }else{
-         return "redirect:/";
-        }
-      
-        
-
->>>>>>> 343b6f24dbf61479216676f78dce925056c6b4cd
     }
 
     // Generador de Caracteres aleatorios
@@ -204,42 +185,64 @@ public class ConvenioController {
         archivoAdjunto.setRuta(rutaArchivo);
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
-
-        // Ruta completa del archivo PDF que recibes
+        // Ruta completa del archivo PDF original que recibes
         String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
 
         // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath = rutaArchivo + File.separator + "convenio_con_marca.pdf";
+        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ convenio.getNombreArchivo();
 
         // Ruta del PDF de la marca de agua
-        String watermarkPdfPath = rutaDirectorioM +"marcaejem.pdf";
+        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
 
-    try {
-        // Cargar el PDF original
-        PDDocument document = PDDocument.load(new File(pdfFilePath));
-
-        // Cargar el archivo de marca de agua (previamente creado)
-        PDDocument watermarkDocument = PDDocument.load(new File(watermarkPdfPath));
-
-        // Obtén la primera página del PDF de marca de agua
-        PDPage watermarkPage = watermarkDocument.getPage(0);
-
-        // Itera a través de las páginas del PDF original
-        for (PDPage page : document.getPages()) {
-            // Agrega la página de marca de agua al PDF original
-            document.addPage(watermarkPage);
+        try {
+            // Crear un nuevo documento PDF de salida
+            Document document = new Document();
+    
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+            document.open();
+    
+            // Cargar el PDF original
+            PdfReader reader = new PdfReader(pdfFilePath);
+    
+            // Obtener el número total de páginas en el PDF original
+            int pageCount = reader.getNumberOfPages();
+    
+            // Cargar la imagen de la marca de agua
+            Image watermarkImage = Image.getInstance(watermarkImagePath);
+    
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 25; // Cambia esto según tus necesidades
+            float yPosition = 25; // Cambia esto según tus necesidades
+            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
+    
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document.newPage();
+    
+                // Obtener la página actual del PDF original
+                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+    
+                // Agregar la página del PDF original al nuevo documento
+                PdfContentByte contentByte = writer.getDirectContent();
+                contentByte.addTemplate(page, 0, 0);
+    
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                        watermarkImage.getHeight() * scaleFactor);
+                document.add(watermarkImage);
+            }
+    
+            // Cerrar el documento
+            document.close();
+            reader.close();
+        } catch (IOException | DocumentException e) {
+            // Manejo de errores
         }
-
-        // Guarda el PDF resultante con la marca de agua
-        document.save(new File(pdfOutputPath));
-        document.close();
-        watermarkDocument.close();
-    } catch (IOException e) {
-        // Manejo de errores
-    }
-
-
-
+    
+        convenio.setRuta_marca_convenio(pdfOutputPath);
         convenio.setConsejo(consejo);
         convenio.setArchivoAdjunto(archivoAdjunto2);
         convenio.setEstado_convenio("A");
@@ -287,6 +290,11 @@ public class ConvenioController {
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
+        
+        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        String rutaDirectorioM = rootAbsolutPathM + "/";
+
         convenio.setNombreArchivo((alfaString + ".pdf"));
         Integer ad = adjuntarArchivo.adjuntarArchivoConvenio(convenio, rutaArchivo);
         if (ad == 1) {
@@ -295,7 +303,66 @@ public class ConvenioController {
             barchivoAdjunto.setNombre_archivo(convenio.getNombreArchivo());
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
+               // Ruta completa del archivo PDF original que recibes
+        String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+
+        // Ruta donde guardarás el PDF con marca de agua
+        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ convenio.getNombreArchivo();
+
+        // Ruta del PDF de la marca de agua
+        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
+
+        try {
+            // Crear un nuevo documento PDF de salida
+            Document document = new Document();
+    
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+            document.open();
+    
+            // Cargar el PDF original
+            PdfReader reader = new PdfReader(pdfFilePath);
+    
+            // Obtener el número total de páginas en el PDF original
+            int pageCount = reader.getNumberOfPages();
+    
+            // Cargar la imagen de la marca de agua
+            Image watermarkImage = Image.getInstance(watermarkImagePath);
+    
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 25; // Cambia esto según tus necesidades
+            float yPosition = 25; // Cambia esto según tus necesidades
+            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
+    
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document.newPage();
+    
+                // Obtener la página actual del PDF original
+                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+    
+                // Agregar la página del PDF original al nuevo documento
+                PdfContentByte contentByte = writer.getDirectContent();
+                contentByte.addTemplate(page, 0, 0);
+    
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                        watermarkImage.getHeight() * scaleFactor);
+                document.add(watermarkImage);
+            }
+    
+            // Cerrar el documento
+            document.close();
+            reader.close();
+        } catch (IOException | DocumentException e) {
+            // Manejo de errores
         }
+    
+        convenio.setRuta_marca_convenio(pdfOutputPath);
+        }
+        convenio.setRuta_marca_convenio(convenio.getRuta_marca_convenio());
         convenio.setConsejo(consejo);
         convenio.setEstado_convenio("A");
         convenioService.save(convenio);
@@ -313,6 +380,23 @@ public class ConvenioController {
         response.setHeader("Content-Length", String.valueOf(file.length()));
         return new FileSystemResource(file);
     }
+
+    @RequestMapping(value = "/openFileConvenioMarca", method = RequestMethod.GET, produces = "application/pdf")
+public ResponseEntity<ByteArrayResource> abrirArchivoMedianteRuta(HttpServletResponse response,
+        @RequestParam("ruta") String ruta) throws IOException {
+    File file = new File(ruta);
+
+    if (file.exists() && file.isFile()) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + file.getName());
+        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
 
     @RequestMapping(value = "/eliminar-convenio/{id_convenio}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_convenio") Long id_convenio)

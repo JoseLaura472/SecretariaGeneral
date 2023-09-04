@@ -35,6 +35,7 @@ public class Resolucion extends SigaUsicRevisiones{
     private String objeto_resolucion;
     private String gestion_resolucion;
     private String estado_resolucion;
+    private String ruta_marca_resolucion;
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_resolucion;

@@ -47,6 +47,7 @@
                                         <form id="form1" class="form" action="/adm/ResolucionF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${resolucion.id_resolucion}">
+                                    <input type="hidden" th:field="${resolucion.ruta_marca_resolucion}">
                                     <input type="hidden" name="id_archivo_adjunto" th:field="${resolucion.archivoAdjunto.id}">
 
                                         <div class="form-body">

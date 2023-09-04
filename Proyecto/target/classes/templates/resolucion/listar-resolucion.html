@@ -63,6 +63,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div>
+
+
+                        <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+
+                </div>
+            </div>
+        </div>
             </section>
           
         </div>
@@ -89,6 +105,19 @@
 
         }
     </script>
+
+<script type="text/javascript">
+    function abrirDocumento(ruta) {
+        // Codificar la ruta para que sea una URL válida
+        var rutaCodificada = encodeURIComponent(ruta);
+
+        // Muestra el modal
+        $("#ModalEvaluacion2").modal("show");
+
+        // Configura la fuente del iframe con la ruta codificada del documento
+        $("#iframe-pdf2").attr("src", `../../../adm/openFileResolucionMarca?ruta=${rutaCodificada}`);
+    }
+</script>
    
 
     <script>

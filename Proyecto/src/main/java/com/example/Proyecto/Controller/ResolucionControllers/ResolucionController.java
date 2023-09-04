@@ -2,6 +2,7 @@ package com.example.Proyecto.Controller.ResolucionControllers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,6 +42,13 @@ import com.example.Proyecto.Models.IService.IConsejoService;
 
 import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 @RequestMapping("/adm")
@@ -131,8 +144,16 @@ public class ResolucionController {
         } catch (IOException e) {
             System.err.println("Error al crear el directorio: " + e.getMessage());
         }
+
+        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        String rutaDirectorioM = rootAbsolutPathM + "/";
+
+
+
         String alfaString = generateRandomAlphaNumericString();
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
+        String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
         model.addAttribute("di", rutaArchivo);
         List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
         resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
@@ -142,6 +163,72 @@ public class ResolucionController {
         archivoAdjunto.setRuta(rutaArchivo);
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
+        // Ruta completa del archivo PDF original que recibes
+        String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
+
+        // Ruta donde guardarás el PDF con marca de agua
+        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ resolucion.getNombreArchivo();
+
+        // Ruta del PDF de la marca de agua
+        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
+
+        try {
+            // Crear un nuevo documento PDF de salida
+            Document document = new Document();
+    
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+            document.open();
+    
+            // Cargar el PDF original
+            PdfReader reader = new PdfReader(pdfFilePath);
+    
+            // Obtener el número total de páginas en el PDF original
+            int pageCount = reader.getNumberOfPages();
+    
+            // Cargar la imagen de la marca de agua
+            Image watermarkImage = Image.getInstance(watermarkImagePath);
+    
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 25; // Cambia esto según tus necesidades
+            float yPosition = 25; // Cambia esto según tus necesidades
+            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
+    
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document.newPage();
+    
+                // Obtener la página actual del PDF original
+                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+    
+                // Agregar la página del PDF original al nuevo documento
+                PdfContentByte contentByte = writer.getDirectContent();
+                contentByte.addTemplate(page, 0, 0);
+    
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                        watermarkImage.getHeight() * scaleFactor);
+                document.add(watermarkImage);
+            }
+    
+            // Cerrar el documento
+            document.close();
+            reader.close();
+        } catch (IOException | DocumentException e) {
+            // Manejo de errores
+        }
+    
+        resolucion.setRuta_marca_resolucion(pdfOutputPath);
+
+
+
+
+
+
+
+
         resolucion.setConsejo(consejo);
         resolucion.setArchivoAdjunto(archivoAdjunto2);
         resolucion.setEstado_resolucion("A");
@@ -185,6 +272,10 @@ public class ResolucionController {
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
+        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        String rutaDirectorioM = rootAbsolutPathM + "/";
+
         resolucion.setNombreArchivo((alfaString + ".pdf"));
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
         if (ad == 1) {
@@ -193,7 +284,67 @@ public class ResolucionController {
             barchivoAdjunto.setNombre_archivo(resolucion.getNombreArchivo());
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
+
+                    // Ruta completa del archivo PDF original que recibes
+        String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
+
+        // Ruta donde guardarás el PDF con marca de agua
+        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ resolucion.getNombreArchivo();
+
+        // Ruta del PDF de la marca de agua
+        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
+
+        try {
+            // Crear un nuevo documento PDF de salida
+            Document document = new Document();
+    
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+            document.open();
+    
+            // Cargar el PDF original
+            PdfReader reader = new PdfReader(pdfFilePath);
+    
+            // Obtener el número total de páginas en el PDF original
+            int pageCount = reader.getNumberOfPages();
+    
+            // Cargar la imagen de la marca de agua
+            Image watermarkImage = Image.getInstance(watermarkImagePath);
+    
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 25; // Cambia esto según tus necesidades
+            float yPosition = 25; // Cambia esto según tus necesidades
+            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
+    
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document.newPage();
+    
+                // Obtener la página actual del PDF original
+                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+    
+                // Agregar la página del PDF original al nuevo documento
+                PdfContentByte contentByte = writer.getDirectContent();
+                contentByte.addTemplate(page, 0, 0);
+    
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                        watermarkImage.getHeight() * scaleFactor);
+                document.add(watermarkImage);
+            }
+    
+            // Cerrar el documento
+            document.close();
+            reader.close();
+        } catch (IOException | DocumentException e) {
+            // Manejo de errores
         }
+    
+        resolucion.setRuta_marca_resolucion(pdfOutputPath);
+        }
+        resolucion.setRuta_marca_resolucion(resolucion.getRuta_marca_resolucion());
         resolucion.setConsejo(consejo);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
@@ -211,6 +362,23 @@ public class ResolucionController {
         response.setHeader("Content-Length", String.valueOf(file.length()));
         return new FileSystemResource(file);
     }
+
+      @RequestMapping(value = "/openFileResolucionMarca", method = RequestMethod.GET, produces = "application/pdf")
+public ResponseEntity<ByteArrayResource> abrirArchivoMedianteRuta(HttpServletResponse response,
+        @RequestParam("ruta") String ruta) throws IOException {
+    File file = new File(ruta);
+
+    if (file.exists() && file.isFile()) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + file.getName());
+        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
 
     @RequestMapping(value = "/eliminar-resolucion/{id_resolucion}")
     public String eliminar_resolucion(HttpServletRequest request, @PathVariable("id_resolucion") Long id_resolucion)

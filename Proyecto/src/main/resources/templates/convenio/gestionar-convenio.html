@@ -48,6 +48,7 @@
                                         <form id="form1" class="form form-horizontal row-separator" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${convenio.id_convenio}">
+                                    <input type="hidden" th:field="${convenio.ruta_marca_convenio}">
                                     <input type="hidden" name="id_archivo_adjunto" th:field="${convenio.archivoAdjunto.id}">
                                         <div class="form-body">
                                             <h4 class="form-section"><i class="la la-archive"></i> Información del Convenio</h4>

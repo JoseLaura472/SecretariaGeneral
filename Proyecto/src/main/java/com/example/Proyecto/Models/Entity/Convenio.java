@@ -36,6 +36,8 @@ public class Convenio extends SigaUsicRevisiones {
     private String gestion_convenio;
     private String estado_convenio;
 
+    private String ruta_marca_convenio;
+
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_inicio;
 

@@ -37,6 +37,7 @@
                                 <button type="button" class="btn btn-ires btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"  th:onclick="renombrar([[${res.id_resolucion}]])">Ver Archivo</a>
+                                    <a class="dropdown-item"  th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])">Ver Archivo con Marca</a>
                                     <a class="dropdown-item"  th:href="${'/adm/editar-resolucion/'+res.id_resolucion}">Editar</a>
                                     <a class="dropdown-item" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)">Eliminar</a>
                             
