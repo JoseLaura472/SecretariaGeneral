@@ -159,6 +159,7 @@
                                                             data-validation-required-message="Debe Seleccionar una opción"
                                                                 id="select2-tags2" th:field="${convenio.autoridad}"
                                                                 name="id_autoridad">
+                                                                <option value="">Seleccionar una Autoridad</option>
                                                                 <option th:each="aut : ${autoridades}"
                                                                     th:value="${aut.id_autoridad}"
                                                                     th:if="${aut.estado_autoridad != 'X'}"

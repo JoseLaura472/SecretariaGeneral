@@ -22,7 +22,7 @@
             <tbody >
                 <tr th:each="auto, index : ${autoridades}" th:if="${auto.estado_autoridad != 'X'}" >
                     <td th:text="${auto.persona.nombre_persona}+' '+${auto.persona.ap_paterno_persona}+' '+${auto.persona.ap_paterno_persona}"></td>
-                    <td th:text="${auto.consejo.sigla_consejo}"></td>
+                    <td th:text="${auto.consejo.nombre_consejo}"></td>
                   
                     <td th:text="${auto.fecha_inicio}"></td>
                     <td th:text="${auto.fecha_final}"></td>
