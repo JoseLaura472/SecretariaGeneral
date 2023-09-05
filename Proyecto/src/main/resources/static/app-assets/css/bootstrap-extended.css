@@ -773,6 +773,7 @@ select.form-control {
     height: 5.15rem;
     float: left;
     position: relative;
+    padding: 0rem 0.85rem 0 1.2rem;
     transition: 300ms ease all; }
     .header-navbar .navbar-header .navbar-brand {
       padding: 18px 0px;
