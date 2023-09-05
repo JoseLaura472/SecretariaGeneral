@@ -36,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Convenio;
+import com.example.Proyecto.Models.Entity.Representante;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
@@ -91,12 +92,21 @@ public class ConvenioController {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
             model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
+            model.addAttribute("instituciones", institucionService.findAll());
+            model.addAttribute("representantes", representanteService.findAll());
 
             return "convenio/listar-convenio";
         } else {
             return "redirect:/";
         }
 
+    }
+
+    @RequestMapping(value = "/Represen", method = RequestMethod.GET)
+    public @ResponseBody List<Representante> findAllAgencie(
+            @RequestParam(value = "repreId", required = true) Long citId) {
+        List<Representante> representantes = representanteService.ReprePorIdInstitu(citId);
+        return representantes;
     }
 
     @RequestMapping(value = "ConvenioForm", method = RequestMethod.GET)

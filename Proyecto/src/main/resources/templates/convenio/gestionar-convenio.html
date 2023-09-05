@@ -53,38 +53,31 @@
                                         <div class="form-body">
                                             <h4 class="form-section"><i class="la la-archive"></i> Información del Convenio</h4>
                                             <div class="row">
+
+
                                                 <div class="col-md-6">
                                                     <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput1">Institución</label>
+                                                        <label class="col-md-5 label-control" for="userinput3">Institución</label>
                                                         <div class="col-md-7">
-                                                            <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                                id="select2-tags4" 
-                                                                name="id_institucion">
+                                                            <select class="select2 form-control square" id="id_inst" 
+                                                            name="id_institucion" onchange="RepreInst()"required>
                                                                 <option value="">Seleccionar una Institución</option>
-                                                                <option th:each="ins : ${instituciones}"
-                                                                    th:value="${ins.id_institucion}"
-                                                                    th:if="${ins.estado_institucion != 'X'}"
-                                                                    th:text="${ins.nombre_institucion}">
+                                                                <option th:each="insti : ${instituciones}" th:if="${insti.estado_institucion != 'X'}"
+                                                                    th:value="${insti.id_institucion}" th:text="${insti.nombre_institucion}">
                                                                 </option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput2">Representante</label>
+                                                        <label class="col-md-5 label-control" for="userinput4">Representante</label>
                                                         <div class="col-md-7">
-                                                            <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                                id="select2-tags" th:field="${convenio.representante}"
-                                                                name="id_representante">
-                                                                <option value="">Seleccionar un representante</option>
-                                                                <option th:each="rep : ${representantes}"
-                                                                    th:value="${rep.id_representante}"
-                                                                    th:if="${rep.estado_representante != 'X'}"
-                                                                    th:text="${rep.persona.nombre_persona}+' '+${rep.persona.ap_paterno_persona}+' '+${rep.persona.ap_materno_persona}">
-                                                                </option>
+                                                            <select class="select2 form-control square" id="id_repre" 
+                                                            name="id_representante" required>
+                                                                <option value="-1">Seleccionar un Representante</option>
+                                                                
                                                             </select>
                                                         </div>
                                                     </div>
@@ -265,6 +258,26 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
+
+    <script>
+        function RepreInst() {
+      var j = document.getElementById("id_inst").value;
+      //alert(i);
+      $.getJSON("/adm/Represen", {
+        repreId: j,
+        ajax: 'true'
+      }, function (data) {
+        var html = '<option value="">--Seleccione un representante--</option>';
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+          html += '<option value="' + data[i].id_representante + '">'
+            + data[i].persona.nombre_persona +' '+data[i].persona.ap_paterno_persona +' '+data[i].persona.ap_materno_persona +'</option>';
+        }
+        html += '</option>';
+        $('#id_repre').html(html);
+      });
+    }//);
+    </script>
 
     <script>
         var selectElement = document.getElementById("select2-tags6");

@@ -35,4 +35,9 @@ public class RepresentanteServiceImpl implements IRepresentanteService {
         representanteDao.deleteById(id);
     }
 
+    @Override
+    public List<Representante> ReprePorIdInstitu(Long id_institucion) {
+        return (List<Representante>) representanteDao.ReprePorIdInstitu(id_institucion);
+    }
+
 }
