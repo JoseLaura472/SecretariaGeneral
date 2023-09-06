@@ -156,11 +156,11 @@ public class ConvenioController {
 
     @RequestMapping(value = "/ConvenioF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
     public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,
-            HttpServletRequest request) throws FileNotFoundException, IOException {// validar los
+            HttpServletRequest request,@RequestParam("id_representante") Long id_representante) throws FileNotFoundException, IOException {// validar los
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-
+        Representante representante = representanteService.findOne(id_representante);
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
@@ -251,7 +251,7 @@ public class ConvenioController {
         } catch (IOException | DocumentException e) {
             // Manejo de errores
         }
-    
+        convenio.setRepresentante(representante);
         convenio.setRuta_marca_convenio(pdfOutputPath);
         convenio.setConsejo(consejo);
         convenio.setArchivoAdjunto(archivoAdjunto2);
