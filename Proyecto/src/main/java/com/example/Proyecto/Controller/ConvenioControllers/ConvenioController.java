@@ -275,6 +275,7 @@ public class ConvenioController {
             model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("autoridades", autoridadService.findAll());
+            model.addAttribute("edit", "true");
 
             return "convenio/gestionar-convenio";
 
@@ -290,6 +291,7 @@ public class ConvenioController {
             throws IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+        //Representante representante = representanteService.findOne(id_representante);
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
@@ -369,7 +371,7 @@ public class ConvenioController {
         } catch (IOException | DocumentException e) {
             // Manejo de errores
         }
-    
+        //convenio.setRepresentante(representante);
         convenio.setRuta_marca_convenio(pdfOutputPath);
         }
         convenio.setRuta_marca_convenio(convenio.getRuta_marca_convenio());

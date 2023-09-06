@@ -60,7 +60,7 @@
                                                         <label class="col-md-5 label-control" for="userinput3">Institución</label>
                                                         <div class="col-md-7">
                                                             <select class="select2 form-control square" id="id_inst" 
-                                                            name="id_institucion" onchange="RepreInst()"required>
+                                                            name="id_institucion" onchange="RepreInst()" th:field="${convenio.representante.institucion}" required>
                                                                 <option value="">Seleccionar una Institución</option>
                                                                 <option th:each="insti : ${instituciones}" th:if="${insti.estado_institucion != 'X'}"
                                                                     th:value="${insti.id_institucion}" th:text="${insti.nombre_institucion}">
@@ -69,19 +69,36 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput4">Representante</label>
-                                                        <div class="col-md-7">
-                                                            <select class="select2 form-control square" id="id_repre" 
-                                                            name="id_representante" required>
-                                                                <option value="">Seleccionar un Representante</option>
-                                                                
-                                                            </select>
+                                                <th:block th:if="${edit} == null">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row mx-auto">
+                                                            <label class="col-md-5 label-control" for="userinput4">Representante</label>
+                                                            <div class="col-md-7">
+                                                                <select class="select2 form-control square" id="id_repre" 
+                                                                name="id_representante" required>
+                                                                    <option value="">Seleccionar un Representante</option>
+                                                                    
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </th:block>
+                                                <th:block th:if="${edit} != null">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row mx-auto">
+                                                            <label class="col-md-5 label-control" for="userinput4">Representante</label>
+                                                            <div class="col-md-7">
+                                                                <select class="select2 form-control square" id="id_repre" 
+                                                                name="id_representante" th:field="${convenio.representante}" required>
+                                                                    <option value="">Seleccionar un Representante</option>
+                                                                    <option th:each="repre : ${representantes}" th:if="${repre.estado_representante != 'X'}"
+                                                                        th:value="${repre.id_representante}" th:text="${repre.persona.nombre_persona}">
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
