@@ -217,50 +217,51 @@ public class ConvenioController {
 
         try {
             // Crear un nuevo documento PDF de salida
-            Document document = new Document();
-
+            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+    
             // Inicializar el escritor de PDF para el nuevo documento
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
             document.open();
-
+    
             // Cargar el PDF original
             PdfReader reader = new PdfReader(pdfFilePath);
-
+    
             // Obtener el número total de páginas en el PDF original
             int pageCount = reader.getNumberOfPages();
-
+    
             // Cargar la imagen de la marca de agua
-            Image watermarkImage = Image.getInstance(watermarkImagePath);
-
+            com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+    
             // Definir la posición y la escala de la marca de agua
-            float xPosition = 25; // Cambia esto según tus necesidades
-            float yPosition = 25; // Cambia esto según tus necesidades
-            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
-
+            float xPosition = 80; // Cambia esto según tus necesidades
+            float yPosition = 100; // Cambia esto según tus necesidades
+            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+    
             // Iterar a través de las páginas del PDF original
             for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
                 // Agregar una nueva página al documento de salida
                 document.newPage();
-
+    
+                // Obtener el contenido de la página actual
+                PdfContentByte contentByte = writer.getDirectContent();
+    
                 // Obtener la página actual del PDF original
                 PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-
+    
                 // Agregar la página del PDF original al nuevo documento
-                PdfContentByte contentByte = writer.getDirectContent();
                 contentByte.addTemplate(page, 0, 0);
-
+    
                 // Agregar la marca de agua (imagen) a la página actual
                 watermarkImage.setAbsolutePosition(xPosition, yPosition);
-                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
-                        watermarkImage.getHeight() * scaleFactor);
-                document.add(watermarkImage);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor, watermarkImage.getHeight() * scaleFactor);
+                contentByte.addImage(watermarkImage);
             }
-
+    
             // Cerrar el documento
             document.close();
             reader.close();
-        } catch (IOException | DocumentException e) {
-            // Manejo de errores
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         convenio.setRepresentante(representante);
         convenio.setRuta_marca_convenio(pdfOutputPath);
@@ -341,53 +342,54 @@ public class ConvenioController {
             // Ruta del PDF de la marca de agua
             String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
 
-            try {
-                // Crear un nuevo documento PDF de salida
-                Document document = new Document();
-
-                // Inicializar el escritor de PDF para el nuevo documento
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
-                document.open();
-
-                // Cargar el PDF original
-                PdfReader reader = new PdfReader(pdfFilePath);
-
-                // Obtener el número total de páginas en el PDF original
-                int pageCount = reader.getNumberOfPages();
-
-                // Cargar la imagen de la marca de agua
-                Image watermarkImage = Image.getInstance(watermarkImagePath);
-
-                // Definir la posición y la escala de la marca de agua
-                float xPosition = 25; // Cambia esto según tus necesidades
-                float yPosition = 25; // Cambia esto según tus necesidades
-                float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
-
-                // Iterar a través de las páginas del PDF original
-                for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
-                    // Agregar una nueva página al documento de salida
-                    document.newPage();
-
-                    // Obtener la página actual del PDF original
-                    PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-
-                    // Agregar la página del PDF original al nuevo documento
-                    PdfContentByte contentByte = writer.getDirectContent();
-                    contentByte.addTemplate(page, 0, 0);
-
-                    // Agregar la marca de agua (imagen) a la página actual
-                    watermarkImage.setAbsolutePosition(xPosition, yPosition);
-                    watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
-                            watermarkImage.getHeight() * scaleFactor);
-                    document.add(watermarkImage);
-                }
-
-                // Cerrar el documento
-                document.close();
-                reader.close();
-            } catch (IOException | DocumentException e) {
-                // Manejo de errores
+              try {
+            // Crear un nuevo documento PDF de salida
+            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+    
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+            document.open();
+    
+            // Cargar el PDF original
+            PdfReader reader = new PdfReader(pdfFilePath);
+    
+            // Obtener el número total de páginas en el PDF original
+            int pageCount = reader.getNumberOfPages();
+    
+            // Cargar la imagen de la marca de agua
+            com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+    
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 80; // Cambia esto según tus necesidades
+            float yPosition = 100; // Cambia esto según tus necesidades
+            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+    
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document.newPage();
+    
+                // Obtener el contenido de la página actual
+                PdfContentByte contentByte = writer.getDirectContent();
+    
+                // Obtener la página actual del PDF original
+                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+    
+                // Agregar la página del PDF original al nuevo documento
+                contentByte.addTemplate(page, 0, 0);
+    
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor, watermarkImage.getHeight() * scaleFactor);
+                contentByte.addImage(watermarkImage);
             }
+    
+            // Cerrar el documento
+            document.close();
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
             // convenio.setRepresentante(representante);
             convenio.setRuta_marca_convenio(pdfOutputPath);
         }

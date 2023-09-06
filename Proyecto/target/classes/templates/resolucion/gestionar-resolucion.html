@@ -165,7 +165,7 @@
                                                         <label class="col-md-5 label-control" for="userinput6">Adjuntar Archivo</label>
                                                         <div class="col-md-7">
                                                        
-                                                            <input type="file" class="form-control-file" id="exampleInputFile"
+                                                            <input type="file" class="form-control-file" id="fileInput" name="pdfFile" accept=".pdf"
                                                             th:field="${resolucion.file}">
                                                         </div>
                                                     </div>
@@ -220,6 +220,29 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
+    <script>
+        $('input[type="file"]').on('change', function () {
+            var ext = $(this).val().split('.').pop();
+            if ($(this).val() != '') {
+                if (ext == "pdf") {
+
+                    if ($(this)[0].files[0].size > 1048576) {
+                        console.log("El documento excede el tamaño máximo");
+                        $('#modal-title').text('¡Precaución!');
+                        $('#modal-msg').html("Se solicita un archivo no mayor a 1MB. Por favor verifica.");
+                        $("#modal-gral").modal();
+                        $(this).val('');
+                    } else {
+                        $("#modal-gral").hide();
+                    }
+                }
+                else {
+                    $(this).val('');
+                    alert("Extensión no permitida: " + ext);
+                }
+            }
+        });
+    </script>
 
     <script>
         var selectElement = document.getElementById("select2-tags6");
