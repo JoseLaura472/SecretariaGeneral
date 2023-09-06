@@ -221,30 +221,6 @@
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
     <script>
-        $('input[type="file"]').on('change', function () {
-            var ext = $(this).val().split('.').pop();
-            if ($(this).val() != '') {
-                if (ext == "pdf") {
-
-                    if ($(this)[0].files[0].size > 1048576) {
-                        console.log("El documento excede el tamaño máximo");
-                        $('#modal-title').text('¡Precaución!');
-                        $('#modal-msg').html("Se solicita un archivo no mayor a 1MB. Por favor verifica.");
-                        $("#modal-gral").modal();
-                        $(this).val('');
-                    } else {
-                        $("#modal-gral").hide();
-                    }
-                }
-                else {
-                    $(this).val('');
-                    alert("Extensión no permitida: " + ext);
-                }
-            }
-        });
-    </script>
-
-    <script>
         var selectElement = document.getElementById("select2-tags6");
         var errorMensaje = document.getElementById("errorMensaje");
     
@@ -264,7 +240,33 @@
         });
     </script>
     <div th:replace="layout/script :: script"></div>
-
+    <script>
+        $('input[type="file"]').on('change', function () {
+            var ext = $(this).val().split('.').pop();
+            if ($(this).val() != '') {
+                if (ext == "pdf") {
+                    if ($(this)[0].files[0].size > 1048576) {
+                        Swal.fire({
+                            title: '¡Precaución!',
+                            text: 'El documento excede el tamaño máximo (1MB). Por favor, verifica.',
+                            icon: 'warning'
+                        });
+                        $(this).val('');
+                    } else {
+                        // Si el archivo es válido, oculta la alerta
+                        Swal.close();
+                    }
+                } else {
+                    $(this).val('');
+                    Swal.fire({
+                        title: 'Extensión no permitida',
+                        text: 'Solo se permiten archivos con extensión PDF.',
+                        icon: 'error'
+                    });
+                }
+            }
+        });
+    </script>
 
 
 
