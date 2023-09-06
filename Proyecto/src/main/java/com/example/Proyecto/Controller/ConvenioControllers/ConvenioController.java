@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
+import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Representante;
@@ -87,13 +88,22 @@ public class ConvenioController {
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
-    public String ConvenioL(HttpServletRequest request, Model model) {
+    public String ConvenioL(@Validated Convenio convenio, HttpServletRequest request, Model model) throws Exception {
         if (request.getSession().getAttribute("usuario") != null) {
+
+            List<Convenio> convenios = convenioService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (Convenio convenio2 : convenios) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
+                encryptedIds.add(id_encryptado);
+            }
+
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
             model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
             model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
+            model.addAttribute("id_encryptado", encryptedIds);
 
             return "convenio/listar-convenio";
         } else {
@@ -156,7 +166,8 @@ public class ConvenioController {
 
     @RequestMapping(value = "/ConvenioF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
     public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,
-            HttpServletRequest request,@RequestParam("id_representante") Long id_representante) throws FileNotFoundException, IOException {// validar los
+            HttpServletRequest request, @RequestParam("id_representante") Long id_representante)
+            throws FileNotFoundException, IOException {// validar los
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
@@ -199,52 +210,52 @@ public class ConvenioController {
         String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
 
         // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ convenio.getNombreArchivo();
+        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
 
         // Ruta del PDF de la marca de agua
-        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
+        String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
 
         try {
             // Crear un nuevo documento PDF de salida
             Document document = new Document();
-    
+
             // Inicializar el escritor de PDF para el nuevo documento
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
             document.open();
-    
+
             // Cargar el PDF original
             PdfReader reader = new PdfReader(pdfFilePath);
-    
+
             // Obtener el número total de páginas en el PDF original
             int pageCount = reader.getNumberOfPages();
-    
+
             // Cargar la imagen de la marca de agua
             Image watermarkImage = Image.getInstance(watermarkImagePath);
-    
+
             // Definir la posición y la escala de la marca de agua
             float xPosition = 25; // Cambia esto según tus necesidades
             float yPosition = 25; // Cambia esto según tus necesidades
             float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
-    
+
             // Iterar a través de las páginas del PDF original
             for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
                 // Agregar una nueva página al documento de salida
                 document.newPage();
-    
+
                 // Obtener la página actual del PDF original
                 PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-    
+
                 // Agregar la página del PDF original al nuevo documento
                 PdfContentByte contentByte = writer.getDirectContent();
                 contentByte.addTemplate(page, 0, 0);
-    
+
                 // Agregar la marca de agua (imagen) a la página actual
                 watermarkImage.setAbsolutePosition(xPosition, yPosition);
                 watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
                         watermarkImage.getHeight() * scaleFactor);
                 document.add(watermarkImage);
             }
-    
+
             // Cerrar el documento
             document.close();
             reader.close();
@@ -261,13 +272,20 @@ public class ConvenioController {
     }
 
     @RequestMapping(value = "/editar-convenio/{id_convenio}")
-    public String editar_p(@PathVariable("id_convenio") Long id_convenio, Model model, HttpServletRequest request)
+    public String editar_p(@PathVariable("id_convenio") String id_convenio, Model model, HttpServletRequest request)
             throws NumberFormatException, Exception {
-        if (request.getSession().getAttribute("usuario") != null) {
-            Convenio convenio = convenioService.findOne(id_convenio);
+
+        try {
+            Long id_conve = Long.parseLong(Encryptar.decrypt(id_convenio));
+            Convenio convenio = convenioService.findOne(id_conve);
             model.addAttribute("convenio", convenio);
 
             List<Convenio> convenios = convenioService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (Convenio convenio2 : convenios) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(convenio2.getId_convenio()));
+                encryptedIds.add(id_encryptado);
+            }
 
             model.addAttribute("convenios", convenios);
             model.addAttribute("consejos", consejoService.findAll());
@@ -278,9 +296,9 @@ public class ConvenioController {
             model.addAttribute("edit", "true");
 
             return "convenio/gestionar-convenio";
+        } catch (Exception e) {
 
-        } else {
-            return "redirect:/";
+            return "redirect:/adm/InicioAdm";
         }
 
     }
@@ -291,7 +309,7 @@ public class ConvenioController {
             throws IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-        //Representante representante = representanteService.findOne(id_representante);
+        // Representante representante = representanteService.findOne(id_representante);
         MultipartFile multipartFile = convenio.getFile();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
@@ -302,7 +320,6 @@ public class ConvenioController {
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
-        
         Path rootPathM = Paths.get("archivos/marca_agua");
         Path rootAbsolutPathM = rootPathM.toAbsolutePath();
         String rutaDirectorioM = rootAbsolutPathM + "/";
@@ -315,64 +332,64 @@ public class ConvenioController {
             barchivoAdjunto.setNombre_archivo(convenio.getNombreArchivo());
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
-               // Ruta completa del archivo PDF original que recibes
-        String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
 
-        // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_"+ convenio.getNombreArchivo();
+            // Ruta donde guardarás el PDF con marca de agua
+            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
 
-        // Ruta del PDF de la marca de agua
-        String watermarkImagePath  = rutaDirectorioM + "marcaejem.png";
+            // Ruta del PDF de la marca de agua
+            String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
 
-        try {
-            // Crear un nuevo documento PDF de salida
-            Document document = new Document();
-    
-            // Inicializar el escritor de PDF para el nuevo documento
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
-            document.open();
-    
-            // Cargar el PDF original
-            PdfReader reader = new PdfReader(pdfFilePath);
-    
-            // Obtener el número total de páginas en el PDF original
-            int pageCount = reader.getNumberOfPages();
-    
-            // Cargar la imagen de la marca de agua
-            Image watermarkImage = Image.getInstance(watermarkImagePath);
-    
-            // Definir la posición y la escala de la marca de agua
-            float xPosition = 25; // Cambia esto según tus necesidades
-            float yPosition = 25; // Cambia esto según tus necesidades
-            float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
-    
-            // Iterar a través de las páginas del PDF original
-            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
-                // Agregar una nueva página al documento de salida
-                document.newPage();
-    
-                // Obtener la página actual del PDF original
-                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-    
-                // Agregar la página del PDF original al nuevo documento
-                PdfContentByte contentByte = writer.getDirectContent();
-                contentByte.addTemplate(page, 0, 0);
-    
-                // Agregar la marca de agua (imagen) a la página actual
-                watermarkImage.setAbsolutePosition(xPosition, yPosition);
-                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
-                        watermarkImage.getHeight() * scaleFactor);
-                document.add(watermarkImage);
+            try {
+                // Crear un nuevo documento PDF de salida
+                Document document = new Document();
+
+                // Inicializar el escritor de PDF para el nuevo documento
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+                document.open();
+
+                // Cargar el PDF original
+                PdfReader reader = new PdfReader(pdfFilePath);
+
+                // Obtener el número total de páginas en el PDF original
+                int pageCount = reader.getNumberOfPages();
+
+                // Cargar la imagen de la marca de agua
+                Image watermarkImage = Image.getInstance(watermarkImagePath);
+
+                // Definir la posición y la escala de la marca de agua
+                float xPosition = 25; // Cambia esto según tus necesidades
+                float yPosition = 25; // Cambia esto según tus necesidades
+                float scaleFactor = 0.5f; // Cambia esto para ajustar la escala
+
+                // Iterar a través de las páginas del PDF original
+                for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                    // Agregar una nueva página al documento de salida
+                    document.newPage();
+
+                    // Obtener la página actual del PDF original
+                    PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+
+                    // Agregar la página del PDF original al nuevo documento
+                    PdfContentByte contentByte = writer.getDirectContent();
+                    contentByte.addTemplate(page, 0, 0);
+
+                    // Agregar la marca de agua (imagen) a la página actual
+                    watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                    watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                            watermarkImage.getHeight() * scaleFactor);
+                    document.add(watermarkImage);
+                }
+
+                // Cerrar el documento
+                document.close();
+                reader.close();
+            } catch (IOException | DocumentException e) {
+                // Manejo de errores
             }
-    
-            // Cerrar el documento
-            document.close();
-            reader.close();
-        } catch (IOException | DocumentException e) {
-            // Manejo de errores
-        }
-        //convenio.setRepresentante(representante);
-        convenio.setRuta_marca_convenio(pdfOutputPath);
+            // convenio.setRepresentante(representante);
+            convenio.setRuta_marca_convenio(pdfOutputPath);
         }
         convenio.setRuta_marca_convenio(convenio.getRuta_marca_convenio());
         convenio.setConsejo(consejo);
@@ -394,35 +411,35 @@ public class ConvenioController {
     }
 
     @RequestMapping(value = "/openFileConvenioMarca", method = RequestMethod.GET, produces = "application/pdf")
-public ResponseEntity<ByteArrayResource> abrirArchivoMedianteRuta(HttpServletResponse response,
-        @RequestParam("ruta") String ruta) throws IOException {
-    File file = new File(ruta);
+    public ResponseEntity<ByteArrayResource> abrirArchivoMedianteRuta(HttpServletResponse response,
+            @RequestParam("ruta") String ruta) throws IOException {
+        File file = new File(ruta);
 
-    if (file.exists() && file.isFile()) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + file.getName());
-        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (file.exists() && file.isFile()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + file.getName());
+            headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-}
 
     @RequestMapping(value = "/eliminar-convenio/{id_convenio}")
-    public String eliminar_c(HttpServletRequest request, @PathVariable("id_convenio") Long id_convenio)
+    public String eliminar_c(HttpServletRequest request, @PathVariable("id_convenio") String id_convenio)
             throws Exception {
-        if (request.getSession().getAttribute("usuario") != null) {
-            Convenio convenio = convenioService.findOne(id_convenio);
-
+        try {
+            Long id_conv = Long.parseLong(Encryptar.decrypt(id_convenio));
+            Convenio convenio = convenioService.findOne(id_conv);
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            convenio.setId_usu(usuario.getId_usuario());
             convenio.setEstado_convenio("X");
             convenioService.save(convenio);
-
             return "redirect:/adm/ConvenioL";
-        } else {
+        } catch (Exception e) {
             return "redirect:/";
         }
-
     }
 }
