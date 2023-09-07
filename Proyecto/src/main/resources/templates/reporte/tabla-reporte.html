@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">holaaaaa</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body" id="fragmentContainer">
+                                    <div class="table-responsive" th:fragment="table">
+                                        <table class="table table-striped table-bordered zero-configuration">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Nº</th>
+                                                    <th style="text-align: center;">Nº Convenio</th>
+                                                    <th style="text-align: center;">Autoridad</th>
+                                                    <th style="text-align: center;">Consejo</th>
+                                                    <th style="text-align: center;">Resumen</th>
+                                                    <th style="text-align: center;">Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="conv, index : ${convenios}"
+                                                    th:if="${conv.estado_convenio != 'X'}">
+                                                    <td th:text="${index.index + 1}" style="text-align: center;"></td>
+                                                    <td th:text=" ${conv.numero_convenio}" style="text-align: center;"></td>
+                                                    <td th:text=" ${conv.autoridad.persona.nombre_persona +' '+conv.autoridad.persona.ap_paterno_persona +' '+ conv.autoridad.persona.ap_materno_persona}" style="text-align: center;"></td>
+                                                    <td th:text="${conv.consejo.nombre_consejo}" style="text-align: center;"></td>
+                                                    <td th:text="${conv.objeto_convenio}" style="text-align: center;"></td>
+                                                    <td>
+                                                        <center>
+                                                            <button type="button" class="btn btn-icon btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item"
+                                                                    th:onclick="abrirDocumento([[${conv.ruta_marca_convenio}]])">
+                                                                    <i class="fa-solid fa-file-pdf"
+                                                                        style="color: #ff0000; font-size: 20px;"></i>
+                                                                    Marca de agua</a>
+                                                                <a class="dropdown-item"
+                                                                    th:onclick="renombrar([[${conv.id_convenio}]])">
+                                                                    <i class="fa-solid fa-file-pdf"
+                                                                        style="color: #ff0000; font-size: 20px;"></i>
+                                                                    Ver documento</a>
+                                                            </div>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" tabindex="-1" id="ModalEvaluacion" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <div>
+
+
+                                <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <div>
+
+
+                                <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <footer th:replace="layout/footer :: footer"> </footer>
+
+    <div th:replace="layout/script :: script"></div>
+    <script type="text/javascript">
+        function renombrar(id_archivo_adjunto) {
+            var id_a = id_archivo_adjunto;
+
+            //alert(id_archivo_adjunto);
+
+            $("#ModalEvaluacion").modal("show");
+
+            $("#id_a").val(id_a);
+
+            $("#iframe-pdf").attr("src", `../../../adm/openFileReportConsjAuto/${id_a}`)
+
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        function abrirDocumento(ruta) {
+            // Codificar la ruta para que sea una URL válida
+            var rutaCodificada = encodeURIComponent(ruta);
+
+            // Muestra el modal
+            $("#ModalEvaluacion2").modal("show");
+
+            // Configura la fuente del iframe con la ruta codificada del documento
+            $("#iframe-pdf2").attr("src", `../../../adm/openFileReportConsjAutoMarca?ruta=${rutaCodificada}`);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head th:replace="layout/head :: head">
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav th:replace="layout/topBar :: topBar"></nav>
+    <!-- END: Header-->
+
+    <!-- BEGIN: Main Menu-->
+    <nav th:replace="layout/sideBar :: sideBar"></nav>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Generación de Reporte</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">DataTables</a>
+                            </li>
+                            <li class="breadcrumb-item active">Sources Datatable
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Regenar Reporte</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>El siguiente apartado corresponde a la generación de reportes.</p>
+                                    </div>
+
+                                    <div class="form-body">
+                                        <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos del
+                                                Reporte</strong></h4>
+                                        <div class="row">
+
+                                            <div class="card-body">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="baseLable1-tab1"
+                                                            data-toggle="tab" aria-controls="tabLable11"
+                                                            href="#tabLable11" aria-expanded="true">
+                                                            Tab 1</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="baseLable1-tab2" data-toggle="tab"
+                                                            aria-controls="tabLable12" href="#tabLable12"
+                                                            aria-expanded="false">Tab 2</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="baseLable1-tab3" data-toggle="tab"
+                                                            aria-controls="tabLable13" href="#tabLable13"
+                                                            aria-expanded="false">Tab 3
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content px-1 pt-1">
+                                                    <div role="tabpanel" class="tab-pane active" id="tabLable11"
+                                                        aria-expanded="true" aria-labelledby="baseLable1-tab1">
+
+
+                                                        <form action="/adm/generarReporteAutoridadTipoCon"
+                                                            method="post">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <h5>Consejo</h5>
+                                                                        <div class="controls">
+                                                                            <!--
+                                                                            <select class="select2 form-control square"
+                                                                                id="select2-tags2" name="id_consejo">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+                                                                                <option th:each="cj : ${consejos}"
+                                                                                    th:value="${cj.id_consejo}"
+                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                </option>
+                                                                            </select>
+                                                                            -->
+                                                                            <select class="select2 form-control square"
+                                                                                name="id_consejo" id="id_consj"
+                                                                                onchange="AutoConsj()">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+                                                                                <option th:each="cj : ${consejos}"
+                                                                                    th:value="${cj.id_consejo}"
+                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <h5>Autoridad</h5>
+                                                                        <div class="controls">
+                                                                            <!--
+                                                                            <select class="select2 form-control square"
+                                                                                id="select2-tags1" name="id_autoridad">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+                                                                                <option th:each="aut : ${autoridades}"
+                                                                                    th:value="${aut.id_autoridad}"
+                                                                                    th:if="${aut.estado_autoridad != 'X'}"
+                                                                                    th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}+' '+${aut.persona.ap_materno_persona}">
+                                                                                </option>
+
+                                                                            </select>
+                                                                            -->
+                                                                            <select class="select2 form-control square"
+                                                                                name="id_autoridad" id="id_auto">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-actions">
+                                                                <button style="width:100%;" type="submit"
+                                                                    class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                                                    data-animation="pulse">
+                                                                    <i class="la la-check-square-o"></i> Generar
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane" id="tabLable12"
+                                                        aria-labelledby="baseLable1-tab2">
+                                                        <p>Sugar plum tootsie roll biscuit caramels. Liquorice brownie
+                                                            pastry cotton candy oat cake fruitcake
+                                                            jelly chupa chups. Pudding caramels pastry powder cake
+                                                            soufflé wafer caramels. Jelly-o pie cupcake.
+                                                        </p>
+                                                    </div>
+                                                    <div class="tab-pane" id="tabLable13"
+                                                        aria-labelledby="baseLable1-tab3">
+                                                        <p>Biscuit ice cream halvah candy canes bear claw ice cream cake
+                                                            chocolate bar donut. Toffee cotton
+                                                            candy liquorice. Oat cake lemon drops gingerbread dessert
+                                                            caramels. Sweet dessert jujubes powder sweet
+                                                            sesame snaps.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--
+            <section id="basic-form-layouts">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
+                            <div class="card-header card-head-inverse bg-dark">
+                                <h4 class="card-title text-white" id="basic-layout-form">Lista de Registros</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li class="text-success"><a onclick="location.reload()"><i
+                                                    class="ft-rotate-cw text-success"></i> Actualizar</a></li>
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body" id="fragmentContainer">
+                                    <th:block th:replace="consejo/tableFragment :: table"></th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            -->
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <footer th:replace="layout/footer :: footer"> </footer>
+    <script>
+        function AutoConsj() {
+            var j = document.getElementById("id_consj").value;
+            //alert(i);
+            $.getJSON("/adm/Autori", {
+                autoriId: j,
+                ajax: 'true'
+            }, function (data) {
+                var html = '<option value="">--Seleccione una Autoridad--</option>';
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id_autoridad + '">'
+                        + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + '</option>';
+                }
+                html += '</option>';
+                $('#id_auto').html(html);
+            });
+        }//);
+    </script>
+
+    <div th:replace="layout/script :: script"></div>
+    <!--
+    <script>
+        function MandarURL(a) {
+            console.log(a);
+            // Swal.fire({
+            //   title: 'Eliminar Registro?',              
+            //   type: 'error',     
+            //   showCancelButton: true,
+            //   cancelButtonText: "Cancelar",         
+            //   html:
+            //   "<a"+
+            //   " class='btn btn-danger btn-min-width' "+
+            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
+            // });
+            Swal.fire({
+                title: 'Eliminar Registro?',
+                type: 'error',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-consejo/' + a + '" >Eliminar</a>',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: 'Cancelar',
+                cancelButtonAriaLabel: 'Thumbs down',
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+                cancelButtonClass: 'btn btn-danger ml-1',
+            })
+        }
+    </script>
+    -->
+
+</body>
+<!-- END: Body-->
+
+</html>

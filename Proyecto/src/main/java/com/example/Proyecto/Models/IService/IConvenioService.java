@@ -14,4 +14,6 @@ public interface IConvenioService {
     public void delete(Long id);
 
     public List<Convenio> convenioPorIdConsejo(Long id_consejo);
+
+    public List<Convenio> listarConvenioConsejoTpcon(Long id_consejo, Long id_autoridad);
 }
