@@ -24,8 +24,8 @@
                     <td th:text="${auto.persona.nombre_persona}+' '+${auto.persona.ap_paterno_persona}+' '+${auto.persona.ap_paterno_persona}"></td>
                     <td th:text="${auto.consejo.nombre_consejo}"></td>
                   
-                    <td th:text="${auto.fecha_inicio}"></td>
-                    <td th:text="${auto.fecha_final}"></td>
+                    <td th:text="${#dates.format(auto.fecha_inicio, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(auto.fecha_final, 'dd-MM-yyyy')}"></td>
                     <td>
                         <center>
                             <a class="btn btn-warning round text-white"

@@ -36,6 +36,7 @@ import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IConvenioService;
+import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.Encryptar;
 
@@ -55,6 +56,9 @@ public class ReporteController {
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
 
+    @Autowired
+    private IResolucionService resolucionService;
+
 
     @RequestMapping(value = "ReporteCon", method = RequestMethod.GET)
     public String PlantillaBasia(HttpServletRequest request, Model model) {
@@ -64,6 +68,7 @@ public class ReporteController {
             model.addAttribute("convenios", convenioService.findAll());
             model.addAttribute("autoridades", autoridadService.findAll());
             model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("resoluciones", resolucionService.findAll());
 
             return "reporte/generar-reporte";
         } else {
@@ -78,7 +83,9 @@ public class ReporteController {
         return autoridades;
     }
 
-    @PostMapping("/generarReporteAutoridadTipoCon")
+    /* INICIO GENERAR REPORTE PARA EL CONVENIO */
+
+    @PostMapping("/generarReporteAutoridadConvenio")
     public String generarReporteAutoridadTipoCon(
         @RequestParam("id_autoridad") Long id_autoridad,
         @RequestParam("id_consejo") Long id_consejo, Model model) {
@@ -87,9 +94,8 @@ public class ReporteController {
         Autoridad autoridad = autoridadService.findOne(id_autoridad);
         Consejo consejo = consejoService.findOne(id_consejo);
     
-        model.addAttribute("convenios", convenioService.listarConvenioConsejoTpcon(id_autoridad, id_consejo));
+        model.addAttribute("convenios", convenioService.listarConvenioConsejoAutoridad(id_autoridad, id_consejo));
         
-        //model.addAttribute("tramites", tramiteService.reporteTituladosPorUnidadGestion(id_unidad, gestion));
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 
@@ -123,4 +129,54 @@ public class ReporteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /* FIN GENERAR REPORTE PARA EL CONVENIO */
+
+    /* INICIO GENERAR REPORTE PARA LA RESOLUCION */
+
+    @PostMapping("/generarReporteAutoridadResolucion")
+    public String generarReporteAutoridadResolucion(
+        @RequestParam("id_autoridad1") Long id_autoridad1,
+        @RequestParam("id_consejo1") Long id_consejo1, Model model) {
+
+
+        Autoridad autoridad = autoridadService.findOne(id_autoridad1);
+        Consejo consejo = consejoService.findOne(id_consejo1);
+    
+        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
+        
+        model.addAttribute("autoridad", autoridad);
+        model.addAttribute("consejo", consejo);
+
+        return "reporte/tabla-resolucion";
+    }
+
+    @RequestMapping(value = "/openFileReporteResolucion/{id}", method = RequestMethod.GET, produces = "application/pdf")
+    public @ResponseBody FileSystemResource RabrirArchivoMedianteResourse(HttpServletResponse response,
+            @PathVariable("id") long id_resolucion) throws FileNotFoundException {
+        ArchivoAdjunto ArchivoAdjuntos = archivoAdjuntoService.buscarArchivoAdjuntoPorResolucion(id_resolucion);
+        File file = new File(ArchivoAdjuntos.getRuta() + ArchivoAdjuntos.getNombre_archivo());
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
+        response.setHeader("Content-Length", String.valueOf(file.length()));
+        return new FileSystemResource(file);
+    }
+
+    @RequestMapping(value = "/openFileReporteResolucionMarca", method = RequestMethod.GET, produces = "application/pdf")
+    public ResponseEntity<ByteArrayResource> RabrirArchivoMedianteRuta(HttpServletResponse response,
+            @RequestParam("ruta") String ruta) throws IOException {
+        File file = new File(ruta);
+
+        if (file.exists() && file.isFile()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + file.getName());
+            headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(file.toPath()));
+            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

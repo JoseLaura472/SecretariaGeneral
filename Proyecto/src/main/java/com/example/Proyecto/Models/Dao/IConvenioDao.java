@@ -18,6 +18,6 @@ public interface IConvenioDao extends CrudRepository<Convenio, Long> {
             "INNER JOIN autoridad as au ON con.id_autoridad = au.id_autoridad \r\n" + //
             "INNER JOIN persona as per ON au.id_persona = per.id_persona \r\n" + //
             "WHERE cj.id_consejo= ?1 AND au.id_autoridad= ?2", nativeQuery = true)
-    public List<Convenio> listarConvenioConsejoTpcon(Long id_consejo, Long id_autoridad);
+    public List<Convenio> listarConvenioConsejoAutoridad(Long id_consejo, Long id_autoridad);
 
 }

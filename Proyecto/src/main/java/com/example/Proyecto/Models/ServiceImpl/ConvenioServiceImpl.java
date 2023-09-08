@@ -42,8 +42,8 @@ public class ConvenioServiceImpl implements IConvenioService {
       }
 
    @Override
-   public List<Convenio> listarConvenioConsejoTpcon(Long id_consejo, Long id_autoridad) {
-      return (List<Convenio>) convenioDao.listarConvenioConsejoTpcon(id_consejo, id_autoridad);
+   public List<Convenio> listarConvenioConsejoAutoridad(Long id_consejo, Long id_autoridad) {
+      return (List<Convenio>) convenioDao.listarConvenioConsejoAutoridad(id_consejo, id_autoridad);
    }
 
    

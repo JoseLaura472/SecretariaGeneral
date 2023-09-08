@@ -14,11 +14,11 @@ import com.example.Proyecto.Models.IService.IResolucionService;
 public class ResolucionServiceImpl implements IResolucionService {
 
     @Autowired
-   private IResolucionDao resolucionDao;
+    private IResolucionDao resolucionDao;
 
     @Override
     public List<Resolucion> findAll() {
-     return (List<Resolucion>) resolucionDao.findAll();
+        return (List<Resolucion>) resolucionDao.findAll();
     }
 
     @Override
@@ -38,7 +38,12 @@ public class ResolucionServiceImpl implements IResolucionService {
 
     @Override
     public List<Resolucion> resolucionPorIdConsejo(Long id_consejo) {
-   return (List<Resolucion>) resolucionDao.resolucionPorIdConsejo(id_consejo);
+        return (List<Resolucion>) resolucionDao.resolucionPorIdConsejo(id_consejo);
     }
-    
+
+    @Override
+    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo1, Long id_autoridad1) {
+        return (List<Resolucion>) resolucionDao.listarResolucionConsejoAutoridad(id_consejo1, id_autoridad1);
+    }
+
 }

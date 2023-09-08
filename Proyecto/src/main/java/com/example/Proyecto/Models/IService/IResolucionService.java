@@ -2,6 +2,7 @@ package com.example.Proyecto.Models.IService;
 
 import java.util.List;
 
+import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Resolucion;
 
 public interface IResolucionService {
@@ -15,4 +16,6 @@ public interface IResolucionService {
     public void delete(Long id);
 
     public List<Resolucion> resolucionPorIdConsejo(Long id_consejo);
+
+    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo1, Long id_autoridad1);
 }

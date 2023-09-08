@@ -69,12 +69,12 @@
                                                         <a class="nav-link active" id="baseLable1-tab1"
                                                             data-toggle="tab" aria-controls="tabLable11"
                                                             href="#tabLable11" aria-expanded="true">
-                                                            Tab 1</a>
+                                                            Reporte Convenios</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="baseLable1-tab2" data-toggle="tab"
                                                             aria-controls="tabLable12" href="#tabLable12"
-                                                            aria-expanded="false">Tab 2</a>
+                                                            aria-expanded="false">Reporte Resoluciones</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="baseLable1-tab3" data-toggle="tab"
@@ -86,27 +86,13 @@
                                                 <div class="tab-content px-1 pt-1">
                                                     <div role="tabpanel" class="tab-pane active" id="tabLable11"
                                                         aria-expanded="true" aria-labelledby="baseLable1-tab1">
-
-
-                                                        <form action="/adm/generarReporteAutoridadTipoCon"
+                                                        <form action="/adm/generarReporteAutoridadConvenio"
                                                             method="post">
                                                             <div class="container">
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <h5>Consejo</h5>
                                                                         <div class="controls">
-                                                                            <!--
-                                                                            <select class="select2 form-control square"
-                                                                                id="select2-tags2" name="id_consejo">
-                                                                                <option value="">Seleccione una opción
-                                                                                </option>
-                                                                                <option th:each="cj : ${consejos}"
-                                                                                    th:value="${cj.id_consejo}"
-                                                                                    th:if="${cj.estado_consejo != 'X'}"
-                                                                                    th:text="${cj.nombre_consejo}">
-                                                                                </option>
-                                                                            </select>
-                                                                            -->
                                                                             <select class="select2 form-control square"
                                                                                 name="id_consejo" id="id_consj"
                                                                                 onchange="AutoConsj()">
@@ -123,19 +109,6 @@
                                                                     <div class="col-md-6">
                                                                         <h5>Autoridad</h5>
                                                                         <div class="controls">
-                                                                            <!--
-                                                                            <select class="select2 form-control square"
-                                                                                id="select2-tags1" name="id_autoridad">
-                                                                                <option value="">Seleccione una opción
-                                                                                </option>
-                                                                                <option th:each="aut : ${autoridades}"
-                                                                                    th:value="${aut.id_autoridad}"
-                                                                                    th:if="${aut.estado_autoridad != 'X'}"
-                                                                                    th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}+' '+${aut.persona.ap_materno_persona}">
-                                                                                </option>
-
-                                                                            </select>
-                                                                            -->
                                                                             <select class="select2 form-control square"
                                                                                 name="id_autoridad" id="id_auto">
                                                                                 <option value="">Seleccione una opción
@@ -159,11 +132,49 @@
                                                     </div>
                                                     <div class="tab-pane" id="tabLable12"
                                                         aria-labelledby="baseLable1-tab2">
-                                                        <p>Sugar plum tootsie roll biscuit caramels. Liquorice brownie
-                                                            pastry cotton candy oat cake fruitcake
-                                                            jelly chupa chups. Pudding caramels pastry powder cake
-                                                            soufflé wafer caramels. Jelly-o pie cupcake.
-                                                        </p>
+                                                        <form action="/adm/generarReporteAutoridadResolucion"
+                                                            method="post">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <h5>Consejo</h5>
+                                                                        <div class="controls">
+                                                                            <select class="select2 form-control square"
+                                                                                name="id_consejo1" id="id_consj1"
+                                                                                onchange="AutoConsj1()">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+                                                                                <option th:each="cj : ${consejos}"
+                                                                                    th:value="${cj.id_consejo}"
+                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <h5>Autoridad</h5>
+                                                                        <div class="controls">
+                                                                            <select class="select2 form-control square"
+                                                                                name="id_autoridad1" id="id_auto1">
+                                                                                <option value="">Seleccione una opción
+                                                                                </option>
+
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-actions">
+                                                                <button style="width:100%;" type="submit"
+                                                                    class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                                                    data-animation="pulse">
+                                                                    <i class="la la-check-square-o"></i> Generar
+                                                                </button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                     <div class="tab-pane" id="tabLable13"
                                                         aria-labelledby="baseLable1-tab3">
@@ -233,11 +244,39 @@
                 var html = '<option value="">--Seleccione una Autoridad--</option>';
                 var len = data.length;
                 for (var i = 0; i < len; i++) {
+                    // Obtiene el año de la fecha y lo muestra en la opción
+                    var fechaIni = new Date(data[i].fecha_inicio);
+                    var añoIni = fechaIni.getFullYear();
+
+                    var fechaFi = new Date(data[i].fecha_final);
+                    var añoFi = fechaFi.getFullYear();
+
+                    html += '<option value="' + data[i].id_autoridad + '">'
+                        + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + ' ' + añoIni + '-' + añoFi + '</option>';
+                }
+                html += '</option>';
+                $('#id_auto').html(html);
+            });
+        }
+    </script>
+    
+
+    <script>
+        function AutoConsj1() {
+            var j = document.getElementById("id_consj1").value;
+            //alert(i);
+            $.getJSON("/adm/Autori", {
+                autoriId: j,
+                ajax: 'true'
+            }, function (data) {
+                var html = '<option value="">--Seleccione una Autoridad--</option>';
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
                     html += '<option value="' + data[i].id_autoridad + '">'
                         + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + '</option>';
                 }
                 html += '</option>';
-                $('#id_auto').html(html);
+                $('#id_auto1').html(html);
             });
         }//);
     </script>

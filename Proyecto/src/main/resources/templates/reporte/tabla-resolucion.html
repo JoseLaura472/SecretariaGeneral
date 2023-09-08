@@ -29,7 +29,7 @@
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 class="card-title text-white" id="basic-layout-form">LISTA DE REPORTE DE CONVENIOS</h4>
+                                <h4 class="card-title text-white" id="basic-layout-form">LISTA DE REPORTE DE RESOLUCIONES</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -46,38 +46,42 @@
                                             <thead>
                                                 <tr>
                                                     <th style="text-align: center;">Nº</th>
-                                                    <th style="text-align: center;">Nº Convenio</th>
+                                                    <th style="text-align: center;">Nº Resolucion</th>
                                                     <th style="text-align: center;">Autoridad</th>
                                                     <th style="text-align: center;">Consejo</th>
                                                     <th style="text-align: center;">Resumen</th>
+                                                    
                                                     <th style="text-align: center;">Acción</th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="conv, index : ${convenios}"
-                                                    th:if="${conv.estado_convenio != 'X'}">
+                                                <tr th:each="resol, index : ${resoluciones}"
+                                                    th:if="${resol.estado_resolucion != 'X'}">
                                                     <td th:text="${index.index + 1}" style="text-align: center;"></td>
-                                                    <td th:text=" ${conv.numero_convenio}" style="text-align: center;"></td>
-                                                    <td th:text=" ${conv.autoridad.persona.nombre_persona +' '+conv.autoridad.persona.ap_paterno_persona +' '+ conv.autoridad.persona.ap_materno_persona}" style="text-align: center;"></td>
-                                                    <td th:text="${conv.consejo.nombre_consejo}" style="text-align: center;"></td>
-                                                    <td th:text="${conv.objeto_convenio}" style="text-align: center;"></td>
+                                                    <td th:text=" ${resol.numero_resolucion}" style="text-align: center;"></td>
+                                                    <td th:text=" ${resol.autoridad.persona.nombre_persona +' '+resol.autoridad.persona.ap_paterno_persona +' '+ resol.autoridad.persona.ap_materno_persona}" style="text-align: center;"></td>
+                                                    <td th:text="${resol.consejo.nombre_consejo}" style="text-align: center;"></td>
+                                                    <td th:text="${resol.objeto_resolucion}" style="text-align: center;"></td>
+                                                    
                                                     <td>
                                                         <center>
                                                             <button type="button" class="btn btn-icon btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
                                                             <div class="dropdown-menu">
                                                                 <a class="dropdown-item"
-                                                                    th:onclick="abrirDocumento([[${conv.ruta_marca_convenio}]])">
+                                                                    th:onclick="abrirDocumento([[${resol.ruta_marca_resolucion}]])">
                                                                     <i class="fa-solid fa-file-pdf"
                                                                         style="color: #ff0000; font-size: 20px;"></i>
                                                                     Marca de agua</a>
                                                                 <a class="dropdown-item"
-                                                                    th:onclick="renombrar([[${conv.id_convenio}]])">
+                                                                    th:onclick="renombrar([[${resol.id_resolucion}]])">
                                                                     <i class="fa-solid fa-file-pdf"
                                                                         style="color: #ff0000; font-size: 20px;"></i>
                                                                     Ver documento</a>
                                                             </div>
                                                         </center>
                                                     </td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -129,6 +133,7 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
+
     <script type="text/javascript">
         function renombrar(id_archivo_adjunto) {
             var id_a = id_archivo_adjunto;
@@ -139,7 +144,7 @@
 
             $("#id_a").val(id_a);
 
-            $("#iframe-pdf").attr("src", `../../../adm/openFileReportConsjAuto/${id_a}`)
+            $("#iframe-pdf").attr("src", `../../../adm/openFileReporteResolucion/${id_a}`)
 
 
         }
@@ -154,7 +159,7 @@
             $("#ModalEvaluacion2").modal("show");
 
             // Configura la fuente del iframe con la ruta codificada del documento
-            $("#iframe-pdf2").attr("src", `../../../adm/openFileReportConsjAutoMarca?ruta=${rutaCodificada}`);
+            $("#iframe-pdf2").attr("src", `../../../adm/openFileReporteResolucionMarca?ruta=${rutaCodificada}`);
         }
     </script>
 

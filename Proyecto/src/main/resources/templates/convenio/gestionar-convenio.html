@@ -180,7 +180,8 @@
                                                                 <option th:each="aut : ${autoridades}"
                                                                     th:value="${aut.id_autoridad}"
                                                                     th:if="${aut.estado_autoridad != 'X'}"
-                                                                    th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}+' '+${aut.persona.ap_materno_persona}">
+                                                                    th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}
+                                                                    +' '+${aut.persona.ap_materno_persona}+' '+${#dates.format(aut.fecha_inicio, 'yyyy')}+'-'+${#dates.format(aut.fecha_final, 'yyyy')} ">
                                                                 </option>
                                                             </select>
                                                         </div>

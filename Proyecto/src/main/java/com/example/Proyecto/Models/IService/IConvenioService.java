@@ -15,5 +15,5 @@ public interface IConvenioService {
 
     public List<Convenio> convenioPorIdConsejo(Long id_consejo);
 
-    public List<Convenio> listarConvenioConsejoTpcon(Long id_consejo, Long id_autoridad);
+    public List<Convenio> listarConvenioConsejoAutoridad(Long id_consejo, Long id_autoridad);
 }
