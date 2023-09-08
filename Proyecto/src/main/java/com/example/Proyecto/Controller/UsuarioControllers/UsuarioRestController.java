@@ -35,13 +35,13 @@ public class UsuarioRestController {
                 session.setAttribute("persona", usuario.getPersona());
                 return "A";
             } else {
-                if (usuario.getEstado().equals("Administrativo")) {
+                if (usuario.getEstado().equals("AD")) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("usuario", usuario);
                     session.setAttribute("persona", usuario.getPersona());
                     return "AD";
                 }
-                if (usuario.getEstado().equals("Autoridad")) {
+                if (usuario.getEstado().equals("AU")) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("usuario", usuario);
                     session.setAttribute("persona", usuario.getPersona());
