@@ -30,7 +30,7 @@
                    
                     <td th:text="${res.folio_resolucion}"></td>
            
-                    <td th:text="${res.fecha_resolucion}"></td>
+                    <td th:text="${#dates.format(res.fecha_resolucion, 'dd-MM-yyyy')}"></td>
                     <td>
                         <center>
                             <div class="btn-group mr-1 mb-1">

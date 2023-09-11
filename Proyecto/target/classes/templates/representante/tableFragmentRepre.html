@@ -23,8 +23,8 @@
                 <tr th:each="rep, index : ${representantes}" th:if="${rep.estado_representante != 'X'}" >
                     <td th:text="${rep.persona.nombre_persona}+' '+${rep.persona.ap_paterno_persona}+' '+${rep.persona.ap_materno_persona}"></td>
                     <td th:text="${rep.institucion.nombre_institucion}"></td>
-                    <td th:text="${rep.fecha_inicio}"></td>
-                    <td th:text="${rep.fecha_final}"></td>
+                    <td th:text="${#dates.format(rep.fecha_inicio, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(rep.fecha_final, 'dd-MM-yyyy')}"></td>
                     <td>
                         <center>
                             <a class="btn btn-warning round text-white"
