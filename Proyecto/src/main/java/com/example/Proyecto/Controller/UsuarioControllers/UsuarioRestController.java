@@ -29,17 +29,17 @@ public class UsuarioRestController {
         if (resultado != null) {
             Usuario usuario = usuarioService.findOne(resultado);
 
-            if (usuario.getEstado().equals("A")) {
+            if (usuario.getEstado().equals("S")) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("usuario", usuario);
                 session.setAttribute("persona", usuario.getPersona());
-                return "A";
+                return "S";
             } else {
-                if (usuario.getEstado().equals("AD")) {
+                if (usuario.getEstado().equals("A")) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("usuario", usuario);
                     session.setAttribute("persona", usuario.getPersona());
-                    return "AD";
+                    return "A";
                 }
                 if (usuario.getEstado().equals("AU")) {
                     HttpSession session = request.getSession(true);

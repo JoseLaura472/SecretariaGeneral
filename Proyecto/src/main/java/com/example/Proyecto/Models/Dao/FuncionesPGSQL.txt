@@ -29,7 +29,7 @@ END;
 $function$;
 
 ------------------------( Usuario_nom, contrasena, id_persona)
-select * from insertar_adm('ADM', '123', 1) 
+select * from insertar_adm('ADM', '123', 1, 1) 
 ------------------->
 
 -- LOGIN
