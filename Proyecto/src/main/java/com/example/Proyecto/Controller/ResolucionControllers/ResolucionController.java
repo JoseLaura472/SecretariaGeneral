@@ -72,8 +72,13 @@ public class ResolucionController {
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-
-            model.addAttribute("resoluciones", resolucionService.resolucionPorIdConsejo(consejo.getId_consejo()));
+            if (usuario.getEstado().equals("AU")) {
+            model.addAttribute("resoluciones", resolucionService.findAll());    
+            }else{
+             model.addAttribute("resoluciones", resolucionService.resolucionPorIdConsejo(consejo.getId_consejo()));
+            }
+           
+             
 
             return "resolucion/listar-resolucion";
 
