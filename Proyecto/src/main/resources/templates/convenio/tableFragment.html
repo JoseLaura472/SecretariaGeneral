@@ -40,8 +40,8 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"  th:onclick="renombrar([[${con.id_convenio}]])">Ver Archivo</a>
                                     <a class="dropdown-item"  th:onclick="abrirDocumento([[${con.ruta_marca_convenio}]])">Ver Archivo con Marca</a>
-                                    <a class="dropdown-item"  th:href="${'/adm/editar-convenio/'+id_encryptado[__${index.index}__]}">Editar</a>
-                                    <a class="dropdown-item"  th:id="${id_encryptado[__${index.index}__]}" onclick="MandarURL(this.id)">Eliminar</a>
+                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item"  th:href="${'/adm/editar-convenio/'+id_encryptado[__${index.index}__]}">Editar</a>
+                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item"  th:id="${id_encryptado[__${index.index}__]}" onclick="MandarURL(this.id)">Eliminar</a>
                             
                                 </div>
                             </div>

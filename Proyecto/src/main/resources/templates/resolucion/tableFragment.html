@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="res, index : ${resoluciones}" th:if="${res.estado_resolucion != 'X'}">
+                <tr th:each="res, index : ${resoluciones}" th:if="${res.estado_resolucion != 'X' }">
                     <td th:text="${res.numero_resolucion}"></td>
                     <td th:text="${res.autoridad.persona.nombre_persona}+' '+${res.autoridad.persona.ap_paterno_persona}+' '+${res.autoridad.persona.ap_materno_persona}"></td>
                    
@@ -38,8 +38,8 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"  th:onclick="renombrar([[${res.id_resolucion}]])">Ver Archivo</a>
                                     <a class="dropdown-item"  th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])">Ver Archivo con Marca</a>
-                                    <a class="dropdown-item"  th:href="${'/adm/editar-resolucion/'+res.id_resolucion}">Editar</a>
-                                    <a class="dropdown-item" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)">Eliminar</a>
+                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item"  th:href="${'/adm/editar-resolucion/'+res.id_resolucion}">Editar</a>
+                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)">Eliminar</a>
                             
                                 </div>
                             </div>

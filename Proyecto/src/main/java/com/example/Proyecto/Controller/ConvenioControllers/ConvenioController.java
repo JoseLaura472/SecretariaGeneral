@@ -100,7 +100,12 @@ public class ConvenioController {
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
+            if (usuario.getEstado().equals("AU")) {
+               model.addAttribute("convenios", convenioService.findAll());
+            }else{
             model.addAttribute("convenios", convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
+            }
+            
             model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
