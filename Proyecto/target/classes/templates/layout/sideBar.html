@@ -12,12 +12,15 @@
         data-scroll-to-active="true">
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="nav-item"><a href="/adm/InicioAdm" th:if="${session.usuario.estado == 'S'}" ><i class="la la-user"></i><span class="menu-title"
-                            data-i18n="Dashboard">Gestionar Persona</span></a>
+                
+                <li class="nav-item"><a href="#"><i
+                            class="la la-user"></i><span class="menu-title" data-i18n="Dashboard">Gestionar Persona</span></a>
                     <ul class="menu-content">
                         <li ><a class="menu-item" href="/adm/PersonaR"><i></i><span>Persona</span></a>
                         </li>
-                        <li><a class="menu-item" href="/UsuarioL"><i></i><span>Usuario</span></a>
+                        <li th:if="${session.usuario.estado == 'S'}"><a class="menu-item" href="/UsuarioL"><i></i><span>Usuario</span></a>
+                        </li>
+                        <li><a class="menu-item" href="/adm/AutoridadR"><i></i><span>Autoridad</span></a>
                         </li>
                         <li><a class="menu-item" href="/adm/ConsejoR"><i></i><span>Consejo</span></a>
                         </li>
@@ -27,20 +30,20 @@
                         </li>
                         <li><a class="menu-item" href="/adm/RepresentanteR"><i></i><span>Representante</span></a>
                         </li>
-                        <li><a class="menu-item" href="/adm/AutoridadR"><i></i><span>Autoridad</span></a>
-                        </li>
+                        
                     </ul>
                 </li>
 
-                <li ><a class="menu-item" href="/adm/ConvenioL"><i class="la la-file-text"></i><span>Gestionar Convenios</span></a>
+
+                <li><a class="menu-item" href="/adm/ConvenioL"><i class="la la-file-text"></i><span>Gestionar Convenios</span></a>
                 </li>
 
-                <li ><a class="menu-item" href="/adm/ResolucionL"><i class="la la-file-text"></i><span>Gestionar Resoluciones</span></a>
+                <li><a class="menu-item" href="/adm/ResolucionL"><i class="la la-file-text"></i><span>Gestionar Resoluciones</span></a>
                 </li>
 
-                <li th:if="${session.usuario.estado != 'A'}"><a class="menu-item" href="/adm/ReporteCon"><i class="la la-file-text"></i><span>Reportes</span></a>
+                <li><a class="menu-item" href="/adm/ReporteCon"><i class="la la-file-text"></i><span>Reportes</span></a>
                 </li>
-                
+
             </ul>
         </div>
     </div>
