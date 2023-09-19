@@ -3,7 +3,7 @@
 <!-- BEGIN: Head-->
 
 <head th:replace="layout/head :: head">
-  
+
 </head>
 <!-- END: Head-->
 
@@ -24,7 +24,7 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-           
+
             <section id="basic-form-layouts">
                 <div class="row match-height">
                     <div class="col-md-12">
@@ -42,234 +42,260 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
                                     <th:block th:if="${convenio.id_convenio != null}">
-                                        <form  class="form form-horizontal row-separator" action="/adm/ConvenioModF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form class="form form-horizontal row-separator" action="/adm/ConvenioModF"
+                                            method="post" novalidate enctype="multipart/form-data">
                                     </th:block>
                                     <th:block th:if="${convenio.id_convenio == null}">
-                                        <form id="form1" class="form form-horizontal row-separator" action="/adm/ConvenioF" method="post" novalidate  enctype="multipart/form-data">
+                                        <form id="form1" class="form form-horizontal row-separator"
+                                            action="/adm/ConvenioF" method="post" novalidate
+                                            enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${convenio.id_convenio}">
                                     <input type="hidden" th:field="${convenio.ruta_marca_convenio}">
-                                    <input type="hidden" name="id_archivo_adjunto" th:field="${convenio.archivoAdjunto.id}">
-                                        <div class="form-body">
-                                            <h4 class="form-section"><i class="la la-archive"></i> Información del Convenio</h4>
-                                            <div class="row">
+                                    <input type="hidden" name="id_archivo_adjunto"
+                                        th:field="${convenio.archivoAdjunto.id}">
+                                    <div class="form-body">
+                                        <h4 class="form-section"><i class="la la-archive"></i> Información del Convenio
+                                        </h4>
+                                        <div class="row">
 
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput3">Institución</label>
-                                                        <div class="col-md-7">
-                                                            <select class="select2 form-control square" id="id_inst" 
-                                                            name="id_institucion" onchange="RepreInst()" th:field="${convenio.representante.institucion}" required>
-                                                                <option value="">Seleccionar una Institución</option>
-                                                                <option th:each="insti : ${instituciones}" th:if="${insti.estado_institucion != 'X'}"
-                                                                    th:value="${insti.id_institucion}" th:text="${insti.nombre_institucion}">
-                                                                </option>
-                                                            </select>
-                                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control"
+                                                        for="userinput3">Institución</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" id="id_inst"
+                                                            name="id_institucion" onchange="RepreInst()"
+                                                            th:field="${convenio.representante.institucion}" required>
+                                                            <option value="">Seleccionar una Institución</option>
+                                                            <option th:each="insti : ${instituciones}"
+                                                                th:if="${insti.estado_institucion != 'X'}"
+                                                                th:value="${insti.id_institucion}"
+                                                                th:text="${insti.nombre_institucion}">
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <th:block th:if="${edit} == null">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row mx-auto">
-                                                            <label class="col-md-5 label-control" for="userinput4">Representante</label>
-                                                            <div class="col-md-7">
-                                                                <select class="select2 form-control square" id="id_repre" 
+                                            </div>
+                                            <th:block th:if="${edit} == null">
+                                                <div class="col-md-6">
+                                                    <div class="form-group row mx-auto">
+                                                        <label class="col-md-5 label-control"
+                                                            for="userinput4">Representante</label>
+                                                        <div class="col-md-7">
+                                                            <select class="select2 form-control square" id="id_repre"
                                                                 name="id_representante" required>
-                                                                    <option value="">Seleccionar un Representante</option>
-                                                                    
-                                                                </select>
-                                                            </div>
+                                                                <option value="">Seleccionar un Representante</option>
+
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                </th:block>
-                                                <th:block th:if="${edit} != null">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row mx-auto">
-                                                            <label class="col-md-5 label-control" for="userinput4">Representante</label>
-                                                            <div class="col-md-7">
-                                                                <select class="select2 form-control square" id="id_repre" 
-                                                                name="id_representante" th:field="${convenio.representante}" required>
-                                                                    <option value="">Seleccionar un Representante</option>
-                                                                    <option th:each="repre : ${representantes}" th:if="${repre.estado_representante != 'X'}"
-                                                                        th:value="${repre.id_representante}" th:text="${repre.persona.nombre_persona}">
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </th:block>
-                                            </div>
-                                            <div class="row">
+                                                </div>
+                                            </th:block>
+                                            <th:block th:if="${edit} != null">
                                                 <div class="col-md-6">
                                                     <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput1">Tipo Convenio</label>
+                                                        <label class="col-md-5 label-control"
+                                                            for="userinput4">Representante</label>
                                                         <div class="col-md-7">
-                                                            <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                                id="select2-tags3" th:field="${convenio.tipoConvenio}"
-                                                                name="id_tipo_convenio">
-                                                                <option value="">Seleccionar un tipo de Convenio</option>
-                                                                <option th:each="tcn : ${tipoConvenios}"
-                                                                    th:value="${tcn.id_tipo_convenio}"
-                                                                    th:if="${tcn.estado_tipo_convenio != 'X'}"
-                                                                    th:text="${tcn.nombre_tipo_convenio}">
+                                                            <select class="select2 form-control square" id="id_repre"
+                                                                name="id_representante"
+                                                                th:field="${convenio.representante}" required>
+                                                                <option value="">Seleccionar un Representante</option>
+                                                                <option th:each="repre : ${representantes}"
+                                                                    th:if="${repre.estado_representante != 'X'}"
+                                                                    th:value="${repre.id_representante}"
+                                                                    th:text="${repre.persona.nombre_persona}">
                                                                 </option>
                                                             </select>
                                                         </div>
                                                     </div>
-
-                                                   
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput1">Gestión</label>
-                                                        <div class="col-md-7">
-                                                            <select class="select2 form-control square" required
+                                            </th:block>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput1">Tipo
+                                                        Convenio</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
                                                             data-validation-required-message="Debe Seleccionar una opción"
-                                                                id="select2-tags6" th:field="${convenio.gestion_convenio}"
-                                                                name="gestion">
-                                                                <option value="">Seleccione una Gestión</option>
-                                                                <option value="2000">2000</option>
-                                                                <option value="2001">2001</option>
-                                                                <option value="2002">2002</option>
-                                                                <option value="2003">2003</option>
-                                                                <option value="2004">2004</option>
-                                                                <option value="2005">2005</option>
-                                                                <option value="2006">2006</option>
-                                                                <option value="2007">2007</option>
-                                                                <option value="2008">2008</option>
-                                                                <option value="2009">2009</option>
-                                                                <option value="2010">2010</option>
-                                                                <option value="2011">2011</option>
-                                                                <option value="2012">2012</option>
-                                                                <option value="2013">2013</option>
-                                                                <option value="2014">2014</option>
-                                                                <option value="2015">2015</option>
-                                                                <option value="2016">2016</option>
-                                                                <option value="2017">2017</option>
-                                                                <option value="2018">2018</option>
-                                                                <option value="2019">2019</option>
-                                                                <option value="2020">2020</option>
-                                                                <option value="2021">2021</option>
-                                                                <option value="2022">2022</option>
-                                                                <option value="2023" >2023</option>
-                                                                <option value="2024">2024</option>
-                                                                <option value="2025">2025</option>
-                                                                <option value="2026">2026</option>
-                                                                <option value="2027">2027</option>
-                                                                <option value="2028">2028</option>
-                                                                <option value="2029">2029</option>
-                                                                <option value="2030">2030</option>
-                                                            </select>
-                                                        </div>
+                                                            id="select2-tags3" th:field="${convenio.tipoConvenio}"
+                                                            name="id_tipo_convenio">
+                                                            <option value="">Seleccionar un tipo de Convenio</option>
+                                                            <option th:each="tcn : ${tipoConvenios}"
+                                                                th:value="${tcn.id_tipo_convenio}"
+                                                                th:if="${tcn.estado_tipo_convenio != 'X'}"
+                                                                th:text="${tcn.nombre_tipo_convenio}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control"
+                                                        for="userinput1">Gestión</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
+                                                            data-validation-required-message="Debe Seleccionar una opción"
+                                                            id="select2-tags6" th:field="${convenio.gestion_convenio}"
+                                                            name="gestion">
+                                                            <option value="">Seleccione una Gestión</option>
+                                                            <option value="2000">2000</option>
+                                                            <option value="2001">2001</option>
+                                                            <option value="2002">2002</option>
+                                                            <option value="2003">2003</option>
+                                                            <option value="2004">2004</option>
+                                                            <option value="2005">2005</option>
+                                                            <option value="2006">2006</option>
+                                                            <option value="2007">2007</option>
+                                                            <option value="2008">2008</option>
+                                                            <option value="2009">2009</option>
+                                                            <option value="2010">2010</option>
+                                                            <option value="2011">2011</option>
+                                                            <option value="2012">2012</option>
+                                                            <option value="2013">2013</option>
+                                                            <option value="2014">2014</option>
+                                                            <option value="2015">2015</option>
+                                                            <option value="2016">2016</option>
+                                                            <option value="2017">2017</option>
+                                                            <option value="2018">2018</option>
+                                                            <option value="2019">2019</option>
+                                                            <option value="2020">2020</option>
+                                                            <option value="2021">2021</option>
+                                                            <option value="2022">2022</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2024">2024</option>
+                                                            <option value="2025">2025</option>
+                                                            <option value="2026">2026</option>
+                                                            <option value="2027">2027</option>
+                                                            <option value="2028">2028</option>
+                                                            <option value="2029">2029</option>
+                                                            <option value="2030">2030</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput2">Autoridad</label>
-                                                        <div class="col-md-7">
-                                                            <select class="select2 form-control square" required
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control"
+                                                        for="userinput2">Autoridad</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
                                                             data-validation-required-message="Debe Seleccionar una opción"
-                                                                id="select2-tags2" th:field="${convenio.autoridad}"
-                                                                name="id_autoridad">
-                                                                <option value="">Seleccionar una Autoridad</option>
-                                                                <option th:each="aut : ${autoridades}"
-                                                                    th:value="${aut.id_autoridad}"
-                                                                    th:if="${aut.estado_autoridad != 'X'}"
-                                                                    th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}
+                                                            id="select2-tags2" th:field="${convenio.autoridad}"
+                                                            name="id_autoridad">
+                                                            <option value="">Seleccionar una Autoridad</option>
+                                                            <option th:each="aut : ${autoridades}"
+                                                                th:value="${aut.id_autoridad}"
+                                                                th:if="${aut.estado_autoridad != 'X'}"
+                                                                th:text="${aut.persona.nombre_persona}+' '+${aut.persona.ap_paterno_persona}
                                                                     +' '+${aut.persona.ap_materno_persona}+' '+${#dates.format(aut.fecha_inicio, 'yyyy')}+'-'+${#dates.format(aut.fecha_final, 'yyyy')} ">
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput6">Número del Convenio</label>
-                                                        <div class="col-md-7">
-                                                            <input th:field="${convenio.numero_convenio}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos">
-                                                        </div>
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
-                                        
 
-                                            <h4 class="form-section"><i class="la la-envelope"></i> Información Adicional</h4>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput5">Folio del Convenio</label>
-                                                        <div class="col-md-7">
-                                                            <input th:field="${convenio.folio_convenio}" type="text"
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput6">Número del
+                                                        Convenio</label>
+                                                    <div class="col-md-7">
+                                                        <input th:field="${convenio.numero_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
                                                             data-validation-required-message="Debe Ingresar los Datos">
-                                                        </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                    <div class="form-group row mx-auto">
-                                                        <label class="col-md-5 label-control" for="userinput6">Fecha Inicio</label>
-                                                        <div class="col-md-7">
-                                                            <input type="date" class="form-control" id="date12" required
+
+                                        <h4 class="form-section"><i class="la la-envelope"></i> Información Adicional
+                                        </h4>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput5">Folio del
+                                                        Convenio</label>
+                                                    <div class="col-md-7">
+                                                        <input th:field="${convenio.folio_convenio}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput6">Fecha
+                                                        Inicio</label>
+                                                    <div class="col-md-7">
+                                                        <input type="date" class="form-control" id="date12" required
                                                             th:field="${convenio.fecha_inicio}"
                                                             data-validation-required-message="Debe Ingresar una Fecha">
-                                                        </div>
                                                     </div>
-
-                                                    <div class="form-group row mx-auto last">
-                                                        <label class="col-md-5 label-control">Fecha Final</label>
-                                                        <div class="col-md-7">
-                                                            <input type="date" class="form-control" id="date13"
-                                                            th:field="${convenio.fecha_final}"  required
-                                                            data-validation-required-message="Debe Ingresar una Fecha">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row mx-auto last">
-                                                        <label class="col-md-5 label-control">Adjuntar Archivo</label>
-                                                        <div class="col-md-7">
-                                                            <input type="file" class="form-control-file" id="exampleInputFile"
-                                                            th:field="${convenio.file}">
-                                                        </div>
-                                                    </div>
-
-
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group row mx-auto last">
-                                                        <label class="col-md-3 label-control" for="userinput8">Resumen</label>
-                                                        <div class="col-md-9">
-                                                       
-                                                            <textarea data-validation-required-message="Debe Ingresar los Datos" required th:field="${convenio.objeto_convenio}"  id="userinput8" rows="6" class="form-control border-primary" name="bio" placeholder="Resumen del Convenio"></textarea>
-                                                        </div>
+
+                                                <div class="form-group row mx-auto last">
+                                                    <label class="col-md-5 label-control">Fecha Final</label>
+                                                    <div class="col-md-7">
+                                                        <input type="date" class="form-control" id="date13"
+                                                            th:field="${convenio.fecha_final}" required
+                                                            data-validation-required-message="Debe Ingresar una Fecha">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mx-auto last">
+                                                    <label class="col-md-5 label-control">Adjuntar Archivo</label>
+                                                    <div class="col-md-7">
+                                                        <input type="file" class="form-control-file"
+                                                            id="exampleInputFile" th:field="${convenio.file}">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto last">
+                                                    <label class="col-md-3 label-control"
+                                                        for="userinput8">Resumen</label>
+                                                    <div class="col-md-9">
+
+                                                        <textarea
+                                                            data-validation-required-message="Debe Ingresar los Datos"
+                                                            required th:field="${convenio.objeto_convenio}"
+                                                            id="userinput8" rows="6" class="form-control border-primary"
+                                                            name="bio" placeholder="Resumen del Convenio"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-actions">
-                                            <button style="width:100%;" type="submit"
-                                                class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
-                                                data-animation="pulse">
-                                                <i class="la la-check-square-o"></i> Registrar
-                                            </button>
-                                        </div>
-                                       
-                                      
+                                    </div>
+                                    <div class="form-actions">
+                                        <button style="width:100%;" type="submit"
+                                            class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                            data-animation="pulse">
+                                            <i class="la la-check-square-o"></i> Registrar
+                                        </button>
+                                    </div>
+
+
                                     </form>
-                                 
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-          
+
         </div>
     </div>
     <!-- END: Content-->
@@ -277,38 +303,38 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
-    
+
     <script>
         function RepreInst() {
-      var j = document.getElementById("id_inst").value;
-      //alert(i);
-      $.getJSON("/adm/Represen", {
-        repreId: j,
-        ajax: 'true'
-      }, function (data) {
-        var html = '<option value="">--Seleccione un representante--</option>';
-        var len = data.length;
-        for (var i = 0; i < len; i++) {
-          html += '<option value="' + data[i].id_representante + '">'
-            + data[i].persona.nombre_persona +' '+data[i].persona.ap_paterno_persona +' '+data[i].persona.ap_materno_persona +'</option>';
-        }
-        html += '</option>';
-        $('#id_repre').html(html);
-      });
-    }//);
+            var j = document.getElementById("id_inst").value;
+            //alert(i);
+            $.getJSON("/adm/Represen", {
+                repreId: j,
+                ajax: 'true'
+            }, function (data) {
+                var html = '<option value="">--Seleccione un representante--</option>';
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id_representante + '">'
+                        + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + '</option>';
+                }
+                html += '</option>';
+                $('#id_repre').html(html);
+            });
+        }//);
     </script>
 
     <script>
         var selectElement = document.getElementById("select2-tags6");
         var errorMensaje = document.getElementById("errorMensaje");
-    
-        selectElement.addEventListener("input", function() {
+
+        selectElement.addEventListener("input", function () {
             if (this.value !== "") {
                 errorMensaje.textContent = "";
             }
         });
-    
-        document.getElementById("miFormulario").addEventListener("submit", function(event) {
+
+        document.getElementById("miFormulario").addEventListener("submit", function (event) {
             if (selectElement.value === "") {
                 errorMensaje.textContent = "Debe seleccionar una opción";
                 event.preventDefault();
@@ -319,35 +345,36 @@
     </script>
     <div th:replace="layout/script :: script"></div>
     <!-- Asegúrate de incluir SweetAlert2 en tu página HTML -->
-<script src="ruta-a-sweetalert2.js"></script>
+    <script src="ruta-a-sweetalert2.js"></script>
 
-<script>
-    $('input[type="file"]').on('change', function () {
-        var ext = $(this).val().split('.').pop();
-        if ($(this).val() != '') {
-            if (ext == "pdf") {
-                if ($(this)[0].files[0].size > 1048576) {
-                    Swal.fire({
-                        title: '¡Precaución!',
-                        text: 'El documento excede el tamaño máximo (1MB). Por favor, verifica.',
-                        icon: 'warning'
-                    });
-                    $(this).val('');
+    <script>
+        $('input[type="file"]').on('change', function () {
+            var ext = $(this).val().split('.').pop().toLowerCase(); // Convierte la extensión a minúsculas
+            if ($(this).val() != '') {
+                if (ext == "pdf") {
+                    if ($(this)[0].files[0].size > 104857600) {
+                        Swal.fire({
+                            title: '¡Precaución!',
+                            text: 'El documento excede el tamaño máximo (100 MB). Por favor, verifica.',
+                            icon: 'warning'
+                        });
+                        $(this).val('');
+                    } else {
+                        // Si el archivo es válido, oculta la alerta
+                        Swal.close();
+                    }
                 } else {
-                    // Si el archivo es válido, oculta la alerta
-                    Swal.close();
+                    $(this).val('');
+                    Swal.fire({
+                        title: 'Extensión no permitida',
+                        text: 'Solo se permiten archivos con extensión PDF.',
+                        icon: 'error'
+                    });
                 }
-            } else {
-                $(this).val('');
-                Swal.fire({
-                    title: 'Extensión no permitida',
-                    text: 'Solo se permiten archivos con extensión PDF.',
-                    icon: 'error'
-                });
             }
-        }
-    });
-</script>
+        });
+    </script>
+
 
 
 
