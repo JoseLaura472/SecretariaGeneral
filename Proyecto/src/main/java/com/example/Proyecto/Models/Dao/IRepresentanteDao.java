@@ -9,6 +9,6 @@ import com.example.Proyecto.Models.Entity.Representante;
 
 public interface IRepresentanteDao extends CrudRepository<Representante, Long> {
 
-    @Query("select repre from Representante repre left join repre.institucion ins where ins.id_institucion=?1")
+    @Query("select repre from Representante repre left join repre.institucion ins where repre.estado_representante='A' AND ins.id_institucion=?1")
     public List<Representante> ReprePorIdInstitu(Long id_institucion);
 }
