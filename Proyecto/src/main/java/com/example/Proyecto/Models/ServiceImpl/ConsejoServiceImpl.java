@@ -34,4 +34,19 @@ public class ConsejoServiceImpl implements IConsejoService {
     public void delete(Long id) {
         consejoDao.deleteById(id);
     }
+
+    @Override
+    public List<Consejo> listarConsejoCau() {
+        return (List<Consejo>) consejoDao.listarConsejoCau();
+    }
+
+    @Override
+    public List<Consejo> listarConsejoFacultad() {
+        return (List<Consejo>) consejoDao.listarConsejoFacultad();
+    }
+
+    @Override
+    public List<Consejo> listarConsejoCarrera() {
+        return (List<Consejo>) consejoDao.listarConsejoCarrera();
+    }
 }

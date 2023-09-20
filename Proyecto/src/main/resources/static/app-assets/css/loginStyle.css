@@ -14,13 +14,19 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden;
-    background: #cfd1e1;
+    background: rgb(1, 46, 88);
+    background: linear-gradient(270deg, rgba(1, 46, 88, 1) 24%, rgba(255, 46, 72, 1) 100%);
+
+    /* background: #009FFF;
+    background: -webkit-linear-gradient(to right, #e92341, #0051ff); 
+    background: linear-gradient(to right, #e92341, #0051ff); */
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .container .box {
@@ -30,6 +36,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: .8;
 }
 
 .container .box::before {
@@ -42,6 +49,7 @@ body {
     background: linear-gradient(#fff, #fff, #e3e3e3);
     filter: blur(1px);
     z-index: 1;
+
 }
 
 .container .box::after {
@@ -54,46 +62,8 @@ body {
     background: #9d9d9d;
     filter: blur(1px);
     z-index: 1;
+
 }
-
-/* .container .box .shadow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #eee;
-}
-
-.container .box .shadow::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: calc(100% + 96px);
-    width: 120%;
-    height: 240%;
-    background: linear-gradient(rgba(0, 0, 0, 0.075), transparent);
-    transform: skewX(45deg);
-}
-
-.container .box .shadow::after {
-    content: '';
-    position: absolute;
-    bottom: -200%;
-    left: calc(100% + 80px);
-    width: 100%;
-    height: 200%;
-    background: linear-gradient(rgba(0, 0, 0, 0.075), transparent);
-    transform: skewX(45deg);
-} */
-
-/* .cover {
-    position: absolute;
-    top: 0;
-    left: -100px;
-    width: 100px;
-    height: 100px;
-    background: #cfd1e1;
-    z-index: 10;
-} */
 
 .content {
     position: relative;
@@ -109,6 +79,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .content .form {
@@ -118,6 +89,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
 }
 
 .logo {
@@ -137,6 +109,7 @@ body {
     font-size: 2em;
     color: #444;
     margin-bottom: 0;
+    font-weight: bold;
 }
 
 .content .form .inputBox {
@@ -156,6 +129,7 @@ body {
     border-bottom: 3px solid #444;
     outline: none;
     color: #444;
+
 }
 
 .content .form .inputBox i {
@@ -174,6 +148,7 @@ body {
     pointer-events: none;
     color: #444;
     transition: 0.5s;
+
 }
 
 .content .form .inputBox input:focus~span,
@@ -183,6 +158,7 @@ body {
     background: #444;
     color: #fff;
     padding: 2px 4px;
+
 }
 
 .content .form .links {
@@ -203,12 +179,192 @@ body {
 }
 
 .content .form .inputBox input[type="submit"] {
-    background: #444;
+    background: #ff2e48;
     color: #fff;
     cursor: pointer;
     padding: 10px;
 }
 
 .content .form .inputBox input[type="submit"]:hover {
-    background: #333;
+    background: #012e58;
+}
+
+/* Animation para levantar un elemento on hover*/
+.pull-up {
+    transition: all 0.25s ease;
+}
+
+.pull-up:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0px 14px 24px rgba(62, 57, 107, 0.2);
+    z-index: 30;
+}
+/*waves****************************/
+
+
+.boxx {
+    position: fixed;
+    top: 0;
+    transform: rotate(80deg);
+    left: 0;
+}
+
+.wave {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: .6;
+    position: absolute;
+    top: 3%;
+    left: 10%;
+    background: #f2112b;
+    width: 1500px;
+    height: 1300px;
+    margin-left: -150px;
+    margin-top: -250px;
+    transform-origin: 50% 48%;
+    border-radius: 43%;
+    animation: drift 9000ms infinite linear;
+}
+
+.wave.-three {
+    animation: drift 9500ms infinite linear;
+    position: fixed;
+    background-color: #ff2e48;
+}
+
+.wave.-two {
+    animation: drift 5000ms infinite linear;
+
+    background: #e72e44;
+    position: fixed;
+}
+
+.boxx:after {
+    content: '';
+    display: block;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes drift {
+    from {
+        transform: rotate(0deg);
+    }
+
+    from {
+        transform: rotate(360deg);
+    }
+}
+
+/*LOADING SPACE*/
+
+.contain {
+    animation-delay: 4s;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+
+    background: #25a7d7;
+    background: -webkit-linear-gradient(#25a7d7, #2962FF);
+    background: linear-gradient(#25a7d7, #25a7d7);
+}
+
+.icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 5px;
+}
+
+/*Animation*/
+.icon:nth-child(2) img {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s
+}
+
+.icon:nth-child(3) img {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s
+}
+
+.icon:nth-child(4) img {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s
+}
+
+.icon img {
+    -webkit-animation: anim 2s ease infinite;
+    animation: anim 2s ease infinite;
+    -webkit-transform: scale(0, 0) rotateZ(180deg);
+    transform: scale(0, 0) rotateZ(180deg);
+}
+
+@-webkit-keyframes anim {
+    0% {
+        -webkit-transform: scale(0, 0) rotateZ(-90deg);
+        transform: scale(0, 0) rotateZ(-90deg);
+        opacity: 0
+    }
+
+    30% {
+        -webkit-transform: scale(1, 1) rotateZ(0deg);
+        transform: scale(1, 1) rotateZ(0deg);
+        opacity: 1
+    }
+
+    50% {
+        -webkit-transform: scale(1, 1) rotateZ(0deg);
+        transform: scale(1, 1) rotateZ(0deg);
+        opacity: 1
+    }
+
+    80% {
+        -webkit-transform: scale(0, 0) rotateZ(90deg);
+        transform: scale(0, 0) rotateZ(90deg);
+        opacity: 0
+    }
+}
+
+@keyframes anim {
+    0% {
+        -webkit-transform: scale(0, 0) rotateZ(-90deg);
+        transform: scale(0, 0) rotateZ(-90deg);
+        opacity: 0
+    }
+
+    30% {
+        -webkit-transform: scale(1, 1) rotateZ(0deg);
+        transform: scale(1, 1) rotateZ(0deg);
+        opacity: 1
+    }
+
+    50% {
+        -webkit-transform: scale(1, 1) rotateZ(0deg);
+        transform: scale(1, 1) rotateZ(0deg);
+        opacity: 1
+    }
+
+    80% {
+        -webkit-transform: scale(0, 0) rotateZ(90deg);
+        transform: scale(0, 0) rotateZ(90deg);
+        opacity: 0
+    }
 }

@@ -13,4 +13,10 @@ public interface IConsejoService {
     public Consejo findOne(Long id);
 
     public void delete(Long id);
+
+    public List<Consejo> listarConsejoCau();
+
+    public List<Consejo> listarConsejoFacultad();
+
+    public List<Consejo> listarConsejoCarrera();
 }

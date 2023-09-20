@@ -69,6 +69,9 @@ public class ReporteController {
             model.addAttribute("autoridades", autoridadService.findAll());
             model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("resoluciones", resolucionService.findAll());
+            model.addAttribute("consejocau", consejoService.listarConsejoCau());
+            model.addAttribute("consejofacultad", consejoService.listarConsejoFacultad());
+            model.addAttribute("consejocarrera", consejoService.listarConsejoCarrera());
 
             return "reporte/generar-reporte";
         } else {
@@ -99,7 +102,7 @@ public class ReporteController {
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 
-        return "reporte/tabla-reporte";
+        return "reporte/tabla-convenio";
     }
 
     @RequestMapping(value = "/openFileReportConsjAuto/{id}", method = RequestMethod.GET, produces = "application/pdf")

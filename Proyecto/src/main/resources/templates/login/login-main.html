@@ -11,10 +11,17 @@
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../../app-assets/css/loginStyle.css">
-</head>
+    
+    </head>
 
 <body>
-    <div class="container">
+    <div class='boxx'>
+        <div class='wave -one'></div>
+        <div class='wave -two'></div>
+        <div class='wave -three'></div>
+    </div>
+
+    <div class="container ">
         <div class="box">
             <div class="cover"></div>
             <div class="shadow"></div>
@@ -22,28 +29,33 @@
                 <form id="login" action="/LoginF" method="post">
                     <div class="form">
                         <lord-icon src="https://cdn.lordicon.com/zthozvfn.json" trigger="loop" delay="100"
-                            colors="primary:#b26836,secondary:#66a1ee,tertiary:#f9c9c0,quaternary:#ebe6ef"
+                            colors="
+                            primary:#b26836,
+                            secondary:#66a1ee,
+                            tertiary:#f9c9c0,
+                            quaternary:#ebe6ef"
                             style="width:180px;height:180px">
                         </lord-icon>
                         <h2>Iniciar Sesión</h2>
                         <div class="inputBox">
-                            <input type="text" required name="usuario_nom">
+                            <input type="text" required name="usuario_nom" placeholder="Usuario">
                             <i class="fa-solid fa-user"></i>
-                            <span>Usuario</span>
+                            
                         </div>
                         <div class="inputBox">
-                            <input type="password" required name="contrasena">
+                            <input type="password" required name="contrasena" placeholder="contraseña">
                             <i class="fa-solid fa-lock"></i>
-                            <span>Contraseña</span>
+                            
                         </div>
                         <div class="inputBox">
-                            <input type="submit" value="Acceder">
+                            <input type="submit" value="Acceder" class="pull-up">
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
     <script src="../../../app-assets/js/scripts/extensions/ex-component-sweet-alerts.js"></script>
@@ -113,6 +125,8 @@
         });
 
     </script>
+
+    
 </body>
 
 </html>
