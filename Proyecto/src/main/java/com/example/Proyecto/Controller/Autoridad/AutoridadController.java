@@ -35,11 +35,11 @@ public class AutoridadController {
 
     @Autowired
     private IConsejoService consejoService;
-    
-    @RequestMapping(value = "/AutoridadR", method = RequestMethod.GET) // Pagina principal
-	public String Autoridad(@Validated Autoridad autoridad, Model model, HttpServletRequest request) throws Exception {
 
-		if (request.getSession().getAttribute("persona") != null) {
+    @RequestMapping(value = "/AutoridadR", method = RequestMethod.GET) // Pagina principal
+    public String Autoridad(@Validated Autoridad autoridad, Model model, HttpServletRequest request) throws Exception {
+
+        if (request.getSession().getAttribute("persona") != null) {
             List<Autoridad> autoridades = autoridadService.findAll();
             List<String> encryptedIds = new ArrayList<>();
             for (Autoridad autoridad2 : autoridades) {
@@ -53,23 +53,22 @@ public class AutoridadController {
             model.addAttribute("id_encryptado", encryptedIds);
 
             return "autoridad/gestionar-autoridad";
-        }else{
+        } else {
             return "redirect:/";
         }
-        
-        
-	}
 
-	// FUNCION PARA GUARDAR EL departamento
-	@RequestMapping(value = "/AutoridadF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-	public String AutoridadF(@Validated Autoridad autoridad) { // validar los datos capturados (1)
+    }
 
-		autoridad.setEstado_autoridad("A");
-		autoridadService.save(autoridad);
-		return "redirect:/adm/AutoridadR";
-	}
+    // FUNCION PARA GUARDAR EL departamento
+    @RequestMapping(value = "/AutoridadF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
+    public String AutoridadF(@Validated Autoridad autoridad) { // validar los datos capturados (1)
 
-	@RequestMapping(value = "/editar-autoridad/{id_autoridad}")
+        autoridad.setEstado_autoridad("A");
+        autoridadService.save(autoridad);
+        return "redirect:/adm/AutoridadR";
+    }
+
+    @RequestMapping(value = "/editar-autoridad/{id_autoridad}")
     public String editar_r(@PathVariable("id_autoridad") String id_autoridad, Model model) {
         try {
             Long id_auto = Long.parseLong(Encryptar.decrypt(id_autoridad));
@@ -83,7 +82,7 @@ public class AutoridadController {
                 encryptedIds.add(id_encryptado);
             }
             model.addAttribute("autoridades", autoridades);
-			model.addAttribute("personas", personaService.findAll());
+            model.addAttribute("personas", personaService.findAll());
             model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
             return "autoridad/gestionar-autoridad";
@@ -94,17 +93,19 @@ public class AutoridadController {
         }
     }
 
-	// FUNCION PARA GUARDAR EL departamento
-	@RequestMapping(value = "/AutoridadModF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
-	public String departamentoModF(@Validated Autoridad autoridad, RedirectAttributes redirectAttrs) { // validar los datos capturados (1)
+    // FUNCION PARA GUARDAR EL departamento
+    @RequestMapping(value = "/AutoridadModF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
+    public String departamentoModF(@Validated Autoridad autoridad, RedirectAttributes redirectAttrs) { // validar los
+                                                                                                       // datos
+                                                                                                       // capturados (1)
 
-		autoridad.setEstado_autoridad("A");
-		autoridadService.save(autoridad);
-		return "redirect:/adm/AutoridadR";
-	}
+        autoridad.setEstado_autoridad("A");
+        autoridadService.save(autoridad);
+        return "redirect:/adm/AutoridadR";
+    }
 
-	// FUNCION PARA ELIMINAR EL REGISTRO DE departamento
-	@RequestMapping(value = "/eliminar-autoridad/{id_autoridad}")
+    // FUNCION PARA ELIMINAR EL REGISTRO DE departamento
+    @RequestMapping(value = "/eliminar-autoridad/{id_autoridad}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_autoridad") String id_autoridad)
             throws Exception {
         try {
@@ -120,7 +121,7 @@ public class AutoridadController {
         }
     }
 
-	@GetMapping("/tableAutoridades")
+    @GetMapping("/tableAutoridades")
     public String tableRequisitos(@Validated Autoridad autoridad, Model model) throws Exception {
 
         List<Autoridad> autoridades = autoridadService.findAll();
@@ -131,7 +132,7 @@ public class AutoridadController {
         }
         model.addAttribute("autoridades", autoridades);
         model.addAttribute("id_encryptado", encryptedIds);
-        
+
         return "autoridad/tableFragmentAuto :: table";
     }
 }

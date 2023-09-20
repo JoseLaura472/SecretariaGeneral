@@ -59,7 +59,6 @@ public class ReporteController {
     @Autowired
     private IResolucionService resolucionService;
 
-
     @RequestMapping(value = "ReporteCon", method = RequestMethod.GET)
     public String PlantillaBasia(HttpServletRequest request, Model model) {
 
@@ -90,15 +89,14 @@ public class ReporteController {
 
     @PostMapping("/generarReporteAutoridadConvenio")
     public String generarReporteAutoridadTipoCon(
-        @RequestParam("id_autoridad") Long id_autoridad,
-        @RequestParam("id_consejo") Long id_consejo, Model model) {
-
+            @RequestParam("id_autoridad") Long id_autoridad,
+            @RequestParam("id_consejo") Long id_consejo, Model model) {
 
         Autoridad autoridad = autoridadService.findOne(id_autoridad);
         Consejo consejo = consejoService.findOne(id_consejo);
-    
+
         model.addAttribute("convenios", convenioService.listarConvenioConsejoAutoridad(id_autoridad, id_consejo));
-        
+
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 
@@ -139,15 +137,15 @@ public class ReporteController {
 
     @PostMapping("/generarReporteAutoridadResolucion")
     public String generarReporteAutoridadResolucion(
-        @RequestParam("id_autoridad1") Long id_autoridad1,
-        @RequestParam("id_consejo1") Long id_consejo1, Model model) {
-
+            @RequestParam("id_autoridad1") Long id_autoridad1,
+            @RequestParam("id_consejo1") Long id_consejo1, Model model) {
 
         Autoridad autoridad = autoridadService.findOne(id_autoridad1);
         Consejo consejo = consejoService.findOne(id_consejo1);
-    
-        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
-        
+
+        model.addAttribute("resoluciones",
+                resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
+
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 

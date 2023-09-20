@@ -26,13 +26,13 @@ import com.example.Proyecto.Models.IService.IUsuarioService;
 @Controller
 public class UsuarioController {
 
-	@Autowired
+    @Autowired
     private IUsuarioService usuarioService;
 
-	@Autowired
+    @Autowired
     private IConsejoService consejoService;
 
-	@Autowired
+    @Autowired
     private IPersonaService personaService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -41,108 +41,98 @@ public class UsuarioController {
     }
 
     @RequestMapping("/cerrar_sesionAdm")
-	public String cerrarSesionAdm(HttpServletRequest request, RedirectAttributes flash) {
-		HttpSession sessionAdministrador = request.getSession();
-		if (sessionAdministrador != null) {
-			sessionAdministrador.invalidate();
-			flash.addAttribute("validado", "Se cerro sesion con exito!");
-		}
-		return "redirect:/";
-	}
+    public String cerrarSesionAdm(HttpServletRequest request, RedirectAttributes flash) {
+        HttpSession sessionAdministrador = request.getSession();
+        if (sessionAdministrador != null) {
+            sessionAdministrador.invalidate();
+            flash.addAttribute("validado", "Se cerro sesion con exito!");
+        }
+        return "redirect:/";
+    }
 
-	// Funcion de visualizacion de iniciar sesiòn administrador
-	@RequestMapping(value = "/LoginR", method = RequestMethod.GET)
-	public String LoginR(Model model) {
+    // Funcion de visualizacion de iniciar sesiòn administrador
+    @RequestMapping(value = "/LoginR", method = RequestMethod.GET)
+    public String LoginR(Model model) {
 
-		return "login/login-main";
-	}
+        return "login/login-main";
+    }
 
-	// FUNCION PARA LISTAR LOS REGISTRO DE USUARIOS
+    // FUNCION PARA LISTAR LOS REGISTRO DE USUARIOS
     @RequestMapping(value = "/UsuarioL", method = RequestMethod.GET) // Pagina principal
     public String UsuarioL(HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
-          model.addAttribute("usuarios", usuarioService.findAll());
+            model.addAttribute("usuarios", usuarioService.findAll());
 
-        return "usuario/listar-usuario";
-        }else {
+            return "usuario/listar-usuario";
+        } else {
             return "redirect:/";
         }
-      
-
 
     }
 
-	    @RequestMapping(value = "UsuarioForm", method = RequestMethod.GET)
+    @RequestMapping(value = "UsuarioForm", method = RequestMethod.GET)
     public String UsuarioForm(HttpServletRequest request, @Validated Usuario usuario, Model model) throws Exception {
-         if (request.getSession().getAttribute("usuario") != null) {
-           List<Usuario> usuarios = usuarioService.findAll();
-        
-        model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuarios", usuarios);
-        model.addAttribute("consejos", consejoService.findAll());
-		model.addAttribute("personas", personaService.findAll());
+        if (request.getSession().getAttribute("usuario") != null) {
+            List<Usuario> usuarios = usuarioService.findAll();
 
+            model.addAttribute("usuario", new Usuario());
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("personas", personaService.findAll());
 
-        return "usuario/gestionar-usuario";
-        }else{
-         return "redirect:/";
+            return "usuario/gestionar-usuario";
+        } else {
+            return "redirect:/";
         }
-      
 
     }
 
-	@RequestMapping(value = "/editar-usuario/{id_usuario}")
-    public String editar_usu(@PathVariable("id_usuario") Long id_usuario, Model model,HttpServletRequest request)
+    @RequestMapping(value = "/editar-usuario/{id_usuario}")
+    public String editar_usu(@PathVariable("id_usuario") Long id_usuario, Model model, HttpServletRequest request)
             throws NumberFormatException, Exception {
-          if (request.getSession().getAttribute("usuario") != null) {
-			Usuario usuario = usuarioService.findOne(id_usuario);
-       
-        model.addAttribute("usuario", usuario);
+        if (request.getSession().getAttribute("usuario") != null) {
+            Usuario usuario = usuarioService.findOne(id_usuario);
 
-        List<Usuario> usuarios = usuarioService.findAll();
+            model.addAttribute("usuario", usuario);
 
-        model.addAttribute("usuarios", usuarios);
-        model.addAttribute("consejos", consejoService.findAll());
-		 model.addAttribute("personas", personaService.findAll());
+            List<Usuario> usuarios = usuarioService.findAll();
 
-        return "usuario/gestionar-usuario";
-        
-        }else{
-         return "redirect:/";
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("personas", personaService.findAll());
+
+            return "usuario/gestionar-usuario";
+
+        } else {
+            return "redirect:/";
         }
-      
-       
 
     }
 
-
-
-	 @PostMapping(value = "/UsuarioModF")
-    public String UsuarioModF(@Validated Usuario usuario, RedirectAttributes redirectAttrs, Model model, HttpServletRequest request)
+    @PostMapping(value = "/UsuarioModF")
+    public String UsuarioModF(@Validated Usuario usuario, RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request)
             throws IOException {
 
-		
         usuarioService.save(usuario);
         return "redirect:/UsuarioL";
 
-        
-}
+    }
 
+    @RequestMapping(value = "/eliminar-usuario/{id_usuario}")
+    public String eliminar_usu(HttpServletRequest request, @PathVariable("id_usuario") Long id_usuario)
+            throws Exception {
+        if (request.getSession().getAttribute("usuario") != null) {
+            Usuario usuario = usuarioService.findOne(id_usuario);
 
-@RequestMapping(value = "/eliminar-usuario/{id_usuario}")
-public String eliminar_usu(HttpServletRequest request, @PathVariable("id_usuario") Long id_usuario)
-		throws Exception {
-		  if (request.getSession().getAttribute("usuario") != null) {
-			 Usuario usuario = usuarioService.findOne(id_usuario);
-	   
-		usuario.setEstado("X");
-		usuarioService.save(usuario);
+            usuario.setEstado("X");
+            usuarioService.save(usuario);
 
-		return "redirect:/UsuarioL";
-		  }else{
-		return "redirect:/";
-		  }
-	   
-	}
+            return "redirect:/UsuarioL";
+        } else {
+            return "redirect:/";
+        }
+
+    }
 
 }
