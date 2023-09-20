@@ -102,7 +102,7 @@ public class ReporteController {
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 
-        return "reporte/tabla-convenio";
+        return "reporte/tabla-convenios";
     }
 
     @RequestMapping(value = "/openFileReportConsjAuto/{id}", method = RequestMethod.GET, produces = "application/pdf")
