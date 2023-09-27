@@ -43,4 +43,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public Long validar_adm(String usuario_nom, String contrasena) {
         return usuarioDao.validar_adm(usuario_nom, contrasena);
     }
+
+    @Override
+    public Usuario getUsuarioContraseña(String correo, String password) {
+        return usuarioDao.getUsuarioContraseña(correo, password);
+    }
+
+    
 }

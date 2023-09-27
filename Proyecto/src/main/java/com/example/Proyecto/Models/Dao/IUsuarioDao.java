@@ -12,4 +12,7 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long> {
 
     @Query(value = "select * from validar_adm(?1, ?2)", nativeQuery = true)
     public Long validar_adm(String usuario_nom, String contrasena);
+
+    @Query(value = "select u from Usuario u where u.usuario_nom = ?1 and u.usuario_codigo = ?2", nativeQuery = true)
+    public Usuario getUsuarioContraseña(String correo, String password);
 }

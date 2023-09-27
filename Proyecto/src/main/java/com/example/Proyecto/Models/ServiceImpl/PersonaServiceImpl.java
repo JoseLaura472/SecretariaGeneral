@@ -35,4 +35,9 @@ public class PersonaServiceImpl implements IPersonaService {
         personaDao.deleteById(id);
     }
 
+    @Override
+    public Persona getPersonaCI(String ci) {
+        return personaDao.getPersonaCI(ci);
+    }
+
 }
