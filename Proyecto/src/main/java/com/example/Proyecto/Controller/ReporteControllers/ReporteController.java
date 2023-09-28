@@ -136,8 +136,7 @@ public class ReporteController {
         Autoridad autoridad = autoridadService.findOne(id_autoridad1);
         Consejo consejo = consejoService.findOne(id_consejo1);
 
-        model.addAttribute("resoluciones",
-                resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
+        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
 
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);

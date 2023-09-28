@@ -206,6 +206,30 @@
                                         </div>
 
                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control">Beneficiado</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
+                                                            data-validation-required-message="Debe Seleccionar una opción"
+                                                            id="select2-tags3" th:field="${resolucion.beneficiado}"
+                                                            name="id_tipo_convenio">
+                                                            <option value="">Seleccione un beneficiado</option>
+                                                            <th:block th:each="tpbeneficiado, index: ${tipoBeneficiados}">
+                                                                <optgroup th:label="${tpbeneficiado.nombre_tipo_beneficiado}" th:if="${tpbeneficiado.estado_tipo_beneficiado != 'X'}">
+                                                                    <th:block th:each="benefi : ${beneficiados}" th:if="${benefi.tipoBeneficiado.id_tipo_beneficiado == tpbeneficiado.id_tipo_beneficiado}">
+                                                                        <option
+                                                                            th:value="${benefi.id_beneficiado}"
+                                                                            th:if="${benefi.estado_beneficiado != 'X'}"
+                                                                            th:text="${benefi.nombre_beneficiado}">
+                                                                        </option>
+                                                                    </th:block>
+                                                                </optgroup>
+                                                            </th:block>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto">

@@ -1,6 +1,5 @@
 package com.example.Proyecto.Models.Entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +20,7 @@ import lombok.Setter;
 @Table(name = "consejo")
 @Setter
 @Getter
-public class Consejo extends SigaUsicRevisiones implements Serializable {
+public class Consejo extends SigaUsicRevisiones{
     private static final long serialVersionUID = 2629195288020321924L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -38,9 +38,11 @@ import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
+import com.example.Proyecto.Models.IService.IBeneficiadoService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 
 import com.example.Proyecto.Models.IService.IResolucionService;
+import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
 import com.example.Proyecto.Models.IService.ITipoResolucionService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -65,6 +67,12 @@ public class ResolucionController {
 
     @Autowired
     private ITipoResolucionService tipoResolucionService;
+
+    @Autowired
+    private IBeneficiadoService beneficiadoService;
+
+    @Autowired
+    private ITipoBeneficiadoService tipoBeneficiadoService;
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET) // Pagina principal
@@ -99,6 +107,8 @@ public class ResolucionController {
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("beneficiados", beneficiadoService.findAll());
+            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
 
             return "resolucion/gestionar-resolucion";

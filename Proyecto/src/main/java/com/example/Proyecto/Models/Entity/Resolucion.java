@@ -68,4 +68,9 @@ public class Resolucion extends SigaUsicRevisiones{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tipo_resolucion")
     private TipoResolucion tipoResolucion;
+
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_beneficiado")
+    private Beneficiado beneficiado;
 }

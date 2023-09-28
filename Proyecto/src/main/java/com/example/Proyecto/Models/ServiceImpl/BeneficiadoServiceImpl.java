@@ -3,11 +3,13 @@ package com.example.Proyecto.Models.ServiceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.Proyecto.Models.Dao.IBeneficiadoDao;
 import com.example.Proyecto.Models.Entity.Beneficiado;
 import com.example.Proyecto.Models.IService.IBeneficiadoService;
 
+@Service
 public class BeneficiadoServiceImpl implements IBeneficiadoService{
 
     @Autowired
