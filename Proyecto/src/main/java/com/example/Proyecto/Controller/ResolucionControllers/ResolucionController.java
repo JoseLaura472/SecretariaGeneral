@@ -41,10 +41,8 @@ import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 
 import com.example.Proyecto.Models.IService.IResolucionService;
+import com.example.Proyecto.Models.IService.ITipoResolucionService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
@@ -64,6 +62,9 @@ public class ResolucionController {
 
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
+
+    @Autowired
+    private ITipoResolucionService tipoResolucionService;
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET) // Pagina principal
@@ -97,6 +98,7 @@ public class ResolucionController {
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
 
             return "resolucion/gestionar-resolucion";

@@ -77,6 +77,27 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control">Tipo
+                                                        Resolucion</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
+                                                            data-validation-required-message="Debe Seleccionar una opción"
+                                                            id="select2-tags3" th:field="${resolucion.tipoResolucion}"
+                                                            name="id_tipo_convenio">
+                                                            <option value="">Seleccionar un tipo de Convenio</option>
+                                                            <option th:each="trs : ${tipoResoluciones}"
+                                                                th:value="${trs.id_tipo_resolucion}"
+                                                                th:if="${trs.estado_tipo_resolucion != 'X'}"
+                                                                th:text="${trs.nombre_tipo_resolucion}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control"
@@ -122,6 +143,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            -->
                                         </div>
 
 
@@ -146,12 +168,11 @@
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_resolucion}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                            data-validation-required-message="Debe Ingresar los Datos"
+                                                            placeholder=" Ejemplo: 01 - 03">
                                                     </div>
                                                 </div>
                                             </div>
-
-
 
                                         </div>
 
@@ -186,12 +207,10 @@
 
                                         <div class="row">
 
-
-
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control"
-                                                        for="userinput6">Resumen</label>
+                                                        for="userinput6">Resuelve</label>
                                                     <div class="col-md-7">
                                                         <textarea
                                                             data-validation-required-message="Debe Ingresar los Datos"
@@ -204,11 +223,35 @@
                                                 </div>
                                             </div>
 
+                                        </div>
+                                        <h4 class="form-section"><i class="la la-envelope"></i> Información Adicional del Respaldo de la Resolución
+                                        </h4>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput6">Folio del Respaldo</label>
+                                                    <div class="col-md-7">
+                                                        <input th:field="${resolucion.folio_resolucion}" type="text"
+                                                            name="text" class="form-control mb-1 square" required
+                                                            data-validation-required-message="Debe Ingresar los Datos"
+                                                            placeholder=" Ejemplo: 04 - 15">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control" for="userinput6">Adjuntar Respaldo</label>
+                                                    <div class="col-md-7">
+
+                                                        <input type="file" class="form-control-file" id="fileInput"
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}">
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </div>
-
-
-
 
                                     </div>
                                     <div class="form-actions">

@@ -789,7 +789,8 @@ select.form-control {
     padding: 0rem 18px;
     height: 5rem;
     transition: 300ms ease all;
-    background: inherit; }
+    /*Fondo de color de la barra de usuario*/
+    background: #c30909; }
     .header-navbar .navbar-container ul.nav li > a.nav-link {
       padding: 1.8rem 1rem;
       font-size: 1.15rem; }
@@ -937,13 +938,14 @@ select.form-control {
 .navbar-semi-dark {
   background: #fff; }
   .navbar-semi-dark .navbar-header {
-    background: #2c343b; }
+    /*fondo color logo*/
+    background: #c30909; }
     .navbar-semi-dark .navbar-header .brand-text {
       color: #fff; }
   .navbar-semi-dark .navbar-nav li {
     line-height: 1; }
   .navbar-semi-dark .navbar-nav .nav-link {
-    color: #6b6f82; }
+    color: #ffffff; }
   .navbar-semi-dark .navbar-nav .active.nav-link {
     background-color: rgba(0, 0, 0, 0.03); }
   .navbar-semi-dark .navbar-nav .disabled.nav-link {

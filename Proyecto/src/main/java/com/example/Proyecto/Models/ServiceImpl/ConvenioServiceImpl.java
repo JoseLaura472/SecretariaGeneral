@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Proyecto.Models.Dao.IConvenioDao;
-import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.IService.IConvenioService;
 

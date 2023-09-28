@@ -2,7 +2,6 @@ package com.example.Proyecto.Models.IService;
 
 import java.util.List;
 
-import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Resolucion;
 
 public interface IResolucionService {

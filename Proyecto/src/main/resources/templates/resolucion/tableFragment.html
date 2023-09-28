@@ -33,16 +33,10 @@
                     <td th:text="${#dates.format(res.fecha_resolucion, 'dd-MM-yyyy')}"></td>
                     <td>
                         <center>
-                            <div class="btn-group mr-1 mb-1">
-                                <button type="button" class="btn btn-ires btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-cog"></i></button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item"  th:onclick="renombrar([[${res.id_resolucion}]])">Ver Archivo</a>
-                                    <a class="dropdown-item"  th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])">Ver Archivo con Marca</a>
-                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item"  th:href="${'/adm/editar-resolucion/'+res.id_resolucion}">Editar</a>
-                                    <a th:if="${session.usuario.estado != 'AU'}" class="dropdown-item" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)">Eliminar</a>
-                            
-                                </div>
-                            </div>
+                            <a th:onclick="renombrar([[${res.id_resolucion}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #000000;" title="Ver Archivo"></i></a>
+                            <a th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #000000;" title="Ver Archivo con Marca de Agua"></i></a>
+                            <a th:if="${session.usuario.estado != 'AU'}" th:href="${'/adm/editar-resolucion/'+res.id_resolucion}"><i class="fa-solid fa-pen-to-square" style="font-size: 30px; color: #e1d602;" title="Editar"></i></a>
+                            <a th:if="${session.usuario.estado != 'AU'}" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)"><i class="fa-solid fa-trash" style="font-size: 30px; color: #ff0000;" title="Eliminar"></i></a>
                         </center>
                     </td>
                 </tr>

@@ -15,7 +15,7 @@ body {
     min-height: 100vh;
     overflow: hidden;
     background: rgb(1, 46, 88);
-    background: linear-gradient(270deg, rgba(1, 46, 88, 1) 24%, rgba(255, 46, 72, 1) 100%);
+    background: linear-gradient(270deg, rgba(1, 46, 88, 1) 24%, rgb(255, 0, 30) 100%);
 
     /* background: #009FFF;
     background: -webkit-linear-gradient(to right, #e92341, #0051ff); 
