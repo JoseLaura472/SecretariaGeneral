@@ -7,7 +7,7 @@ import com.example.Proyecto.Models.Entity.Persona;
 
 public interface IPersonaDao extends CrudRepository<Persona, Long> {
 
-    @Query(value = "select p from Persona as p where p.ci_persona = ?1", nativeQuery = true)
+    @Query(value = "select * from persona as p where p.ci_persona = ?1", nativeQuery = true)
     public Persona getPersonaCI(String ci);
 
 }

@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.Proyecto.Models.Dao.IPersonaDao;
 import com.example.Proyecto.Models.Entity.Persona;
 import com.example.Proyecto.Models.Entity.Usuario;
+import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.IService.IUsuarioService;
 
@@ -40,6 +42,12 @@ public class UsuarioRestController {
 
 	@Autowired
 	private IPersonaService personaService;
+
+	@Autowired
+	private IPersonaDao personaDao;
+
+	@Autowired
+	private IConsejoService consejoService;
 
 	@RequestMapping(value = "/LogearseCa", method = RequestMethod.POST)
 	public String logearseCa(Model model, HttpServletRequest request,
@@ -63,141 +71,56 @@ public class UsuarioRestController {
 		RestTemplate restTemplate = new RestTemplate();
 
 		ResponseEntity<Map> resp = restTemplate.exchange(url, HttpMethod.POST, req, Map.class);
+		Persona per = new Persona();
+		per.setCi_persona(resp.getBody().get("per_num_doc").toString());
+		per.setNombre_persona(resp.getBody().get("per_nombres").toString());
+		per.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
+		per.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+		per.setEstado_persona("A");
+		System.out.println(per.getCi_persona());
+		Persona pe = personaDao.getPersonaCI(resp.getBody().get("per_num_doc").toString());
+		// System.out.println(pe.getNombre_persona());
 
-		if (resp.getBody().get("status").toString().equals("200")) {
-			Persona persona = personaService.getPersonaCI("5718210");
-			if (persona != null) {
-				if (persona.getUsuarios() != null) {
+		if (pe == null && resp.getBody().get("status").toString().equals("200")) {
+			Persona persona = new Persona();
+			persona.setCi_persona(resp.getBody().get("per_num_doc").toString());
+			persona.setNombre_persona(resp.getBody().get("per_nombres").toString());
+			persona.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
+			persona.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+			persona.setEstado_persona("A");
+			personaService.save(persona);
 
-					Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
-					HttpSession session = request.getSession(true);
+			Usuario usuario = new Usuario();
+			usuario.setUsuario_nom(usuario_nom);
+			usuario.setUsuario_codigo(contrasena);
+			usuario.setPersona(persona);
+			usuario.setConsejo(consejoService.findOne(4L));
+			usuario.setEstado("A");
+			usuarioService.save(usuario);
 
-					session.setAttribute("usuario", usuario);
-					session.setAttribute("persona", usuario.getPersona());
+			HttpSession session = request.getSession(true);
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
 
-					flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
 
-					return "redirect:/adm/InicioAdm";
-				} else {
-					Usuario usuario = new Usuario();
-					usuario.setUsuario_nom(usuario_nom);
-					usuario.setUsuario_codigo(contrasena);
-					usuario.setPersona(persona);
-					usuario.setEstado("A");
-					usuarioService.save(usuario);
+			return "redirect:/adm/InicioAdm";
 
-					HttpSession session = request.getSession(true);
+		} else if (pe.getCi_persona().equals(per.getCi_persona())) {
+			System.out.println(pe.getNombre_persona());
+			System.out.println("existe");
+			Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
+			HttpSession session = request.getSession(true);
 
-					session.setAttribute("usuario", usuario);
-					session.setAttribute("persona", usuario.getPersona());
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
 
-					flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
 
-					return "redirect:/adm/InicioAdm";
-				}
-			} else {
-				persona = new Persona();
-				persona.setCi_persona(resp.getBody().get("per_num_doc").toString());
-				persona.setNombre_persona(resp.getBody().get("per_nombres").toString());
-				persona.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
-				persona.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
-				persona.setEstado_persona("A");
-				personaService.save(persona);
-
-				Usuario usuario = new Usuario();
-				usuario.setUsuario_nom(usuario_nom);
-				usuario.setUsuario_codigo(contrasena);
-				usuario.setPersona(persona);
-				usuario.setEstado("A");
-				usuarioService.save(usuario);
-
-				HttpSession session = request.getSession(true);
-				session.setAttribute("usuario", usuario);
-				session.setAttribute("persona", usuario.getPersona());
-
-				flash.addAttribute("success", usuario.getPersona().getNombre_persona());
-
-				return "redirect:/adm/InicioAdm";
-			}
-		} else {
-			return "redirect:/";
+			return "redirect:/adm/InicioAdm";
 		}
-	}
 
-	@RequestMapping(value = "/LogearseC", method = RequestMethod.POST)
-    public String logearseC(Model model, HttpServletRequest request,
-            @RequestParam(name = "usuario_nom", required = false) String usuario_nom,
-            @RequestParam(name = "contrasena", required = false) String contrasena, RedirectAttributes flash)
-            throws ParseException {
-
-        Map<String, Object> requests = new HashMap<String, Object>();
-
-        requests.put("usuario", usuario_nom);
-        requests.put("contrasena", contrasena);
-
-        String url = "https://apirest-production-0e0a.up.railway.app/api/londraPost/v1/obtenerDatos";
-
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<HashMap> req = new HttpEntity(requests, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<Map> resp = restTemplate.exchange(url, HttpMethod.POST, req, Map.class);
-
-        if (resp.getBody().get("status").toString().equals("200")) {
-            Persona persona = personaService.getPersonaCI(resp.getBody().get("per_num_doc").toString());
-            if (persona != null) {
-                if (persona.getUsuarios() != null) {
-
-                    Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
-                    HttpSession session = request.getSession(true);
-
-                    session.setAttribute("usuario", usuario);
-                    session.setAttribute("persona", usuario.getPersona());
-
-                    flash.addAttribute("success", usuario.getPersona().getNombre_persona());
-
-                    return "redirect:/adm/InicioAdm";
-                } else {
-                    Usuario usuario = new Usuario();
-                    usuario.setUsuario_nom(usuario_nom);
-                    usuario.setUsuario_codigo(contrasena);
-                    usuario.setPersona(persona);
-                    usuario.setEstado("A");
-                    usuarioService.save(usuario);
-
-                    HttpSession session = request.getSession(true);
-
-                    session.setAttribute("usuario", usuario);
-                    session.setAttribute("persona", usuario.getPersona());
-
-                    flash.addAttribute("success", usuario.getPersona().getNombre_persona());
-
-                    return "redirect:/adm/InicioAdm";
-                }
-            } else {
-                
-                Usuario usuario = new Usuario();
-                usuario.setUsuario_nom(usuario_nom);
-                usuario.setUsuario_codigo(contrasena);
-                usuario.setPersona(persona);
-                usuario.setEstado("A");
-                usuarioService.save(usuario);
-
-				HttpSession session = request.getSession(true);
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("persona", usuario.getPersona());
-
-                flash.addAttribute("success", usuario.getPersona().getNombre_persona());
-
-                return "redirect:/adm/InicioAdm";
-            }
-        } else {
-            return "redirect:/";
-		}
+		return "redirect:/LoginR";
 	}
 
 	@PostMapping(value = "LoginF")
