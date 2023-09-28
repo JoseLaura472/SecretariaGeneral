@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.Proyecto.Models.Entity.Consejo;
-import com.example.Proyecto.Models.Entity.Convenio;
 
 public interface IConsejoDao extends CrudRepository<Consejo, Long> {
     @Query(value = "SELECT * FROM consejo as cj WHERE cj.nombre_consejo IN ('CONSEJO ACADEMICO UNIVERSITARIO', 'CONSEJO FACULTATIVO', 'CONSEJO DE CARRERA');\r\n" + //

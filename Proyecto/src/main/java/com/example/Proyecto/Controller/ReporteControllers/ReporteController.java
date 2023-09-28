@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,17 +27,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.Consejo;
-import com.example.Proyecto.Models.Entity.Convenio;
-import com.example.Proyecto.Models.Entity.Representante;
-import com.example.Proyecto.Models.Entity.TipoConvenio;
-import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IConvenioService;
 import com.example.Proyecto.Models.IService.IResolucionService;
-import com.example.Proyecto.Models.IService.ITipoConvenioService;
-import com.example.Proyecto.Models.Otros.Encryptar;
 
 @Controller
 @RequestMapping("/adm")

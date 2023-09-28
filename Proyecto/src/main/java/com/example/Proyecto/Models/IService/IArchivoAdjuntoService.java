@@ -2,8 +2,6 @@ package com.example.Proyecto.Models.IService;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 
 public interface IArchivoAdjuntoService {

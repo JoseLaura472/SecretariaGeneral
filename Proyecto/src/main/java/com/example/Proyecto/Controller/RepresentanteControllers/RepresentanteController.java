@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Representante;
 import com.example.Proyecto.Models.Entity.Usuario;
-import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IInstitucionService;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.IService.IRepresentanteService;

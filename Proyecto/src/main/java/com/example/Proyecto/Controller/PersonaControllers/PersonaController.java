@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.Persona;
-import com.example.Proyecto.Models.Entity.TipoConvenio;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.Otros.Encryptar;
