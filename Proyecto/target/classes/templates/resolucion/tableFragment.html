@@ -33,6 +33,8 @@
                     <td th:text="${#dates.format(res.fecha_resolucion, 'dd-MM-yyyy')}"></td>
                     <td>
                         <center>
+                            <a th:onclick="renombrar2([[${res.id_resolucion}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #286fc0;" title="Ver Respaldo"></i></a>
+                            <a th:onclick="abrirDocumento([[${res.respaldo_marca_resolucion}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #286fc0;" title="Ver Respaldo con Marca de Agua"></i></a>
                             <a th:onclick="renombrar([[${res.id_resolucion}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #000000;" title="Ver Archivo"></i></a>
                             <a th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #000000;" title="Ver Archivo con Marca de Agua"></i></a>
                             <a th:if="${session.usuario.estado != 'AU'}" th:href="${'/adm/editar-resolucion/'+res.id_resolucion}"><i class="fa-solid fa-pen-to-square" style="font-size: 30px; color: #e1d602;" title="Editar"></i></a>

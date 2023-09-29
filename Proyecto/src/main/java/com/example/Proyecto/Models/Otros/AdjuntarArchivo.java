@@ -69,6 +69,24 @@ public class AdjuntarArchivo {
     return 1; // Adjuntado Correctamente
  }
 
+ public Integer adjuntarArchivoResolucionRespaldo(Resolucion resolucion, String rutaArchivo) throws FileNotFoundException, IOException{
+
+        // Save file on system
+    file = resolucion.getFile2();
+    if (!file.getOriginalFilename().isEmpty()) {
+       BufferedOutputStream outputStream = new BufferedOutputStream(
+             new FileOutputStream(
+                   new File(rutaArchivo, resolucion.getNombreArchivo2())));//file.getOriginalFilename())));
+       outputStream.write(file.getBytes());
+       outputStream.flush();
+       outputStream.close();
+    }else{
+       return 0; // Error: No es posible adjuntar
+    }
+    
+    return 1; // Adjuntado Correctamente
+ }
+
 
 
 }

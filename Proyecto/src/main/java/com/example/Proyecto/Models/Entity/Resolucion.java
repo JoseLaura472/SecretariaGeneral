@@ -36,7 +36,7 @@ public class Resolucion extends SigaUsicRevisiones{
     private String gestion_resolucion;
     private String estado_resolucion;
     private String ruta_marca_resolucion;
-
+    private String respaldo_marca_resolucion;
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_resolucion;
 
@@ -45,6 +45,12 @@ public class Resolucion extends SigaUsicRevisiones{
     
     @Transient
     private String nombreArchivo; 
+
+    @Transient
+    private MultipartFile file2; 
+    
+    @Transient
+    private String nombreArchivo2;
 
     // Tabla Autoridad
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -63,6 +69,12 @@ public class Resolucion extends SigaUsicRevisiones{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_archivo_adjunto")
     private ArchivoAdjunto archivoAdjunto;
+
+     // Tabla Respaldo Archivo Adjunto
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_respaldo_resolucion")
+    private RespaldoResolucion respaldoResolucion;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.EAGER)

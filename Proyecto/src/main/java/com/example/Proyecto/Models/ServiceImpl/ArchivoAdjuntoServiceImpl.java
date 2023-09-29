@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Proyecto.Models.Dao.IArchivoAdjuntoDao;
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
+import com.example.Proyecto.Models.Entity.RespaldoResolucion;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 
 @Service
@@ -48,6 +49,8 @@ public class ArchivoAdjuntoServiceImpl implements IArchivoAdjuntoService {
     public ArchivoAdjunto buscarArchivoAdjuntoPorResolucion(Long id_resolucion) {
         return archivoAdjuntoDao.buscarArchivoAdjuntoPorResolucion(id_resolucion);
     }
+
+  
 
  
 

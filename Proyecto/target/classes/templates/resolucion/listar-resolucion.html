@@ -108,6 +108,22 @@
     </script>
 
 <script type="text/javascript">
+    function renombrar2(id_archivo_adjunto) {
+        var id_a = id_archivo_adjunto;
+
+        //alert(id_archivo_adjunto);
+
+        $("#ModalEvaluacion").modal("show");
+
+        $("#id_a").val(id_a);
+
+        $("#iframe-pdf").attr("src", `../../../adm/openFileResolucionRespaldo/${id_a}`)
+
+
+    }
+</script>
+
+<script type="text/javascript">
     function abrirDocumento(ruta) {
         // Codificar la ruta para que sea una URL válida
         var rutaCodificada = encodeURIComponent(ruta);

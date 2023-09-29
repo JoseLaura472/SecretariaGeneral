@@ -3,6 +3,7 @@ package com.example.Proyecto.Models.IService;
 import java.util.List;
 
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
+import com.example.Proyecto.Models.Entity.RespaldoResolucion;
 
 public interface IArchivoAdjuntoService {
 

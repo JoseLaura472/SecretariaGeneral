@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Resolucion;
+import com.example.Proyecto.Models.Entity.RespaldoResolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
@@ -42,6 +43,7 @@ import com.example.Proyecto.Models.IService.IBeneficiadoService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 
 import com.example.Proyecto.Models.IService.IResolucionService;
+import com.example.Proyecto.Models.IService.IRespaldoResolucionService;
 import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
 import com.example.Proyecto.Models.IService.ITipoResolucionService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
@@ -64,6 +66,9 @@ public class ResolucionController {
 
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
+
+     @Autowired
+    private IRespaldoResolucionService respaldoResolucionService;
 
     @Autowired
     private ITipoResolucionService tipoResolucionService;
@@ -144,7 +149,9 @@ public class ResolucionController {
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
 
         MultipartFile multipartFile = resolucion.getFile();
+        MultipartFile multipartFile2 = resolucion.getFile2();
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
+        RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         // (1)
         Path rootPath = Paths.get("archivos/resoluciones/");
@@ -161,6 +168,21 @@ public class ResolucionController {
             System.err.println("Error al crear el directorio: " + e.getMessage());
         }
 
+        //Respaldo en resolución
+        Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
+        Path rootAbsolutPathR = rootPathR.toAbsolutePath();
+        String rutaDirectorioR = rootAbsolutPathR + "";
+        try {
+            if (!Files.exists(rootPathR)) {
+                Files.createDirectories(rootPathR);
+                System.out.println("Directorio creado: " + rutaDirectorioR);
+            } else {
+                System.out.println("El directorio ya existe: " + rutaDirectorioR);
+            }
+        } catch (IOException e) {
+            System.err.println("Error al crear el directorio: " + e.getMessage());
+        }
+
         Path rootPathM = Paths.get("archivos/marca_agua");
         Path rootAbsolutPathM = rootPathM.toAbsolutePath();
         String rutaDirectorioM = rootAbsolutPathM + "/";
@@ -168,20 +190,37 @@ public class ResolucionController {
         String alfaString = generateRandomAlphaNumericString();
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
         String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
+        String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
         model.addAttribute("di", rutaArchivo);
         List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
+        
         resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+        resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
+        Integer ad2 = adjuntarArchivo.adjuntarArchivoResolucionRespaldo(resolucion, rutaArchivoR);
         archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
 
         archivoAdjunto.setRuta(rutaArchivo);
         archivoAdjunto.setEstado_archivo_adjunto("A");
         ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
+
+        respaldoResolucion.setNombre_archivo("respaldo" + "-" + alfaString + ".pdf");
+        respaldoResolucion.setRuta(rutaArchivoR);
+        respaldoResolucion.setEstado_archivo_adjunto("A");
+        RespaldoResolucion respaldoResolucion2 = respaldoResolucionService.registrarArchivoAdjunto(respaldoResolucion);
+
         // Ruta completa del archivo PDF original que recibes
         String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
 
+      
+
         // Ruta donde guardarás el PDF con marca de agua
         String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
+
+        // Ruta completa del archivo PDF original que recibes
+        String pdfFilePath2 = rutaArchivoR + File.separator + resolucion.getNombreArchivo2();
+         // Ruta donde guardarás el PDF con marca de agua
+        String pdfOutputPath2 = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
 
         // Ruta del PDF de la marca de agua
         String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
@@ -189,7 +228,7 @@ public class ResolucionController {
         try {
             // Crear un nuevo documento PDF de salida
             com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-
+            
             // Inicializar el escritor de PDF para el nuevo documento
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
             document.open();
@@ -236,10 +275,61 @@ public class ResolucionController {
             e.printStackTrace();
         }
 
-        resolucion.setRuta_marca_resolucion(pdfOutputPath);
+        try {
+            // Crear un nuevo documento PDF de salida
+            com.itextpdf.text.Document document2 = new com.itextpdf.text.Document();
+            
+            // Inicializar el escritor de PDF para el nuevo documento
+            PdfWriter writer2 = PdfWriter.getInstance(document2, new FileOutputStream(pdfOutputPath2));
+            document2.open();
 
+            // Cargar el PDF original
+            PdfReader reader2 = new PdfReader(pdfFilePath2);
+
+            // Obtener el número total de páginas en el PDF original
+            int pageCount2 = reader2.getNumberOfPages();
+
+            // Cargar la imagen de la marca de agua
+            com.itextpdf.text.Image watermarkImage2 = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+
+            // Definir la posición y la escala de la marca de agua
+            float xPosition = 80; // Cambia esto según tus necesidades
+            float yPosition = 100; // Cambia esto según tus necesidades
+            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+
+            // Iterar a través de las páginas del PDF original
+            for (int pageNumber = 1; pageNumber <= pageCount2; pageNumber++) {
+                // Agregar una nueva página al documento de salida
+                document2.newPage();
+
+                // Obtener el contenido de la página actual
+                PdfContentByte contentByte2 = writer2.getDirectContent();
+
+                // Obtener la página actual del PDF original
+                PdfImportedPage page2 = writer2.getImportedPage(reader2, pageNumber);
+
+                // Agregar la página del PDF original al nuevo documento
+                contentByte2.addTemplate(page2, 0, 0);
+
+                // Agregar la marca de agua (imagen) a la página actual
+                watermarkImage2.setAbsolutePosition(xPosition, yPosition);
+                watermarkImage2.scaleAbsolute(watermarkImage2.getWidth() * scaleFactor,
+                        watermarkImage2.getHeight() * scaleFactor);
+                contentByte2.addImage(watermarkImage2);
+            }
+
+            // Cerrar el documento
+            document2.close();
+            reader2.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        resolucion.setRuta_marca_resolucion(pdfOutputPath);
+        resolucion.setRespaldo_marca_resolucion(pdfOutputPath2);
         resolucion.setConsejo(consejo);
         resolucion.setArchivoAdjunto(archivoAdjunto2);
+        resolucion.setRespaldoResolucion(respaldoResolucion2);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
         return "redirect:/adm/ResolucionL";
@@ -256,6 +346,9 @@ public class ResolucionController {
 
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("beneficiados", beneficiadoService.findAll());
+            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.findAll());
 
             return "resolucion/gestionar-resolucion";
@@ -272,6 +365,7 @@ public class ResolucionController {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
         MultipartFile multipartFile = resolucion.getFile();
+  
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         String alfaString = generateRandomAlphaNumericString();
@@ -287,21 +381,22 @@ public class ResolucionController {
 
         resolucion.setNombreArchivo((alfaString + ".pdf"));
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
+     
+        
         if (ad == 1) {
             ArchivoAdjunto barchivoAdjunto = archivoAdjuntoService
                     .buscarArchivoAdjuntoPorResolucion(resolucion.getId_resolucion());
+           
             barchivoAdjunto.setNombre_archivo(resolucion.getNombreArchivo());
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
-
-            // Ruta completa del archivo PDF original que recibes
-            String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
-
+           
+             // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo  + resolucion.getNombreArchivo();
+            
             // Ruta donde guardarás el PDF con marca de agua
             String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
-
-            // Ruta del PDF de la marca de agua
-            String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+           String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
 
             try {
                 // Crear un nuevo documento PDF de salida
@@ -352,10 +447,14 @@ public class ResolucionController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+                 
             resolucion.setRuta_marca_resolucion(pdfOutputPath);
+           
         }
+     
+        resolucion.setRespaldo_marca_resolucion(resolucion.getRespaldo_marca_resolucion());
         resolucion.setRuta_marca_resolucion(resolucion.getRuta_marca_resolucion());
+
         resolucion.setConsejo(consejo);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
@@ -368,6 +467,18 @@ public class ResolucionController {
             @PathVariable("id") long id_resolucion) throws FileNotFoundException {
         ArchivoAdjunto ArchivoAdjuntos = archivoAdjuntoService.buscarArchivoAdjuntoPorResolucion(id_resolucion);
         File file = new File(ArchivoAdjuntos.getRuta() + ArchivoAdjuntos.getNombre_archivo());
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
+        response.setHeader("Content-Length", String.valueOf(file.length()));
+        return new FileSystemResource(file);
+    }
+
+      @RequestMapping(value = "/openFileResolucionRespaldo/{id}", method = RequestMethod.GET, produces = "application/pdf")
+    public @ResponseBody FileSystemResource abrirArchivoMedianteResourseRespaldo(HttpServletResponse response,
+            @PathVariable("id") long id_resolucion) throws FileNotFoundException {
+                RespaldoResolucion respaldoResolucion = respaldoResolucionService.buscarArchivoAdjuntoPorResolucion(id_resolucion);
+ 
+        File file = new File(respaldoResolucion.getRuta() + respaldoResolucion.getNombre_archivo());
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
         response.setHeader("Content-Length", String.valueOf(file.length()));
@@ -390,6 +501,8 @@ public class ResolucionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+ 
 
     @RequestMapping(value = "/eliminar-resolucion/{id_resolucion}")
     public String eliminar_resolucion(HttpServletRequest request, @PathVariable("id_resolucion") Long id_resolucion)

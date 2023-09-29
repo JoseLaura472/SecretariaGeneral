@@ -17,24 +17,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "archivo_adjunto")
+@Table(name = "respaldo_resolucion")
 @Setter
 @Getter
-public class ArchivoAdjunto extends SigaUsicRevisiones {
+public class RespaldoResolucion extends SigaUsicRevisiones {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_respaldo_resolucion;
 
     private String ruta;
     private String nombre_archivo;
     private String estado_archivo_adjunto;
     private String requerimiento_archivo_adjunto;
 
+
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivoAdjunto", fetch = FetchType.EAGER)
-    private List<Convenio> convenio;
-
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "respaldoResolucion", fetch = FetchType.EAGER)
+    private List<Resolucion> resolucion;
 
 }

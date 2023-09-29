@@ -50,8 +50,10 @@
                                     </th:block>
                                     <input type="hidden" th:field="${resolucion.id_resolucion}">
                                     <input type="hidden" th:field="${resolucion.ruta_marca_resolucion}">
+                                    <input type="hidden" th:field="${resolucion.respaldo_marca_resolucion}">
                                     <input type="hidden" name="id_archivo_adjunto"
                                         th:field="${resolucion.archivoAdjunto.id}">
+                                    <input type="hidden" name="id_respaldo_resolucion" th:field="${resolucion.respaldoResolucion.id_respaldo_resolucion}">
 
                                     <div class="form-body">
                                         <h4 class="form-section"><i class="la la-archive"></i> Información de la
@@ -270,7 +272,7 @@
                                                     <div class="col-md-7">
 
                                                         <input type="file" class="form-control-file" id="fileInput"
-                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}">
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file2}">
                                                     </div>
                                                 </div>
                                             </div>
