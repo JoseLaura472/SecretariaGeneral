@@ -30,6 +30,7 @@ public class Convenio extends SigaUsicRevisiones {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_convenio;
 
+    private String titulo_convenio;
     private String numero_convenio;
     private String folio_convenio;
     private String objeto_convenio;
