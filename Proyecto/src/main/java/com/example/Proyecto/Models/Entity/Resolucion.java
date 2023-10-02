@@ -32,6 +32,7 @@ public class Resolucion extends SigaUsicRevisiones{
 
     private String numero_resolucion;
     private String folio_resolucion;
+    private String folio_respaldo_resolucion;
     private String objeto_resolucion;
     private String gestion_resolucion;
     private String estado_resolucion;
