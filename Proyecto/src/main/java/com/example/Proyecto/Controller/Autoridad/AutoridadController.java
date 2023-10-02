@@ -68,27 +68,31 @@ public class AutoridadController {
     }
 
     @RequestMapping(value = "/editar-autoridad/{id_autoridad}")
-    public String editar_r(@PathVariable("id_autoridad") String id_autoridad, Model model) {
-        try {
-            Long id_auto = Long.parseLong(Encryptar.decrypt(id_autoridad));
-            Autoridad autoridad = autoridadService.findOne(id_auto);
-            model.addAttribute("autoridad", autoridad);
+    public String editar_r(@PathVariable("id_autoridad") String id_autoridad, Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_auto = Long.parseLong(Encryptar.decrypt(id_autoridad));
+                Autoridad autoridad = autoridadService.findOne(id_auto);
+                model.addAttribute("autoridad", autoridad);
 
-            List<Autoridad> autoridades = autoridadService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (Autoridad autoridad2 : autoridades) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(autoridad2.getId_autoridad()));
-                encryptedIds.add(id_encryptado);
+                List<Autoridad> autoridades = autoridadService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (Autoridad autoridad2 : autoridades) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(autoridad2.getId_autoridad()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("autoridades", autoridades);
+                model.addAttribute("personas", personaService.findAll());
+                model.addAttribute("consejos", consejoService.findAll());
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "autoridad/gestionar-autoridad";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
             }
-            model.addAttribute("autoridades", autoridades);
-            model.addAttribute("personas", personaService.findAll());
-            model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("id_encryptado", encryptedIds);
-            return "autoridad/gestionar-autoridad";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
     }
 
@@ -107,16 +111,20 @@ public class AutoridadController {
     @RequestMapping(value = "/eliminar-autoridad/{id_autoridad}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_autoridad") String id_autoridad)
             throws Exception {
-        try {
-            Long id_auto = Long.parseLong(Encryptar.decrypt(id_autoridad));
-            Autoridad autoridad = autoridadService.findOne(id_auto);
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-            autoridad.setId_usu(usuario.getId_usuario());
-            autoridad.setEstado_autoridad("X");
-            autoridadService.save(autoridad);
-            return "redirect:/adm/AutoridadR";
-        } catch (Exception e) {
-            return "redirect:/adm/InicioAdm";
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_auto = Long.parseLong(Encryptar.decrypt(id_autoridad));
+                Autoridad autoridad = autoridadService.findOne(id_auto);
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                autoridad.setId_usu(usuario.getId_usuario());
+                autoridad.setEstado_autoridad("X");
+                autoridadService.save(autoridad);
+                return "redirect:/adm/AutoridadR";
+            } catch (Exception e) {
+                return "redirect:/adm/InicioAdm";
+            }
+        } else {
+            return "redirect:/";
         }
     }
 

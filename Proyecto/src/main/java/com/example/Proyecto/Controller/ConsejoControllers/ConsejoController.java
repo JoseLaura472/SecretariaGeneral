@@ -63,26 +63,31 @@ public class ConsejoController {
     }
 
     @RequestMapping(value = "/editar-consejo/{id_consejo}")
-    public String editar_c(@PathVariable("id_consejo") String id_consejo, Model model) {
-        try {
-            Long id_con = Long.parseLong(Encryptar.decrypt(id_consejo));
-            Consejo consejo = consejoService.findOne(id_con);
-            model.addAttribute("consejo", consejo);
+    public String editar_c(@PathVariable("id_consejo") String id_consejo, Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_con = Long.parseLong(Encryptar.decrypt(id_consejo));
+                Consejo consejo = consejoService.findOne(id_con);
+                model.addAttribute("consejo", consejo);
 
-            List<Consejo> consejos = consejoService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (Consejo consejo2 : consejos) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(consejo2.getId_consejo()));
-                encryptedIds.add(id_encryptado);
+                List<Consejo> consejos = consejoService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (Consejo consejo2 : consejos) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(consejo2.getId_consejo()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("consejos", consejos);
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "consejo/gestionar-consejo";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
             }
-            model.addAttribute("consejos", consejos);
-            model.addAttribute("id_encryptado", encryptedIds);
-            return "consejo/gestionar-consejo";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
+
     }
 
     @RequestMapping(value = "/ConsejoModF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
@@ -99,6 +104,7 @@ public class ConsejoController {
     @RequestMapping(value = "/eliminar-consejo/{id_consejo}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_consejo") String id_consejo)
             throws Exception {
+        if (request.getSession().getAttribute("persona") != null) {
         try {
             Long id_con = Long.parseLong(Encryptar.decrypt(id_consejo));
             Consejo consejo = consejoService.findOne(id_con);
@@ -109,6 +115,9 @@ public class ConsejoController {
             return "redirect:/adm/ConsejoR";
         } catch (Exception e) {
             return "redirect:/adm/InicioAdm";
+        }
+        } else {
+            return "redirect:/";
         }
     }
 

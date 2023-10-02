@@ -189,6 +189,26 @@
     <div th:replace="layout/script :: script"></div>
     <div th:replace="layout/AjaxFormularios :: submit_form6"></div>
 
+    <script>
+        function MandarURL(a) {
+            console.log(a);
+            Swal.fire({
+                title: 'Eliminar Registro?',
+                type: 'error',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-persona/' + a + '" >Eliminar</a>',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText: 'Cancelar',
+                cancelButtonAriaLabel: 'Thumbs down',
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+                cancelButtonClass: 'btn btn-danger ml-1',
+            })
+        }
+    </script>
+
 </body>
 <!-- END: Body-->
 

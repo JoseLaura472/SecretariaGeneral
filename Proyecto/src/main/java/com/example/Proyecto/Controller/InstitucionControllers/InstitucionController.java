@@ -31,17 +31,22 @@ public class InstitucionController {
     public String InstitucionR(HttpServletRequest request, @Validated Institucion institucion, Model model)
             throws Exception {
 
-        List<Institucion> institucions = institucionService.findAll();
-        List<String> encryptedIds = new ArrayList<>();
-        for (Institucion institucion2 : institucions) {
-            String id_encryptado = Encryptar.encrypt(Long.toString(institucion2.getId_institucion()));
-            encryptedIds.add(id_encryptado);
-        }
-        model.addAttribute("institucion", new Institucion());
-        model.addAttribute("institucions", institucions);
-        model.addAttribute("id_encryptado", encryptedIds);
+        if (request.getSession().getAttribute("persona") != null) {
 
-        return "institucion/gestionar-institucion";
+            List<Institucion> institucions = institucionService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (Institucion institucion2 : institucions) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(institucion2.getId_institucion()));
+                encryptedIds.add(id_encryptado);
+            }
+            model.addAttribute("institucion", new Institucion());
+            model.addAttribute("institucions", institucions);
+            model.addAttribute("id_encryptado", encryptedIds);
+
+            return "institucion/gestionar-institucion";
+        } else {
+            return "redirect:/";
+        }
 
     }
 
@@ -59,25 +64,30 @@ public class InstitucionController {
     }
 
     @RequestMapping(value = "/editar-institucion/{id_institucion}")
-    public String editar_c(@PathVariable("id_institucion") String id_institucion, Model model) {
-        try {
-            Long id_ins = Long.parseLong(Encryptar.decrypt(id_institucion));
-            Institucion institucion = institucionService.findOne(id_ins);
-            model.addAttribute("institucion", institucion);
+    public String editar_c(HttpServletRequest request, @PathVariable("id_institucion") String id_institucion,
+            Model model) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_ins = Long.parseLong(Encryptar.decrypt(id_institucion));
+                Institucion institucion = institucionService.findOne(id_ins);
+                model.addAttribute("institucion", institucion);
 
-            List<Institucion> institucions = institucionService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (Institucion institucion2 : institucions) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(institucion2.getId_institucion()));
-                encryptedIds.add(id_encryptado);
+                List<Institucion> institucions = institucionService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (Institucion institucion2 : institucions) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(institucion2.getId_institucion()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("institucions", institucions);
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "institucion/gestionar-institucion";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
             }
-            model.addAttribute("institucions", institucions);
-            model.addAttribute("id_encryptado", encryptedIds);
-            return "institucion/gestionar-institucion";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
     }
 
@@ -95,16 +105,20 @@ public class InstitucionController {
     @RequestMapping(value = "/eliminar-institucion/{id_institucion}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_institucion") String id_institucion)
             throws Exception {
-        try {
-            Long id_inst = Long.parseLong(Encryptar.decrypt(id_institucion));
-            Institucion institucion = institucionService.findOne(id_inst);
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-            institucion.setId_usu(usuario.getId_usuario());
-            institucion.setEstado_institucion("X");
-            institucionService.save(institucion);
-            return "redirect:/adm/InstitucionR";
-        } catch (Exception e) {
-            return "redirect:/adm/InicioAdm";
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_inst = Long.parseLong(Encryptar.decrypt(id_institucion));
+                Institucion institucion = institucionService.findOne(id_inst);
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                institucion.setId_usu(usuario.getId_usuario());
+                institucion.setEstado_institucion("X");
+                institucionService.save(institucion);
+                return "redirect:/adm/InstitucionR";
+            } catch (Exception e) {
+                return "redirect:/adm/InicioAdm";
+            }
+        } else {
+            return "redirect:/";
         }
     }
 

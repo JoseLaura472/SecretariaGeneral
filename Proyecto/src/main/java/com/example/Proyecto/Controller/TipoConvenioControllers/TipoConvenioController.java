@@ -30,18 +30,21 @@ public class TipoConvenioController {
     @RequestMapping(value = "TipoConvenioR", method = RequestMethod.GET)
     public String TipoConvenioR(HttpServletRequest request, @Validated TipoConvenio tipoConvenio, Model model)
             throws Exception {
+        if (request.getSession().getAttribute("persona") != null) {
+            List<TipoConvenio> tipoConvenios = tipoConvenioService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (TipoConvenio tipoConvenio2 : tipoConvenios) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(tipoConvenio2.getId_tipo_convenio()));
+                encryptedIds.add(id_encryptado);
+            }
+            model.addAttribute("tipoConvenio", new TipoConvenio());
+            model.addAttribute("tipoConvenios", tipoConvenios);
+            model.addAttribute("id_encryptado", encryptedIds);
 
-        List<TipoConvenio> tipoConvenios = tipoConvenioService.findAll();
-        List<String> encryptedIds = new ArrayList<>();
-        for (TipoConvenio tipoConvenio2 : tipoConvenios) {
-            String id_encryptado = Encryptar.encrypt(Long.toString(tipoConvenio2.getId_tipo_convenio()));
-            encryptedIds.add(id_encryptado);
+            return "tpConvenio/gestionar-tpconvenio";
+        } else {
+            return "redirect:/";
         }
-        model.addAttribute("tipoConvenio", new TipoConvenio());
-        model.addAttribute("tipoConvenios", tipoConvenios);
-        model.addAttribute("id_encryptado", encryptedIds);
-
-        return "tpConvenio/gestionar-tpconvenio";
 
     }
 
@@ -60,25 +63,30 @@ public class TipoConvenioController {
     }
 
     @RequestMapping(value = "/editar-tpconvenio/{id_tipo_convenio}")
-    public String editar_c(@PathVariable("id_tipo_convenio") String id_tipo_convenio, Model model) {
-        try {
-            Long id_tpcon = Long.parseLong(Encryptar.decrypt(id_tipo_convenio));
-            TipoConvenio tipoConvenio = tipoConvenioService.findOne(id_tpcon);
-            model.addAttribute("tipoConvenio", tipoConvenio);
+    public String editar_c(HttpServletRequest request, @PathVariable("id_tipo_convenio") String id_tipo_convenio,
+            Model model) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_tpcon = Long.parseLong(Encryptar.decrypt(id_tipo_convenio));
+                TipoConvenio tipoConvenio = tipoConvenioService.findOne(id_tpcon);
+                model.addAttribute("tipoConvenio", tipoConvenio);
 
-            List<TipoConvenio> tipoConvenios = tipoConvenioService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (TipoConvenio tipoConvenio2 : tipoConvenios) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(tipoConvenio2.getId_tipo_convenio()));
-                encryptedIds.add(id_encryptado);
+                List<TipoConvenio> tipoConvenios = tipoConvenioService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (TipoConvenio tipoConvenio2 : tipoConvenios) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(tipoConvenio2.getId_tipo_convenio()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("tipoConvenios", tipoConvenios);
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "tpconvenio/gestionar-tpconvenio";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
             }
-            model.addAttribute("tipoConvenios", tipoConvenios);
-            model.addAttribute("id_encryptado", encryptedIds);
-            return "tpconvenio/gestionar-tpconvenio";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
     }
 
@@ -96,16 +104,20 @@ public class TipoConvenioController {
     @RequestMapping(value = "/eliminar-tpconvenio/{id_tipo_convenio}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_tipo_convenio") String id_tipo_convenio)
             throws Exception {
-        try {
-            Long id_con = Long.parseLong(Encryptar.decrypt(id_tipo_convenio));
-            TipoConvenio tipoConvenio = tipoConvenioService.findOne(id_con);
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-            tipoConvenio.setId_usu(usuario.getId_usuario());
-            tipoConvenio.setEstado_tipo_convenio("X");
-            tipoConvenioService.save(tipoConvenio);
-            return "redirect:/adm/TipoConvenioR";
-        } catch (Exception e) {
-            return "redirect:/adm/InicioAdm";
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_con = Long.parseLong(Encryptar.decrypt(id_tipo_convenio));
+                TipoConvenio tipoConvenio = tipoConvenioService.findOne(id_con);
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                tipoConvenio.setId_usu(usuario.getId_usuario());
+                tipoConvenio.setEstado_tipo_convenio("X");
+                tipoConvenioService.save(tipoConvenio);
+                return "redirect:/adm/TipoConvenioR";
+            } catch (Exception e) {
+                return "redirect:/adm/InicioAdm";
+            }
+        } else {
+            return "redirect:/";
         }
     }
 

@@ -69,27 +69,32 @@ public class RepresentanteController {
     }
 
     @RequestMapping(value = "/editar-representante/{id_representante}")
-    public String editar_r(@PathVariable("id_representante") String id_representante, Model model) {
-        try {
-            Long id_rep = Long.parseLong(Encryptar.decrypt(id_representante));
-            Representante representante = representanteService.findOne(id_rep);
-            model.addAttribute("representante", representante);
+    public String editar_r(HttpServletRequest request, @PathVariable("id_representante") String id_representante,
+            Model model) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_rep = Long.parseLong(Encryptar.decrypt(id_representante));
+                Representante representante = representanteService.findOne(id_rep);
+                model.addAttribute("representante", representante);
 
-            List<Representante> representantes = representanteService.findAll();
-            List<String> encryptedIds = new ArrayList<>();
-            for (Representante representante2 : representantes) {
-                String id_encryptado = Encryptar.encrypt(Long.toString(representante2.getId_representante()));
-                encryptedIds.add(id_encryptado);
+                List<Representante> representantes = representanteService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (Representante representante2 : representantes) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(representante2.getId_representante()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("representantes", representantes);
+                model.addAttribute("personas", personaService.findAll());
+                model.addAttribute("instituciones", institucionService.findAll());
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "representante/gestionar-representante";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
             }
-            model.addAttribute("representantes", representantes);
-            model.addAttribute("personas", personaService.findAll());
-            model.addAttribute("instituciones", institucionService.findAll());
-            model.addAttribute("id_encryptado", encryptedIds);
-            return "representante/gestionar-representante";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
     }
 
@@ -110,16 +115,20 @@ public class RepresentanteController {
     @RequestMapping(value = "/eliminar-representante/{id_representate}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_representate") String id_representate)
             throws Exception {
-        try {
-            Long id_rep = Long.parseLong(Encryptar.decrypt(id_representate));
-            Representante representante = representanteService.findOne(id_rep);
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-            representante.setId_usu(usuario.getId_usuario());
-            representante.setEstado_representante("X");
-            representanteService.save(representante);
-            return "redirect:/adm/RepresentanteR";
-        } catch (Exception e) {
-            return "redirect:/adm/InicioAdm";
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_rep = Long.parseLong(Encryptar.decrypt(id_representate));
+                Representante representante = representanteService.findOne(id_rep);
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                representante.setId_usu(usuario.getId_usuario());
+                representante.setEstado_representante("X");
+                representanteService.save(representante);
+                return "redirect:/adm/RepresentanteR";
+            } catch (Exception e) {
+                return "redirect:/adm/InicioAdm";
+            }
+        } else {
+            return "redirect:/";
         }
     }
 

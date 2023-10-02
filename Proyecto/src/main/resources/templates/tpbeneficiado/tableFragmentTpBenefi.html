@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="table-responsive" th:fragment="table">
+        <table class="table table-striped table-bordered zero-configuration">
+            <thead>
+                <tr>
+                    <th>Nombre Tipo Beneficiado</th>
+                    <th>Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tpben, index : ${tipoBeneficiados}" th:if="${tpben.estado_tipo_beneficiado != 'X'}">
+                    <td th:text="${tpben.nombre_tipo_beneficiado}"></td>
+                    <td>
+                        <center>
+                            <a class="btn btn-warning round text-white"
+                                th:href="${'/adm/editar-tpbeneficiario/'+id_encryptado[__${index.index}__]}">
+                                <i class="la la-cog"></i>
+                            </a>
+                            <a th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white"
+                                onclick="MandarURL(this.id)">
+                                <i class="la la-trash"></i>
+                            </a>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

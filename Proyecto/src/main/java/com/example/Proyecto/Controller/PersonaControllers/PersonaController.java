@@ -28,27 +28,9 @@ public class PersonaController {
     private IPersonaService personaService;
 
     @RequestMapping(value = "PersonaR", method = RequestMethod.GET)
-    public String PersonaR(@Validated Persona persona, Model model) throws Exception {
+    public String PersonaR(@Validated Persona persona, Model model, HttpServletRequest request) throws Exception {
 
-        List<Persona> personas = personaService.findAll();
-        List<String> encryptedIds = new ArrayList<>();
-        for (Persona persona2 : personas) {
-            String id_encryptado = Encryptar.encrypt(Long.toString(persona2.getId_persona()));
-            encryptedIds.add(id_encryptado);
-        }
-        model.addAttribute("personas", personas);
-        model.addAttribute("id_encryptado", encryptedIds);
-
-        return "persona/persona-adm";
-    }
-
-    @RequestMapping(value = "/editar-persona/{id_persona}")
-    public String editar_c(@PathVariable("id_persona") String id_persona, Model model) {
-        try {
-            Long id_per = Long.parseLong(Encryptar.decrypt(id_persona));
-            Persona persona = personaService.findOne(id_per);
-            model.addAttribute("persona", persona);
-
+        if (request.getSession().getAttribute("persona") != null) {
             List<Persona> personas = personaService.findAll();
             List<String> encryptedIds = new ArrayList<>();
             for (Persona persona2 : personas) {
@@ -57,12 +39,39 @@ public class PersonaController {
             }
             model.addAttribute("personas", personas);
             model.addAttribute("id_encryptado", encryptedIds);
+
             return "persona/persona-adm";
-
-        } catch (Exception e) {
-
-            return "redirect:/adm/InicioAdm";
+        } else {
+            return "redirect:/";
         }
+    }
+
+    @RequestMapping(value = "/editar-persona/{id_persona}")
+    public String editar_c(@PathVariable("id_persona") String id_persona, Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("persona") != null) {
+            try {
+                Long id_per = Long.parseLong(Encryptar.decrypt(id_persona));
+                Persona persona = personaService.findOne(id_per);
+                model.addAttribute("persona", persona);
+
+                List<Persona> personas = personaService.findAll();
+                List<String> encryptedIds = new ArrayList<>();
+                for (Persona persona2 : personas) {
+                    String id_encryptado = Encryptar.encrypt(Long.toString(persona2.getId_persona()));
+                    encryptedIds.add(id_encryptado);
+                }
+                model.addAttribute("personas", personas);
+                model.addAttribute("id_encryptado", encryptedIds);
+                return "persona/persona-adm";
+
+            } catch (Exception e) {
+
+                return "redirect:/adm/InicioAdm";
+            }
+        } else {
+            return "redirect:/";
+        }
+
     }
 
     @RequestMapping(value = "/PersonaModF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
@@ -79,6 +88,7 @@ public class PersonaController {
     @RequestMapping(value = "/eliminar-persona/{id_persona}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_persona") String id_persona)
             throws Exception {
+        if (request.getSession().getAttribute("persona") != null) {
         try {
             Long id_per = Long.parseLong(Encryptar.decrypt(id_persona));
             Persona persona = personaService.findOne(id_per);
@@ -90,7 +100,11 @@ public class PersonaController {
         } catch (Exception e) {
             return "redirect:/adm/InicioAdm";
         }
+        } else {
+            return "redirect:/";
+        }
     }
+    
 
     @GetMapping("/tablePersonas")
     public String tableConsejos(@Validated Persona persona, Model model) throws Exception {

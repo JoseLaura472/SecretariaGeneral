@@ -23,7 +23,7 @@ import com.example.Proyecto.Models.Otros.Encryptar;
 
 @Controller
 @RequestMapping("/adm")
-public class BeneficiadoControllers {
+public class BeneficiadoController {
 
     @Autowired
     private IBeneficiadoService beneficiadoService;
@@ -66,7 +66,8 @@ public class BeneficiadoControllers {
 
 
     @RequestMapping(value = "/editar-beneficiado/{id_beneficiado}")
-    public String editar_c(@PathVariable("id_beneficiado") String id_beneficiado, Model model) {
+    public String editar_c(HttpServletRequest request, @PathVariable("id_beneficiado") String id_beneficiado, Model model) {
+        if (request.getSession().getAttribute("persona") != null) {
         try {
             Long id_benefi = Long.parseLong(Encryptar.decrypt(id_beneficiado));
             Beneficiado beneficiado = beneficiadoService.findOne(id_benefi);
@@ -87,6 +88,9 @@ public class BeneficiadoControllers {
 
             return "redirect:/adm/InicioAdm";
         }
+        } else {
+            return "redirect:/";
+        }
     }
 
 
@@ -105,6 +109,7 @@ public class BeneficiadoControllers {
     @RequestMapping(value = "/eliminar-beneficiado/{id_beneficiado}")
     public String eliminar_c(HttpServletRequest request, @PathVariable("id_beneficiado") String id_beneficiado)
             throws Exception {
+        if (request.getSession().getAttribute("persona") != null) {
         try {
             Long id_benefi = Long.parseLong(Encryptar.decrypt(id_beneficiado));
             Beneficiado beneficiado = beneficiadoService.findOne(id_benefi);
@@ -115,6 +120,9 @@ public class BeneficiadoControllers {
             return "redirect:/adm/BeneficiadoR";
         } catch (Exception e) {
             return "redirect:/adm/InicioAdm";
+        }
+        } else {
+            return "redirect:/";
         }
     }
 

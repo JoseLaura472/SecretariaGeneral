@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Persona</h4>
+                                <h4 class="card-title text-white" id="basic-layout-form">Registro de Tipo Resolución</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -55,84 +55,43 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
                                     <div class="card-text">
-                                        <p>El registro corresponde a la información de la Persona.</p>
+                                        <p>El registro corresponde a la información del Tipo de Resolución.</p>
                                     </div>
-                                    <th:block th:if="${persona.id_persona != null}">
-                                        <form class="form" action="/adm/PersonaModF" method="post" novalidate>
+                                    <th:block th:if="${tipoResolucion.id_tipo_resolucion != null}">
+                                        <form class="form" action="/adm/TipoResolucionModF" method="post" novalidate>
                                     </th:block>
-                                    <th:block th:if="${persona.id_persona == null}">
-                                        <form id="form1" class="form" action="/PersonaF" method="post" novalidate>
+                                    <th:block th:if="${tipoResolucion.id_tipo_resolucion == null}">
+                                        <form id="form1" class="form" action="/adm/TipoResolucionF" method="post"
+                                            novalidate>
                                     </th:block>
-                                    <input type="hidden" th:field="${persona.id_persona}">
+                                    <input type="hidden" th:field="${tipoResolucion.id_tipo_resolucion}">
                                     <div class="form-body">
                                         <h4 class="form-section"><i class="icon icon-user"></i><strong>Datos
-                                                Personales</strong></h4>
+                                                del Tipo de Resolucion</strong></h4>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
-                                                    <h5>Nombres</h5>
+                                                    <h5>Nombre Tipo Resolucion</h5>
                                                     <div class="controls">
-                                                        <input th:field="${persona.nombre_persona}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                        <input th:field="${tipoResolucion.nombre_tipo_resolucion}"
+                                                            type="text" name="text" class="form-control mb-1 square"
+                                                            required
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                             style="text-transform:uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-12">
                                                 <div class="form-group">
-                                                    <h5>Apellido Paterno</h5>
+                                                    <h5>Sigla Tipo Resolucion</h5>
                                                     <div class="controls">
-                                                        <input th:field="${persona.ap_paterno_persona}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                        <input th:field="${tipoResolucion.sigla_tipo_resolucion}"
+                                                            type="text" name="text" class="form-control mb-1 square"
+                                                            required
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                             style="text-transform:uppercase;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>Apellido Materno</h5>
-                                                    <div class="controls">
-                                                        <input th:field="${persona.ap_materno_persona}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                            style="text-transform:uppercase;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>N° de C.I.</h5>
-                                                    <div class="controls">
-                                                        <input th:field="${persona.ci_persona}" type="text" name="text"
-                                                            class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                       
-                                        <h4 class="form-section"><i class="icon icon-call-in"></i><strong>Datos de
-                                                Contacto</strong></h4>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>Correo Electronico</h5>
-                                                    <div class="controls">
-                                                        <input th:field="${persona.email_persona}" type="email"
-                                                            name="email" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="form-group">
-                                                    <h5>N° de Contacto</h5>
-                                                    <div class="controls">
-                                                        <input th:field="${persona.telefono_persona}" type="text"
-                                                            name="email" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Deber Ingresar los Datos">
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,7 +130,7 @@
                             </div>
                             <div class="card-content collapse show">
                                 <div class="card-body" id="fragmentContainer">
-                                    <th:block th:replace="persona/tableFragmentPer :: table"></th:block>
+                                    <th:block th:replace="tpresolucion/tableFragmentTpresol :: table"></th:block>
                                 </div>
                             </div>
                         </div>
@@ -187,18 +146,29 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
-    <div th:replace="layout/AjaxFormularios :: submit_form6"></div>
+
+    <div th:replace="layout/AjaxFormularios :: submit_form9"></div>
 
     <script>
         function MandarURL(a) {
             console.log(a);
+            // Swal.fire({
+            //   title: 'Eliminar Registro?',              
+            //   type: 'error',     
+            //   showCancelButton: true,
+            //   cancelButtonText: "Cancelar",         
+            //   html:
+            //   "<a"+
+            //   " class='btn btn-danger btn-min-width' "+
+            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
+            // });
             Swal.fire({
                 title: 'Eliminar Registro?',
                 type: 'error',
                 showCloseButton: true,
                 showCancelButton: true,
                 focusConfirm: false,
-                confirmButtonText: '<a class="text-white" href="/adm/eliminar-persona/' + a + '" >Eliminar</a>',
+                confirmButtonText: '<a class="text-white" href="/adm/eliminar-tpresolucion/' + a + '" >Eliminar</a>',
                 confirmButtonAriaLabel: 'Thumbs up, great!',
                 cancelButtonText: 'Cancelar',
                 cancelButtonAriaLabel: 'Thumbs down',
