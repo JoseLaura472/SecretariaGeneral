@@ -16,5 +16,5 @@ public interface IResolucionService {
 
     public List<Resolucion> resolucionPorIdConsejo(Long id_consejo);
 
-    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo1, Long id_autoridad1);
+    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo, Long id_autoridad);
 }

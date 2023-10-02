@@ -41,8 +41,8 @@ public class ResolucionServiceImpl implements IResolucionService {
     }
 
     @Override
-    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo1, Long id_autoridad1) {
-        return (List<Resolucion>) resolucionDao.listarResolucionConsejoAutoridad(id_consejo1, id_autoridad1);
+    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo, Long id_autoridad) {
+        return (List<Resolucion>) resolucionDao.listarResolucionConsejoAutoridad(id_consejo, id_autoridad);
     }
 
 }

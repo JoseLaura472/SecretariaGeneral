@@ -130,16 +130,16 @@ public class ReporteController {
 
     @PostMapping("/generarReporteAutoridadResolucion")
     public String generarReporteAutoridadResolucion(
-            @RequestParam("id_autoridad1") Long id_autoridad1,
-            @RequestParam("id_consejo1") Long id_consejo1, Model model) {
+            @RequestParam(value = "id_autoridad1") Long id_autoridad,
+            @RequestParam(value = "id_consejo1") Long id_consejo, Model model) throws FileNotFoundException, IOException {
 
-        Autoridad autoridad = autoridadService.findOne(id_autoridad1);
-        Consejo consejo = consejoService.findOne(id_consejo1);
-
-        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad1, id_consejo1));
+        Autoridad autoridad = autoridadService.findOne(id_autoridad);
+        Consejo consejo = consejoService.findOne(id_consejo);
 
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
+
+        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad, id_consejo));
 
         return "reporte/tabla-resolucion";
     }

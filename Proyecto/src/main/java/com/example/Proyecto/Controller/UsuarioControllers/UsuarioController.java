@@ -54,7 +54,7 @@ public class UsuarioController {
     @RequestMapping(value = "/LoginR", method = RequestMethod.GET)
     public String LoginR(Model model) {
 
-        return "login/login-main";
+        return "reporte/reporte-autoridad-tpc";
     }
 
     // FUNCION PARA LISTAR LOS REGISTRO DE USUARIOS
