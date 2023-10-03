@@ -14,12 +14,15 @@
             <thead>
                 <tr>
                     <th>Nro Convenio</th>
+                    <th>Titúlo del Convenio</th>
+                    <th>Tipo del Convenio</th>
                     <th>Representante</th>
                     <th>Autoridad</th>
-                    <th>Gestión</th>
-                   
+                    <th>Beneficiado</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
                     <th>Nro Folio</th>
-   
+                    <th>Ver Convenio</th>
                     <th>Acciones</th>
                     
                 </tr>
@@ -27,16 +30,22 @@
             <tbody>
                 <tr th:each="con, index : ${convenios}" th:if="${con.estado_convenio != 'X'}">
                     <td th:text="${con.numero_convenio}"></td>
+                    <td th:text="${con.titulo_convenio}"></td>
+                    <td th:text="${con.tipoConvenio.nombre_tipo_convenio}"></td>
                     <td th:text="${con.representante.persona.nombre_persona}+' '+${con.representante.persona.ap_paterno_persona}+' '+${con.representante.persona.ap_materno_persona}"></td>
                     <td th:text="${con.autoridad.persona.nombre_persona}+' '+${con.autoridad.persona.ap_paterno_persona}+' '+${con.autoridad.persona.ap_materno_persona}"></td>
-                    <td th:text="${con.gestion_convenio}"></td>
-                   
+                    <td th:text="${con.beneficiado.nombre_beneficiado}"></td>
+                    <td th:text="${con.fecha_inicio}"></td>
+                    <td th:text="${con.fecha_final}"></td>
                     <td th:text="${con.folio_convenio}"></td>
-    
                     <td>
                         <center>
                             <a th:onclick="renombrar([[${con.id_convenio}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #000000;" title="Ver Archivo"></i></a>
                             <a th:onclick="abrirDocumento([[${con.ruta_marca_convenio}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #000000;" title="Ver Archivo con Marca de Agua"></i></a>
+                        </center>
+                    </td>
+                    <td>
+                        <center>
                             <a th:if="${session.usuario.estado != 'AU'}" th:href="${'/adm/editar-convenio/'+id_encryptado[__${index.index}__]}"><i class="fa-solid fa-pen-to-square" style="font-size: 30px; color: #e1d602;" title="Editar"></i></a>
                             <a th:if="${session.usuario.estado != 'AU'}" th:id="${id_encryptado[__${index.index}__]}" onclick="MandarURL(this.id)"><i class="fa-solid fa-trash" style="font-size: 30px; color: #ff0000;" title="Eliminar"></i></a>
                         </center>

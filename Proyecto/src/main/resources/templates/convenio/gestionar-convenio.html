@@ -65,7 +65,8 @@
                                                     <div class="col-md-6">
                                                         <input th:field="${convenio.titulo_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                            data-validation-required-message="Debe Ingresar los Datos" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            style="text-transform:uppercase;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +95,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control">Beneficiado</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <select class="select2 form-control square" required
                                                             data-validation-required-message="Debe Seleccionar una opción"
                                                             id="select2-tags3" th:field="${convenio.beneficiado}">
@@ -124,7 +125,7 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control"
                                                         for="userinput3">Institución</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <select class="select2 form-control square" id="id_inst"
                                                             name="id_institucion" onchange="RepreInst()"
                                                             th:field="${convenio.representante.institucion}" required>
@@ -143,7 +144,7 @@
                                                     <div class="form-group row mx-auto">
                                                         <label class="col-md-5 label-control"
                                                             for="userinput4">Representante</label>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-6">
                                                             <select class="select2 form-control square" id="id_repre"
                                                                 name="id_representante" required>
                                                                 <option value="">Seleccionar un Representante</option>
@@ -158,7 +159,7 @@
                                                     <div class="form-group row mx-auto">
                                                         <label class="col-md-5 label-control"
                                                             for="userinput4">Representante</label>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-6">
                                                             <select class="select2 form-control square" id="id_repre"
                                                                 name="id_representante"
                                                                 th:field="${convenio.representante}" required>
@@ -181,7 +182,7 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control"
                                                         for="userinput2">Autoridad</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <select class="select2 form-control square" required
                                                             data-validation-required-message="Debe Seleccionar una opción"
                                                             id="select2-tags2" th:field="${convenio.autoridad}"
@@ -202,7 +203,7 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control" for="userinput6">Número del
                                                         Convenio</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <input th:field="${convenio.numero_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
                                                             data-validation-required-message="Debe Ingresar los Datos">
@@ -220,7 +221,7 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control" for="userinput5">Folio del
                                                         Convenio</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <input th:field="${convenio.folio_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
                                                             data-validation-required-message="Debe Ingresar los Datos"
@@ -231,7 +232,7 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control" for="userinput6">Fecha
                                                         Inicio</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <input type="date" class="form-control" id="date12" required
                                                             th:field="${convenio.fecha_inicio}"
                                                             data-validation-required-message="Debe Ingresar una Fecha">
@@ -240,7 +241,7 @@
 
                                                 <div class="form-group row mx-auto last">
                                                     <label class="col-md-5 label-control">Fecha Final</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <input type="date" class="form-control" id="date13"
                                                             th:field="${convenio.fecha_final}" required
                                                             data-validation-required-message="Debe Ingresar una Fecha">
@@ -248,7 +249,7 @@
                                                 </div>
                                                 <div class="form-group row mx-auto last">
                                                     <label class="col-md-5 label-control">Adjuntar Archivo</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <input type="file" class="form-control-file"
                                                             id="exampleInputFile" th:field="${convenio.file}">
                                                     </div>
@@ -260,7 +261,7 @@
                                                 <div class="form-group row mx-auto last">
                                                     <label class="col-md-3 label-control" for="userinput8">Objetivo del
                                                         Convenio</label>
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-6">
 
                                                         <textarea
                                                             data-validation-required-message="Debe Ingresar los Datos"
