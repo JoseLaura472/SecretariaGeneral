@@ -1,6 +1,5 @@
 package com.example.Proyecto.Models.Entity;
 
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -24,7 +26,7 @@ import lombok.Setter;
 @Table(name = "beneficiado")
 @Setter
 @Getter
-public class Beneficiado extends SigaUsicRevisiones{
+public class Beneficiado extends SigaUsicRevisiones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_beneficiado;
@@ -40,4 +42,8 @@ public class Beneficiado extends SigaUsicRevisiones{
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficiado", fetch = FetchType.EAGER)
     private List<Resolucion> resoluciones;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficiado", fetch = FetchType.LAZY)
+	private List<Convenio> convenios;
+
 }

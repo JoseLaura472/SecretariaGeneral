@@ -38,10 +38,12 @@ import com.example.Proyecto.Models.Entity.Representante;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
+import com.example.Proyecto.Models.IService.IBeneficiadoService;
 import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IConvenioService;
 import com.example.Proyecto.Models.IService.IInstitucionService;
 import com.example.Proyecto.Models.IService.IRepresentanteService;
+import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
 import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
 import com.example.Proyecto.Models.Otros.Encryptar;
@@ -77,6 +79,12 @@ public class ConvenioController {
 
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
+
+    @Autowired
+    private IBeneficiadoService beneficiadoService;
+
+    @Autowired
+    private ITipoBeneficiadoService tipoBeneficiadoService;
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
@@ -135,6 +143,8 @@ public class ConvenioController {
             model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
+            model.addAttribute("beneficiados", beneficiadoService.findAll());
+            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("id_encryptado", encryptedIds);
@@ -291,6 +301,8 @@ public class ConvenioController {
             model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("tipoConvenios", tipoConvenioService.findAll());
+            model.addAttribute("beneficiados", beneficiadoService.findAll());
+            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("autoridades", autoridadService.findAll());
             model.addAttribute("edit", "true");

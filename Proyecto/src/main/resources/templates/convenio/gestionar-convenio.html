@@ -60,8 +60,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto">
-                                                    <label class="col-md-5 label-control" for="userinput6">Titúlo del Convenio</label>
-                                                    <div class="col-md-7">
+                                                    <label class="col-md-5 label-control" for="userinput6">Titúlo del
+                                                        Convenio</label>
+                                                    <div class="col-md-6">
                                                         <input th:field="${convenio.titulo_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
                                                             data-validation-required-message="Debe Ingresar los Datos">
@@ -72,10 +73,10 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control" for="userinput1">Tipo
                                                         Convenio</label>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-6">
                                                         <select class="select2 form-control square" required
                                                             data-validation-required-message="Debe Seleccionar una opción"
-                                                            id="select2-tags3" th:field="${convenio.tipoConvenio}"
+                                                            id="select2-tags8" th:field="${convenio.tipoConvenio}"
                                                             name="id_tipo_convenio">
                                                             <option value="">Seleccionar un tipo de Convenio</option>
                                                             <option th:each="tcn : ${tipoConvenios}"
@@ -86,10 +87,37 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
-
                                             </div>
-                                        
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mx-auto">
+                                                    <label class="col-md-5 label-control">Beneficiado</label>
+                                                    <div class="col-md-7">
+                                                        <select class="select2 form-control square" required
+                                                            data-validation-required-message="Debe Seleccionar una opción"
+                                                            id="select2-tags3" th:field="${convenio.beneficiado}">
+                                                            <option value="">Seleccione un beneficiado</option>
+                                                            <th:block
+                                                                th:each="tpbeneficiado, index: ${tipoBeneficiados}">
+                                                                <optgroup
+                                                                    th:label="${tpbeneficiado.nombre_tipo_beneficiado}"
+                                                                    th:if="${tpbeneficiado.estado_tipo_beneficiado != 'X'}">
+                                                                    <th:block th:each="benefi : ${beneficiados}"
+                                                                        th:if="${benefi.tipoBeneficiado.id_tipo_beneficiado == tpbeneficiado.id_tipo_beneficiado}">
+                                                                        <option th:value="${benefi.id_beneficiado}"
+                                                                            th:if="${benefi.estado_beneficiado != 'X'}"
+                                                                            th:text="${benefi.nombre_beneficiado}">
+                                                                        </option>
+                                                                    </th:block>
+                                                                </optgroup>
+                                                            </th:block>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -145,7 +173,7 @@
                                                     </div>
                                                 </div>
                                             </th:block>
-                                            
+
                                         </div>
 
                                         <div class="row">
@@ -195,7 +223,8 @@
                                                     <div class="col-md-7">
                                                         <input th:field="${convenio.folio_convenio}" type="text"
                                                             name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos" placeholder=" Ejemplo: 01 - 03">
+                                                            data-validation-required-message="Debe Ingresar los Datos"
+                                                            placeholder=" Ejemplo: 01 - 03">
                                                     </div>
                                                 </div>
 
@@ -229,8 +258,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group row mx-auto last">
-                                                    <label class="col-md-3 label-control"
-                                                        for="userinput8">Objetivo del Convenio</label>
+                                                    <label class="col-md-3 label-control" for="userinput8">Objetivo del
+                                                        Convenio</label>
                                                     <div class="col-md-9">
 
                                                         <textarea
