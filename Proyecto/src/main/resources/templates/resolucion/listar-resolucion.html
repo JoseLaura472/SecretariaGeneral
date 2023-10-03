@@ -23,19 +23,25 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-           
+
             <section id="basic-form-layouts">
                 <div class="row match-height">
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 th:if="${session.usuario.estado != 'AU'}" class="card-title text-white" id="basic-layout-form" th:text="'Lista de Resoluciones del '+${session.usuario.consejo.nombre_consejo}"></h4>
-                                <h4 th:if="${session.usuario.estado == 'AU'}" class="card-title text-white" id="basic-layout-form" >Lista de general de Resoluciones</h4>
+                                <h4 th:if="${session.usuario.estado != 'AU'}" class="card-title text-white"
+                                    id="basic-layout-form"
+                                    th:text="'Lista de Resoluciones del '+${session.usuario.consejo.nombre_consejo}">
+                                </h4>
+                                <h4 th:if="${session.usuario.estado == 'AU'}" class="card-title text-white"
+                                    id="basic-layout-form">Lista de general de Resoluciones</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
-                                        <li th:if="${session.usuario.estado != 'AU'}"><a href="/adm/ResolucionForm" type="button" class="btn btn-success buttonAnimation" data-animation="pulse"><i class="la la-plus"></i>
-                                            Nuevo Registro</a></li>
+                                        <li th:if="${session.usuario.estado != 'AU'}"><a href="/adm/ResolucionForm"
+                                                type="button" class="btn btn-success buttonAnimation"
+                                                data-animation="pulse"><i class="la la-plus"></i>
+                                                Nuevo Registro</a></li>
                                         <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                                         <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                     </ul>
@@ -50,38 +56,38 @@
                     </div>
                 </div>
                 <div class="modal fade" tabindex="-1" id="ModalEvaluacion" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
 
-                        <div>
+                            <div>
 
 
-                            <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-            <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+                <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
 
-                    <div>
+                            <div>
 
 
-                        <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
-                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
+                        </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
             </section>
-          
+
         </div>
     </div>
     <!-- END: Content-->
@@ -107,49 +113,39 @@
         }
     </script>
 
-<script type="text/javascript">
-    function renombrar2(id_archivo_adjunto) {
-        var id_a = id_archivo_adjunto;
+    <script type="text/javascript">
+        function renombrar2(id_archivo_adjunto) {
+            var id_a = id_archivo_adjunto;
 
-        //alert(id_archivo_adjunto);
+            //alert(id_archivo_adjunto);
 
-        $("#ModalEvaluacion").modal("show");
+            $("#ModalEvaluacion").modal("show");
 
-        $("#id_a").val(id_a);
+            $("#id_a").val(id_a);
 
-        $("#iframe-pdf").attr("src", `../../../adm/openFileResolucionRespaldo/${id_a}`)
+            $("#iframe-pdf").attr("src", `../../../adm/openFileResolucionRespaldo/${id_a}`)
 
 
-    }
-</script>
+        }
+    </script>
 
-<script type="text/javascript">
-    function abrirDocumento(ruta) {
-        // Codificar la ruta para que sea una URL válida
-        var rutaCodificada = encodeURIComponent(ruta);
+    <script type="text/javascript">
+        function abrirDocumento(ruta) {
+            // Codificar la ruta para que sea una URL válida
+            var rutaCodificada = encodeURIComponent(ruta);
 
-        // Muestra el modal
-        $("#ModalEvaluacion2").modal("show");
+            // Muestra el modal
+            $("#ModalEvaluacion2").modal("show");
 
-        // Configura la fuente del iframe con la ruta codificada del documento
-        $("#iframe-pdf2").attr("src", `../../../adm/openFileResolucionMarca?ruta=${rutaCodificada}`);
-    }
-</script>
-   
+            // Configura la fuente del iframe con la ruta codificada del documento
+            $("#iframe-pdf2").attr("src", `../../../adm/openFileResolucionMarca?ruta=${rutaCodificada}`);
+        }
+    </script>
+
 
     <script>
         function MandarURL(a) {
             console.log(a);
-            // Swal.fire({
-            //   title: 'Eliminar Registro?',              
-            //   type: 'error',     
-            //   showCancelButton: true,
-            //   cancelButtonText: "Cancelar",         
-            //   html:
-            //   "<a"+
-            //   " class='btn btn-danger btn-min-width' "+
-            //   " href='/adm/eliminar-persona/"+a+"'>Eliminar</a>",
-            // });
             Swal.fire({
                 title: 'Eliminar Registro?',
                 type: 'error',
@@ -165,6 +161,36 @@
                 cancelButtonClass: 'btn btn-danger ml-1',
             })
         }
+    </script>
+
+    <script>
+        /*TABLA CON FILTRO POR COLUMNA*/
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                retrieve: true,
+                paging: false,
+                orderCellsTop: true,
+                fixedHeader: true
+            });
+
+            //Creamos una fila en el head de la tabla y lo clonamos para cada columna
+            $('#example thead tr').clone(true).appendTo('#example thead');
+
+            $('#example thead tr:eq(1) th').each(function (i) {
+                var title = $(this).text(); //es el nombre de la columna
+                $(this).html('<input type="text" placeholder="Search...' + title + '" />');
+
+                $('input', this).on('keyup change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
     </script>
 
 </body>
