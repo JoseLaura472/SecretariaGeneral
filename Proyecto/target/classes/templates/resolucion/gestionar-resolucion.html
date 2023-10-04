@@ -242,7 +242,7 @@
 
                                     </div>
                                     <div class="form-actions">
-                                        <button style="width:100%;" type="submit"
+                                        <button style="width:100%;" type="submit" id="Dsubmit"
                                             class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
                                             data-animation="pulse">
                                             <i class="la la-check-square-o"></i> Registrar
@@ -268,6 +268,7 @@
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
     <div th:replace="layout/script :: script"></div>
+    <!--
     <script>
         $(document).ready(function() {
             $("#form1").submit(function(event) {
@@ -286,25 +287,33 @@
             });
         });
         </script>
-    <!--
-    <script>
-        function validarFormato(inputId) {
-            // Obtenemos el elemento de entrada por su ID
-            var input = document.getElementById(inputId);
+        -->
+        <script>
+            $(document).ready(function() {
+              $("#form1").submit(function(event) {
+                var formato1 = $("#campoFormato1").val();
+                var formato2 = $("#campoFormato2").val();
+                var formatoRegex = /^\d{2,4}-\d{2,4}$/; // Expresión regular para el formato "01-05"
+                if (!formatoRegex.test(formato1) || !formatoRegex.test(formato2)) {
+                  Swal.fire({
+                    icon: 'warning', // Cambiamos el tipo de alerta a "warning"
+                    title: 'Advertencia',
+                    text: 'El formato de los campos de Folio Resolución y Folio del Respaldo debe ser como este ejemplo: "01-05"',
+                  });
+                  event.preventDefault(); // Evitar que el formulario se envíe si la validación falla
+                } else {
+                  // Si la validación es exitosa, bloquea el botón de submit
+                  $("#Dsubmit").prop("disabled", true);
+                  $("#Dsubmit").html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' +
+                    '<span class="sr-only">Cargando...</span>'
+                  );
+                }
+              });
+            });
+            </script>
             
-            // Expresión regular para verificar el formato "01 - 03" o "01-03"
-            var formato = /^\d{2}( - |\s?)-\s?\d{2}$/;
-    
-            if (formato.test(input.value)) {
-                // El formato es válido, muestra un mensaje de éxito
-                input.setCustomValidity('');
-            } else {
-                // El formato no es válido, muestra un mensaje de error
-                input.setCustomValidity("Formato inválido. Debe ser en el formato '01 - 03' o '01-03'");
-            }
-        }
-    </script>
-    -->
+
     <script>
         var selectElement = document.getElementById("select2-tags6");
         var errorMensaje = document.getElementById("errorMensaje");
