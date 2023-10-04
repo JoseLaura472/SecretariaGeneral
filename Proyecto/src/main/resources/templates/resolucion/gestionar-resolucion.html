@@ -124,8 +124,8 @@
                                                         Resolución</label>
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_resolucion}" type="text"
-                                                        name="dato" id="dato" class="form-control" oninput="validarFormato(this.id)" required
-                                                        placeholder=" Ejemplo: 01 - 03">
+                                                        id="campoFormato1" name="campoFormato1" class="form-control"  required
+                                                        placeholder=" Ejemplo: 01-03">
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
                                                         Respaldo</label>
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_respaldo_resolucion}"
-                                                            type="text" name="text" class="form-control mb-1 square"
+                                                            type="text"  id="campoFormato2" name="campoFormato2" class="form-control mb-1 square"
                                                             required
                                                             data-validation-required-message="Debe Ingresar los Datos"
                                                             placeholder=" Ejemplo: 04 - 15">
@@ -267,6 +267,26 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <footer th:replace="layout/footer :: footer"> </footer>
+    <div th:replace="layout/script :: script"></div>
+    <script>
+        $(document).ready(function() {
+            $("#form1").submit(function(event) {
+                var formato1 = $("#campoFormato1").val();
+                var formato2 = $("#campoFormato2").val();
+                var formatoRegex = /^\d{2}-\d{2}$/; // Expresión regular para el formato "01-05"
+                if (!formatoRegex.test(formato1) || !formatoRegex.test(formato2)) {
+            Swal.fire({
+                icon: 'warning', // Cambiamos el tipo de alerta a "warning"
+                title: 'Advertencia',
+                text: 'El formato de los campos de Folio Resolución y Folio del Respaldo debe ser como este ejemplo: "01-05"',
+            });
+            event.preventDefault(); // Evitar que el formulario se envíe
+        }
+              
+            });
+        });
+        </script>
+    <!--
     <script>
         function validarFormato(inputId) {
             // Obtenemos el elemento de entrada por su ID
@@ -284,7 +304,7 @@
             }
         }
     </script>
-    
+    -->
     <script>
         var selectElement = document.getElementById("select2-tags6");
         var errorMensaje = document.getElementById("errorMensaje");
@@ -304,7 +324,7 @@
             }
         });
     </script>
-    <div th:replace="layout/script :: script"></div>
+   
     <script>
         $('input[type="file"]').on('change', function () {
             var ext = $(this).val().split('.').pop().toLowerCase(); // Convierte la extensión a minúsculas
