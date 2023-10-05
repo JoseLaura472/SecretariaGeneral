@@ -10,12 +10,12 @@
 <body>
     <div th:fragment="sideBar" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow"
         data-scroll-to-active="true">
-        <div class="main-menu-content" style="background: #04087c;">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background: #04087c;">
+        <div class="main-menu-content" style="background: #3046b6;">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background: #3046b6;">
                 
                 <li class="nav-item"><a href="#"><i
                             class="la la-user"></i><span class="menu-title" data-i18n="Dashboard">Adicionar Persona</span></a>
-                    <ul class="menu-content" style="background: #04087c;">
+                    <ul class="menu-content" style="background: #3046b6;">
                         <li ><a class="menu-item" href="/adm/PersonaR"><i></i><span>Persona</span></a>
                         </li>
                         <li th:if="${session.usuario.estado == 'S'}"><a class="menu-item" href="/UsuarioL"><i></i><span>Usuario</span></a>

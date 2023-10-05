@@ -790,7 +790,7 @@ select.form-control {
     height: 5rem;
     transition: 300ms ease all;
     /*Fondo de color de la barra de usuario*/
-    background: #c30909; }
+    background: #3046b6; }
     .header-navbar .navbar-container ul.nav li > a.nav-link {
       padding: 1.8rem 1rem;
       font-size: 1.15rem; }
@@ -939,7 +939,7 @@ select.form-control {
   background: #fff; }
   .navbar-semi-dark .navbar-header {
     /*fondo color logo*/
-    background: #c30909; }
+    background: #3046b6; }
     .navbar-semi-dark .navbar-header .brand-text {
       color: #fff; }
   .navbar-semi-dark .navbar-nav li {
