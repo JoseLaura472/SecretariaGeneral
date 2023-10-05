@@ -1,5 +1,6 @@
 package com.example.Proyecto.Models.ServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,18 @@ public class ResolucionServiceImpl implements IResolucionService {
         return (List<Resolucion>) resolucionDao.resolucionPorIdConsejo(id_consejo);
     }
 
+  
+
     @Override
-    public List<Resolucion> listarResolucionConsejoAutoridad(Long id_consejo, Long id_autoridad) {
-        return (List<Resolucion>) resolucionDao.listarResolucionConsejoAutoridad(id_consejo, id_autoridad);
+    public List<Resolucion> resolucionPorAutoridadConsejo(Long id_autoridad, Long id_consejo) {
+        return (List<Resolucion>) resolucionDao.resolucionPorAutoridadConsejo(id_autoridad, id_consejo);
     }
+
+    @Override
+    public List<Resolucion> buscarResolucionesPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo) {
+        return (List<Resolucion>) resolucionDao.buscarResolucionesPorIntervaloDeFechas(fechaInicio, fechaFin, id_consejo);
+    }
+
+
 
 }

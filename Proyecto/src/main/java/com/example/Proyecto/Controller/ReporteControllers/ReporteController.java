@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.Consejo;
+import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IConsejoService;
@@ -88,7 +92,7 @@ public class ReporteController {
         Autoridad autoridad = autoridadService.findOne(id_autoridad);
         Consejo consejo = consejoService.findOne(id_consejo);
 
-        model.addAttribute("convenios", convenioService.listarConvenioConsejoAutoridad(id_autoridad, id_consejo));
+        model.addAttribute("convenios", convenioService.convenioPorAutoridadConsejo(id_autoridad, id_consejo));
 
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
@@ -131,7 +135,8 @@ public class ReporteController {
     @PostMapping("/generarReporteAutoridadResolucion")
     public String generarReporteAutoridadResolucion(
             @RequestParam(value = "id_autoridad1") Long id_autoridad,
-            @RequestParam(value = "id_consejo1") Long id_consejo, Model model) throws FileNotFoundException, IOException {
+            @RequestParam(value = "id_consejo1") Long id_consejo, Model model)
+            throws FileNotFoundException, IOException {
 
         Autoridad autoridad = autoridadService.findOne(id_autoridad);
         Consejo consejo = consejoService.findOne(id_consejo);
@@ -139,8 +144,30 @@ public class ReporteController {
         model.addAttribute("autoridad", autoridad);
         model.addAttribute("consejo", consejo);
 
-        model.addAttribute("resoluciones", resolucionService.listarResolucionConsejoAutoridad(id_autoridad, id_consejo));
+        model.addAttribute("resoluciones", resolucionService.resolucionPorAutoridadConsejo(id_autoridad, id_consejo));
+        
 
+   
+        return "reporte/tabla-resolucion";
+    }
+
+    @PostMapping("/generarReporteFechasResolucion")
+    public String generarReporteFechasResolucion(
+        @RequestParam("fechaInicio") @DateTimeFormat(pattern= "yyyy-MM-dd") Date fechaInicio,
+        @RequestParam("fechaFin") @DateTimeFormat(pattern= "yyyy-MM-dd") Date fechaFin,
+        @RequestParam(value = "id_consejo1") Long id_consejo, Model model)
+            throws FileNotFoundException, IOException {
+
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaInicioFormateado = formato.format(fechaInicio);
+                String fechaFinFormateado = formato.format(fechaFin);
+                 Consejo consejo = consejoService.findOne(id_consejo);
+        
+        model.addAttribute("consejo", consejo);
+        model.addAttribute("resoluciones", resolucionService.buscarResolucionesPorIntervaloDeFechas(fechaInicio, fechaFin, id_consejo));
+        model.addAttribute("fechaIni", fechaInicioFormateado);
+        model.addAttribute("fechaFin", fechaFinFormateado);
+   
         return "reporte/tabla-resolucion";
     }
 
@@ -171,5 +198,9 @@ public class ReporteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
+
 
 }

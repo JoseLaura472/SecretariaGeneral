@@ -42,8 +42,16 @@ public class ConvenioServiceImpl implements IConvenioService {
 
    @Override
    public List<Convenio> listarConvenioConsejoAutoridad(Long id_consejo, Long id_autoridad) {
-      return (List<Convenio>) convenioDao.listarConvenioConsejoAutoridad(id_consejo, id_autoridad);
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'listarConvenioConsejoAutoridad'");
    }
+
+   @Override
+   public List<Convenio> convenioPorAutoridadConsejo(Long id_autoridad, Long id_consejo) {
+     return (List<Convenio>) convenioDao.convenioPorAutoridadConsejo(id_autoridad, id_consejo);
+   }
+
+ 
 
    
 }
