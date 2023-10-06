@@ -1138,8 +1138,8 @@ input:focus ~ .bg-secondary {
   background-color: #6b6f82 !important; }
 
 .btn-secondary {
-  border-color: #6b6f82 !important;
-  background-color: #6b6f82 !important;
+  border-color: #1e9ff2 !important;
+  background-color: #1e9ff2 !important;
   color: #FFFFFF; }
   .btn-secondary:hover {
     border-color: #777b8f !important;
@@ -3742,8 +3742,8 @@ input:focus ~ .bg-danger {
   background-color: #ff4961 !important; }
 
 .btn-danger {
-  border-color: #ff4961 !important;
-  background-color: #ff4961 !important;
+  border-color: #ef233c !important;
+  background-color: #ef233c !important;
   color: #FFFFFF; }
   .btn-danger:hover {
     border-color: #ff6377 !important;

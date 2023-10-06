@@ -23,27 +23,13 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                <h3 class="content-header-title mb-0 d-inline-block">Generación de Reporte</h3>
-                <div class="row breadcrumbs-top d-inline-block">
-                    <div class="breadcrumb-wrapper col-12">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a>
-                            </li>
-                            <li class="breadcrumb-item"><a href="#">DataTables</a>
-                            </li>
-                            <li class="breadcrumb-item active">Sources Datatable
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
             <section id="basic-form-layouts">
                 <div class="row match-height">
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 class="card-title text-white" id="basic-layout-form">Regenar Reporte</h4>
+                                <h4 class="card-title text-white" id="basic-layout-form"><strong>GENERAR
+                                        REPORTE</strong></h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -76,345 +62,451 @@
                                                             aria-controls="tabLable12" href="#tabLable12"
                                                             aria-expanded="false">Reporte Resoluciones</a>
                                                     </li>
-                                                 
+
                                                 </ul>
                                                 <div class="tab-content px-1 pt-1">
                                                     <div role="tabpanel" class="tab-pane active" id="tabLable11"
                                                         aria-expanded="true" aria-labelledby="baseLable1-tab1">
-                                                        <div class="container"><div class="nav-vertical">
-                                                            <ul class="nav nav-tabs nav-left flex-column">
-                                                                <li class="nav-item">
-                                                                    <a class="nav-link active" id="baseVerticalLeft-tab1" data-toggle="tab" aria-controls="tabVerticalLeft1" href="#tabVerticalLeft1" aria-expanded="true">Autoridad</a>
-                                                                </li>
-                                                                <li class="nav-item">
-                                                                    <a class="nav-link" id="baseVerticalLeft-tab2" data-toggle="tab" aria-controls="tabVerticalLeft2" href="#tabVerticalLeft2" aria-expanded="false">Fechas</a>
-                                                                </li>
-                                                            
-                                                            </ul>
-                                                            <div class="tab-content px-1">
-                                                            <div role="tabpanel" class="tab-pane active" id="tabVerticalLeft1" aria-expanded="true" aria-labelledby="baseVerticalLeft-tab1">
-                                                                <form action="/adm/generarReporteAutoridadConvenio"
-                                                                method="post">
-                                                                <div class="container">
-                                                                    <div class="row">
-                                                                        <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
+                                                        <div class="container">
+                                                            <div class="nav-vertical">
+                                                                <ul class="nav nav-tabs nav-left flex-column">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active"
+                                                                            id="baseVerticalLeft-tab1" data-toggle="tab"
+                                                                            aria-controls="tabVerticalLeft1"
+                                                                            href="#tabVerticalLeft1"
+                                                                            aria-expanded="true">Autoridad</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" id="baseVerticalLeft-tab2"
+                                                                            data-toggle="tab"
+                                                                            aria-controls="tabVerticalLeft2"
+                                                                            href="#tabVerticalLeft2"
+                                                                            aria-expanded="false">Fechas</a>
+                                                                    </li>
+
+                                                                </ul>
+                                                                <div class="tab-content px-1">
+                                                                    <div role="tabpanel" class="tab-pane active"
+                                                                        id="tabVerticalLeft1" aria-expanded="true"
+                                                                        aria-labelledby="baseVerticalLeft-tab1">
+                                                                        <form
+                                                                            action="/adm/generarReporteAutoridadConvenio"
+                                                                            method="post">
+                                                                            <div class="container">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6"
+                                                                                        th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
                                                                         && session.usuario.consejo.nombre_consejo != 'CONSEJO FACULTATIVO' &&  session.usuario.consejo.nombre_consejo != 'CONSEJO DE CARRERA'}">
-                                                                            <h5>Consejo</h5>
-                                                                            <div class="controls">
-                                                                                <select class="select2 form-control square"
-                                                                                    name="id_consejo" id="id_consj"
-                                                                                    onchange="AutoConsj()">
-                                                                                    <option value="">Seleccione una opción
-                                                                                    </option>
-                                                                                    <option th:each="cj : ${consejos}"
-                                                                                        th:value="${cj.id_consejo}"
-                                                                                        th:if="${cj.estado_consejo != 'X'}"
-                                                                                        th:text="${cj.nombre_consejo}">
-                                                                                    </option>
-                                                                                </select>
+                                                                                        <h5>Consejo</h5>
+                                                                                        <div class="controls">
+                                                                                            <select
+                                                                                                class="select2 form-control square"
+                                                                                                name="id_consejo"
+                                                                                                id="id_consj"
+                                                                                                onchange="AutoConsj()">
+                                                                                                <option value="">
+                                                                                                    Seleccione una
+                                                                                                    opción
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    th:each="cj : ${consejos}"
+                                                                                                    th:value="${cj.id_consejo}"
+                                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6"
+                                                                                        th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
+                                                                                        <h5>Consejo</h5>
+                                                                                        <div class="controls">
+                                                                                            <select
+                                                                                                class="select2 form-control square"
+                                                                                                name="id_consejo"
+                                                                                                id="id_consj"
+                                                                                                onchange="AutoConsj()">
+                                                                                                <option value="">
+                                                                                                    Seleccione una
+                                                                                                    opción
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    th:each="cj : ${consejocau}"
+                                                                                                    th:value="${cj.id_consejo}"
+                                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6"
+                                                                                        th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
+                                                                                        <h5>Consejo</h5>
+                                                                                        <div class="controls">
+                                                                                            <select
+                                                                                                class="select2 form-control square"
+                                                                                                name="id_consejo"
+                                                                                                id="id_consj"
+                                                                                                onchange="AutoConsj()">
+                                                                                                <option value="">
+                                                                                                    Seleccione una
+                                                                                                    opción
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    th:each="cj : ${consejofacultad}"
+                                                                                                    th:value="${cj.id_consejo}"
+                                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6"
+                                                                                        th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
+                                                                                        <h5>Consejo</h5>
+                                                                                        <div class="controls">
+                                                                                            <select
+                                                                                                class="select2 form-control square"
+                                                                                                name="id_consejo"
+                                                                                                id="id_consj"
+                                                                                                onchange="AutoConsj()">
+                                                                                                <option value="">
+                                                                                                    Seleccione una
+                                                                                                    opción
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    th:each="cj : ${consejocarrera}"
+                                                                                                    th:value="${cj.id_consejo}"
+                                                                                                    th:if="${cj.estado_consejo != 'X'}"
+                                                                                                    th:text="${cj.nombre_consejo}">
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6">
+                                                                                        <h5>Autoridad</h5>
+                                                                                        <div class="controls">
+                                                                                            <select
+                                                                                                class="select2 form-control square"
+                                                                                                name="id_autoridad"
+                                                                                                id="id_auto">
+                                                                                                <option value="">
+                                                                                                    Seleccione una
+                                                                                                    opción
+                                                                                                </option>
+
+
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-    
-                                                                        <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
-                                                                            <h5>Consejo</h5>
-                                                                            <div class="controls">
-                                                                                <select class="select2 form-control square"
-                                                                                    name="id_consejo" id="id_consj"
-                                                                                    onchange="AutoConsj()">
-                                                                                    <option value="">Seleccione una opción
-                                                                                    </option>
-                                                                                    <option th:each="cj : ${consejocau}"
-                                                                                        th:value="${cj.id_consejo}"
-                                                                                        th:if="${cj.estado_consejo != 'X'}"
-                                                                                        th:text="${cj.nombre_consejo}">
-                                                                                    </option>
-                                                                                </select>
+                                                                            <div class="form-actions">
+                                                                                <button style="width:100%;"
+                                                                                    type="submit"
+                                                                                    class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                                                                    data-animation="pulse">
+                                                                                    <i class="la la-check-square-o"></i>
+                                                                                    Generar
+                                                                                </button>
                                                                             </div>
-                                                                        </div>
-    
-                                                                        <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
-                                                                            <h5>Consejo</h5>
-                                                                            <div class="controls">
-                                                                                <select class="select2 form-control square"
-                                                                                    name="id_consejo" id="id_consj"
-                                                                                    onchange="AutoConsj()">
-                                                                                    <option value="">Seleccione una opción
-                                                                                    </option>
-                                                                                    <option th:each="cj : ${consejofacultad}"
-                                                                                        th:value="${cj.id_consejo}"
-                                                                                        th:if="${cj.estado_consejo != 'X'}"
-                                                                                        th:text="${cj.nombre_consejo}">
-                                                                                    </option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
-                                                                            <h5>Consejo</h5>
-                                                                            <div class="controls">
-                                                                                <select class="select2 form-control square"
-                                                                                    name="id_consejo" id="id_consj"
-                                                                                    onchange="AutoConsj()">
-                                                                                    <option value="">Seleccione una opción
-                                                                                    </option>
-                                                                                    <option th:each="cj : ${consejocarrera}"
-                                                                                        th:value="${cj.id_consejo}"
-                                                                                        th:if="${cj.estado_consejo != 'X'}"
-                                                                                        th:text="${cj.nombre_consejo}">
-                                                                                    </option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-    
-                                                                        <div class="col-md-6">
-                                                                            <h5>Autoridad</h5>
-                                                                            <div class="controls">
-                                                                                <select class="select2 form-control square"
-                                                                                    name="id_autoridad" id="id_auto">
-                                                                                    <option value="">Seleccione una opción
-                                                                                    </option>
-    
-    
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-    
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="tabVerticalLeft2"
+                                                                        aria-labelledby="baseVerticalLeft-tab2">
+                                                                        <h4>En proceso...</h4>
                                                                     </div>
                                                                 </div>
-                                                                <div class="form-actions">
-                                                                    <button style="width:100%;" type="submit"
-                                                                        class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
-                                                                        data-animation="pulse">
-                                                                        <i class="la la-check-square-o"></i> Generar
-                                                                    </button>
-                                                                </div>
-                                                            </form>
+
                                                             </div>
-                                                            <div class="tab-pane" id="tabVerticalLeft2" aria-labelledby="baseVerticalLeft-tab2">
-                                                            <h4>En proceso...</h4>
-                                                            </div>
-                                                        </div>
 
                                                         </div>
-                                                          
-                                                    </div>
-                                                       
+
                                                     </div>
                                                     <div class="tab-pane" id="tabLable12"
                                                         aria-labelledby="baseLable1-tab2">
-                                                       
-                                                            <div class="container"><div class="nav-vertical">
+
+                                                        <div class="container">
+                                                            <div class="nav-vertical">
                                                                 <ul class="nav nav-tabs nav-left flex-column">
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link active" id="baseVerticalLeft-tab3" data-toggle="tab" aria-controls="tabVerticalLeft3" href="#tabVerticalLeft3" aria-expanded="true">Autoridad</a>
+                                                                        <a class="nav-link active"
+                                                                            id="baseVerticalLeft-tab3" data-toggle="tab"
+                                                                            aria-controls="tabVerticalLeft3"
+                                                                            href="#tabVerticalLeft3"
+                                                                            aria-expanded="true">Autoridad</a>
                                                                     </li>
                                                                     <li class="nav-item">
-                                                                        <a class="nav-link" id="baseVerticalLeft-tab4" data-toggle="tab" aria-controls="tabVerticalLeft4" href="#tabVerticalLeft4" aria-expanded="false">Fechas</a>
+                                                                        <a class="nav-link" id="baseVerticalLeft-tab4"
+                                                                            data-toggle="tab"
+                                                                            aria-controls="tabVerticalLeft4"
+                                                                            href="#tabVerticalLeft4"
+                                                                            aria-expanded="false">Fechas</a>
                                                                     </li>
-                                                                
+
                                                                 </ul>
                                                                 <div class="tab-content px-1">
-                                                                    <div role="tabpanel" class="tab-pane active" id="tabVerticalLeft3" aria-expanded="true" aria-labelledby="baseVerticalLeft-tab3">
-                                                                        <form action="/adm/generarReporteAutoridadResolucion"
-                                                                        method="post">
-                                                                        <div class="row">
-                                                                            <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
+                                                                    <div role="tabpanel" class="tab-pane active"
+                                                                        id="tabVerticalLeft3" aria-expanded="true"
+                                                                        aria-labelledby="baseVerticalLeft-tab3">
+                                                                        <form
+                                                                            action="/adm/generarReporteAutoridadResolucion"
+                                                                            method="post">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
                                                                             && session.usuario.consejo.nombre_consejo != 'CONSEJO FACULTATIVO' &&  session.usuario.consejo.nombre_consejo != 'CONSEJO DE CARRERA'} ">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejos}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejos}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejocau}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+                                                                                <div class="col-md-6"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejocau}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-        
-                                                                            <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejofacultad}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+
+                                                                                <div class="col-md-6"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejofacultad}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-6" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejocarrera}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+                                                                                <div class="col-md-6"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejocarrera}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <h5>Autoridad</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_autoridad1" id="id_auto1">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-        
-        
-                                                                                    </select>
+                                                                                <div class="col-md-6">
+                                                                                    <h5>Autoridad</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_autoridad1"
+                                                                                            id="id_auto1">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+
+
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
+
                                                                             </div>
-        
-                                                                        </div>
-                                                                        <div class="form-actions">
-                                                                            <button style="width:100%;" type="submit"
-                                                                                class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
-                                                                                data-animation="pulse">
-                                                                                <i class="la la-check-square-o"></i> Generar
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
+                                                                            <div class="form-actions">
+                                                                                <button style="width:100%;"
+                                                                                    type="submit"
+                                                                                    class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                                                                    data-animation="pulse">
+                                                                                    <i class="la la-check-square-o"></i>
+                                                                                    Generar
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
-                                                                    <div class="tab-pane" id="tabVerticalLeft4" aria-labelledby="baseVerticalLeft-tab4">
-                                                                        <form action="/adm/generarReporteFechasResolucion"
-                                                                        method="post">
-                                                                        <div class="row">
-                                                                            <div class="col-md-4" th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
+                                                                    <div class="tab-pane" id="tabVerticalLeft4"
+                                                                        aria-labelledby="baseVerticalLeft-tab4">
+                                                                        <form
+                                                                            action="/adm/generarReporteFechasResolucion"
+                                                                            method="post">
+                                                                            <div class="row">
+                                                                                <div class="col-md-4"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo != 'CONSEJO ACADEMICO UNIVERSITARIO' 
                                                                             && session.usuario.consejo.nombre_consejo != 'CONSEJO FACULTATIVO' &&  session.usuario.consejo.nombre_consejo != 'CONSEJO DE CARRERA'} ">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejos}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejos}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-4" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejocau}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
+                                                                                <div class="col-md-4"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO ACADEMICO UNIVERSITARIO'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejocau}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-        
-                                                                            <div class="col-md-4" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejofacultad}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-4" th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
-                                                                                <h5>Consejo</h5>
-                                                                                <div class="controls">
-                                                                                    <select class="select2 form-control square"
-                                                                                        name="id_consejo1" id="id_consj1"
-                                                                                        onchange="AutoConsj1()">
-                                                                                        <option value="">Seleccione una opción
-                                                                                        </option>
-                                                                                        <option th:each="cj : ${consejocarrera}"
-                                                                                            th:value="${cj.id_consejo}"
-                                                                                            th:if="${cj.estado_consejo != 'X'}"
-                                                                                            th:text="${cj.nombre_consejo}">
-                                                                                        </option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                            <div class="col-md-4">
-                                                                                <h5>Fecha Inicio</h5>
-                                                                                        <input type="date" class="form-control" name="fechaInicio"
-                                                                                         required
-                                                                                            data-validation-required-message="Debe Ingresar una Fecha">
-                                                                         
-                                                                              
-                                                                            </div>
 
-                                                                            <div class="col-md-4">
-                                                                                <h5>Fecha Fin</h5>
-                                                                                        <input type="date" class="form-control" name="fechaFin"
-                                                                                         required
-                                                                                            data-validation-required-message="Debe Ingresar una Fecha">
-                                                                         
-                                                                              
-                                                                            </div>
+                                                                                <div class="col-md-4"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO FACULTATIVO'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejofacultad}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-4"
+                                                                                    th:if="${session.usuario.consejo.nombre_consejo == 'CONSEJO DE CARRERA'}">
+                                                                                    <h5>Consejo</h5>
+                                                                                    <div class="controls">
+                                                                                        <select
+                                                                                            class="select2 form-control square"
+                                                                                            name="id_consejo1"
+                                                                                            id="id_consj1"
+                                                                                            onchange="AutoConsj1()">
+                                                                                            <option value="">Seleccione
+                                                                                                una opción
+                                                                                            </option>
+                                                                                            <option
+                                                                                                th:each="cj : ${consejocarrera}"
+                                                                                                th:value="${cj.id_consejo}"
+                                                                                                th:if="${cj.estado_consejo != 'X'}"
+                                                                                                th:text="${cj.nombre_consejo}">
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
 
-                                                                           
-        
-                                                                        </div>
-                                                                        <div class="form-actions">
-                                                                            <button style="width:100%;" type="submit"
-                                                                                class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
-                                                                                data-animation="pulse">
-                                                                                <i class="la la-check-square-o"></i> Generar
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
+                                                                                <div class="col-md-4">
+                                                                                    <h5>Fecha Inicio</h5>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        name="fechaInicio" required
+                                                                                        data-validation-required-message="Debe Ingresar una Fecha">
+
+
+                                                                                </div>
+
+                                                                                <div class="col-md-4">
+                                                                                    <h5>Fecha Fin</h5>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        name="fechaFin" required
+                                                                                        data-validation-required-message="Debe Ingresar una Fecha">
+
+
+                                                                                </div>
+
+
+
+                                                                            </div>
+                                                                            <div class="form-actions">
+                                                                                <button style="width:100%;"
+                                                                                    type="submit"
+                                                                                    class="btn btn-info buttonAnimation box-shadow-3 mr-1 mb-1"
+                                                                                    data-animation="pulse">
+                                                                                    <i class="la la-check-square-o"></i>
+                                                                                    Generar
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
-                                                                
+
                                                                 </div>
                                                             </div>
-                                                          
-                                                            </div>
-                                                           
+
+                                                        </div>
+
                                                     </div>
-                                                
+
                                                 </div>
                                             </div>
 
@@ -430,7 +522,7 @@
                     </div>
                 </div>
             </section>
-          
+
         </div>
     </div>
     <!-- END: Content-->
@@ -465,7 +557,7 @@
             });
         }
     </script>
-    
+
 
     <script>
         function AutoConsj1() {
@@ -487,7 +579,7 @@
         }//);
     </script>
 
- 
+
     <!--
     <script>
         function MandarURL(a) {

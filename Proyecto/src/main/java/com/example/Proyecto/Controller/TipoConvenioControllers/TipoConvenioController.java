@@ -41,7 +41,7 @@ public class TipoConvenioController {
             model.addAttribute("tipoConvenios", tipoConvenios);
             model.addAttribute("id_encryptado", encryptedIds);
 
-            return "tpConvenio/gestionar-tpconvenio";
+            return "tpconvenio/gestionar-tpconvenio";
         } else {
             return "redirect:/";
         }
