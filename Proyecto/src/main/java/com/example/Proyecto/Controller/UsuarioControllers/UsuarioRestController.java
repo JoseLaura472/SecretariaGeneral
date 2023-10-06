@@ -106,7 +106,7 @@ public class UsuarioRestController {
 			usuario.setUsuario_codigo(contrasena);
 			usuario.setPersona(persona);
 			usuario.setConsejo(consejoService.findOne(1L));
-			usuario.setEstado("A");
+			usuario.setEstado("I");
 			usuarioService.save(usuario);
 
 			HttpSession session = request.getSession(true);

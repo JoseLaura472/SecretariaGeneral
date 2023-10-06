@@ -11,7 +11,7 @@
     <div th:fragment="sideBar" class="main-menu menu-fixed menu-dark menu-accordion menu-shadow"
         data-scroll-to-active="true">
         <div class="main-menu-content" style="background: #3046b6;">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background: #3046b6;">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" style="background: #3046b6;" th:if="${session.usuario.estado != 'I'}">
                 
                 <li class="nav-item"><a href="#"><i
                             class="la la-user"></i><span class="menu-title" data-i18n="Dashboard">Adicionar Persona</span></a>
