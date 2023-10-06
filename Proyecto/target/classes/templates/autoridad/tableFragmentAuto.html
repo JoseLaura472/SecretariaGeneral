@@ -32,7 +32,7 @@
                                 th:href="${'/adm/editar-autoridad/'+id_encryptado[__${index.index}__]}">
                                 <i class="la la-cog"></i>
                             </a>
-                            <a th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white" onclick="MandarURL(this.id)">
+                            <a th:if="${session.usuario.estado == 'S'}" th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white" onclick="MandarURL(this.id)">
                                 <i class="la la-trash"></i>
                             </a>
                             <!-- <a class="btn btn-warning round btn-min-width box-shadow-3 mr-1 mb-1" th:attr="onclick=${'MandarURL('+id_encryptado[__${index.index}__]+')'}" th:href="${'/adm/editar-persona/'+id_encryptado[__${index.index}__]}"><i class="la la-trash"></i></a> -->

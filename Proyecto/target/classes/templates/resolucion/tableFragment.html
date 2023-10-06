@@ -47,7 +47,7 @@
                     <td>
                         <center>
                             <a th:if="${session.usuario.estado != 'AU'}" th:href="${'/adm/editar-resolucion/'+res.id_resolucion}"><i class="fa-solid fa-pen-to-square" style="font-size: 30px; color: #e1d602;" title="Editar"></i></a>
-                            <a th:if="${session.usuario.estado != 'AU'}" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)"><i class="fa-solid fa-trash" style="font-size: 30px; color: #ff0000;" title="Eliminar"></i></a>
+                            <a th:if="${session.usuario.estado == 'S'}" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)"><i class="fa-solid fa-trash" style="font-size: 30px; color: #ff0000;" title="Eliminar"></i></a>
                         </center>
                     </td>
                 </tr>

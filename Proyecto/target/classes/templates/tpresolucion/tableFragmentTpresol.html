@@ -27,7 +27,7 @@
                                 th:href="${'/adm/editar-tpresolucion/'+id_encryptado[__${index.index}__]}">
                                 <i class="la la-cog"></i>
                             </a>
-                            <a th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white"
+                            <a th:if="${session.usuario.estado == 'S'}" th:id="${id_encryptado[__${index.index}__]}" class="btn btn-danger round text-white"
                                 onclick="MandarURL(this.id)">
                                 <i class="la la-trash"></i>
                             </a>
