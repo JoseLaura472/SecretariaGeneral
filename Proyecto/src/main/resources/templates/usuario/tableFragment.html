@@ -13,8 +13,10 @@
         <table class="table table-striped table-bordered zero-configuration" style="text-align: center;">
             <thead>
                 <tr>
+                    <th>Persona</th>
                     <th>Usuario</th>
                     <th>Rol</th>
+                    <th>Dependencia</th>
                     <th>Consejo</th>
                     <th>Acciones</th>
                     
@@ -22,8 +24,10 @@
             </thead>
             <tbody>
                 <tr th:each="usu, index : ${usuarios}" th:if="${usu.estado != 'X'}">
+                    <td th:text="${usu.persona.nombre_persona}+' '+${usu.persona.ap_paterno_persona}+' '+${usu.persona.ap_materno_persona}"></td>
                     <td th:text="${usu.usuario_nom}"></td>
                     <td th:text="${usu.estado}"></td>
+                    <td th:text="${usu.persona.dependencia_persona}"></td>
                     <td th:text="${usu.consejo.nombre_consejo}"></td>
                     <td>
                         <center>

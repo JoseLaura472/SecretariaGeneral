@@ -3,6 +3,7 @@ package com.example.Proyecto.Controller.UsuarioControllers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +88,16 @@ public class UsuarioRestController {
 			persona.setNombre_persona(resp.getBody().get("per_nombres").toString());
 			persona.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
 			persona.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+			persona.setEmail_persona(resp.getBody().get("perd_email_personal").toString());
+			persona.setTelefono_persona(resp.getBody().get("perd_celular").toString());
+
+			String dDate = resp.getBody().get("fecha_nac").toString();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date cDate = df.parse(dDate);
+			persona.setFecNacimiento(cDate);
+
+			persona.setSexo_persona(resp.getBody().get("per_sexo").toString());
+			persona.setDependencia_persona(resp.getBody().get("eo_descripcion").toString());
 			persona.setEstado_persona("A");
 			personaService.save(persona);
 
@@ -94,7 +105,7 @@ public class UsuarioRestController {
 			usuario.setUsuario_nom(usuario_nom);
 			usuario.setUsuario_codigo(contrasena);
 			usuario.setPersona(persona);
-			usuario.setConsejo(consejoService.findOne(4L));
+			usuario.setConsejo(consejoService.findOne(1L));
 			usuario.setEstado("A");
 			usuarioService.save(usuario);
 

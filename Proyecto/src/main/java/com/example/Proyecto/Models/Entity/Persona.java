@@ -34,6 +34,7 @@ public class Persona extends SigaUsicRevisiones {
     private String ci_persona;
     private String telefono_persona;
     private String email_persona;
+    private String dependencia_persona;
     private String estado_persona;
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
