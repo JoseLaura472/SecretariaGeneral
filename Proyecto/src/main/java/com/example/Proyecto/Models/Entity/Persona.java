@@ -38,7 +38,7 @@ public class Persona extends SigaUsicRevisiones {
     private String estado_persona;
 
     @DateTimeFormat(pattern = "yyy-MM-dd")
-    private Date fecNacimiento;
+    private Date fec_nacimiento;
 
     private String sexo_persona;
 

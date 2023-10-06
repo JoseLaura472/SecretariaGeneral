@@ -91,10 +91,10 @@ public class UsuarioRestController {
 			persona.setEmail_persona(resp.getBody().get("perd_email_personal").toString());
 			persona.setTelefono_persona(resp.getBody().get("perd_celular").toString());
 
-			String dDate = resp.getBody().get("fecha_nac").toString();
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date cDate = df.parse(dDate);
-			persona.setFecNacimiento(cDate);
+			// String dDate = resp.getBody().get("fecha_nac").toString();
+			// DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			// Date cDate = df.parse(dDate);
+			// persona.setFec_nacimiento(cDate);
 
 			persona.setSexo_persona(resp.getBody().get("per_sexo").toString());
 			persona.setDependencia_persona(resp.getBody().get("eo_descripcion").toString());

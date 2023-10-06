@@ -121,7 +121,7 @@
   background-repeat: repeat-x; }
 
 .bg-gradient-y-success {
-  background-image: linear-gradient(to bottom, #ff0000 0%, #003bc1 100%);
+  background-image: linear-gradient(to bottom, #ef233c 0%, #ef233c 100%);
   background-repeat: repeat-x; }
 
 .bg-gradient-directional-success {
