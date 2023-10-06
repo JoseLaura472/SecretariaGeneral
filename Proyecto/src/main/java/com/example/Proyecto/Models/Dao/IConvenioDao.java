@@ -1,11 +1,13 @@
 package com.example.Proyecto.Models.Dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.Proyecto.Models.Entity.Convenio;
+import com.example.Proyecto.Models.Entity.Resolucion;
 
 public interface IConvenioDao extends CrudRepository<Convenio, Long> {
 
@@ -23,4 +25,7 @@ public interface IConvenioDao extends CrudRepository<Convenio, Long> {
 
     @Query(value = "select * from convenio as con where con.id_autoridad=?1 AND con.id_consejo=?2", nativeQuery = true)
     public List<Convenio> convenioPorAutoridadConsejo(Long id_autoridad, Long id_consejo);
+
+    @Query(value = "SELECT * FROM convenio AS c WHERE c.fecha_inicio BETWEEN ?1 AND ?2 AND c.id_consejo = ?3", nativeQuery = true)
+    public List<Convenio> buscarConveniosPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo);
 }

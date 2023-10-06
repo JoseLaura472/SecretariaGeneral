@@ -100,6 +100,26 @@ public class ReporteController {
         return "reporte/tabla-convenios";
     }
 
+    @PostMapping("/generarReporteFechasConvenio")
+    public String generarReporteFechasConvenio(
+        @RequestParam("fechaInicio2") @DateTimeFormat(pattern= "yyyy-MM-dd") Date fechaInicio,
+        @RequestParam("fechaFin2") @DateTimeFormat(pattern= "yyyy-MM-dd") Date fechaFin,
+        @RequestParam(value = "id_consejo3") Long id_consejo, Model model)
+            throws FileNotFoundException, IOException {
+
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaInicioFormateado = formato.format(fechaInicio);
+                String fechaFinFormateado = formato.format(fechaFin);
+                 Consejo consejo = consejoService.findOne(id_consejo);
+        
+        model.addAttribute("consejo", consejo);
+        model.addAttribute("convenios", convenioService.buscarConveniosPorIntervaloDeFechas(fechaInicio, fechaFin, id_consejo));
+        model.addAttribute("fechaIni", fechaInicioFormateado);
+        model.addAttribute("fechaFin", fechaFinFormateado);
+   
+        return "reporte/tabla-convenios";
+    }
+
     @RequestMapping(value = "/openFileReportConsjAuto/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public @ResponseBody FileSystemResource abrirArchivoMedianteResourse(HttpServletResponse response,
             @PathVariable("id") long id_convenio) throws FileNotFoundException {

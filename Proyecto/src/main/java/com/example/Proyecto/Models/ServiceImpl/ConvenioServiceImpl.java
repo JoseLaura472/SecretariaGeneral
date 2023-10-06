@@ -1,5 +1,6 @@
 package com.example.Proyecto.Models.ServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,16 @@ public class ConvenioServiceImpl implements IConvenioService {
       return (List<Convenio>) convenioDao.convenioPorIdConsejo(id_consejo);
       }
 
-   @Override
-   public List<Convenio> listarConvenioConsejoAutoridad(Long id_consejo, Long id_autoridad) {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'listarConvenioConsejoAutoridad'");
-   }
+ 
 
    @Override
    public List<Convenio> convenioPorAutoridadConsejo(Long id_autoridad, Long id_consejo) {
      return (List<Convenio>) convenioDao.convenioPorAutoridadConsejo(id_autoridad, id_consejo);
+   }
+
+   @Override
+   public List<Convenio> buscarConveniosPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo) {
+      return (List<Convenio>) convenioDao.buscarConveniosPorIntervaloDeFechas(fechaInicio, fechaFin, id_consejo);
    }
 
  
