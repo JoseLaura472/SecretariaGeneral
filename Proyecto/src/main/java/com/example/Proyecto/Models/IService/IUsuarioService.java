@@ -18,4 +18,7 @@ public interface IUsuarioService {
     public Long validar_adm(String usuario_nom, String contrasena);
 
     public Usuario getUsuarioContraseña(String correo, String password);
+
+    public Usuario getUsuarioContraseña2(String correo, String password);
+
 }

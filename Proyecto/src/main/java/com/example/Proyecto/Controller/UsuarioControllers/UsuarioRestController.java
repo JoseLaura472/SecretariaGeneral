@@ -122,9 +122,9 @@ public class UsuarioRestController {
 			return "redirect:/adm/InicioAdm";
 
 		} else if (pe.getCi_persona().equals(per.getCi_persona())) {
-			System.out.println(pe.getNombre_persona());
-			System.out.println("existe");
+	
 			Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
+			if (usuario != null) {
 			HttpSession session = request.getSession(true);
 
 			session.setAttribute("usuario", usuario);
@@ -132,12 +132,25 @@ public class UsuarioRestController {
 
 			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
 
-			return "redirect:/adm/InicioAdm";
+			return "redirect:/adm/InicioAdm";	
+			}
+		
 		}
 
 
 		} catch (HttpServerErrorException.InternalServerError e) {
-			return "redirect:/";
+			Usuario usuario = usuarioService.getUsuarioContraseña2(usuario_nom, contrasena);
+			
+			if (usuario != null) {
+			HttpSession session = request.getSession(true);
+
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
+
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+			return "redirect:/adm/InicioAdm";	
+			}
+			
 		}
 		
 		return "redirect:/";

@@ -49,5 +49,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return usuarioDao.getUsuarioContraseña(correo, password);
     }
 
+    @Override
+    public Usuario getUsuarioContraseña2(String correo, String password) {
+        return usuarioDao.getUsuarioContraseña2(correo, password);
+    }
+
     
 }

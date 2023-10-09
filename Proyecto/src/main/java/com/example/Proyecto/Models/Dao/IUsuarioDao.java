@@ -15,4 +15,7 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long> {
 
     @Query(value = "select * from usuario u where u.usuario_nom = ?1 and u.usuario_codigo = ?2", nativeQuery = true)
     public Usuario getUsuarioContraseña(String correo, String password);
+
+    @Query(value = "select * from usuario u where u.usuario_nom = ?1 and u.contrasena = ?2", nativeQuery = true)
+    public Usuario getUsuarioContraseña2(String correo, String password);
 }
