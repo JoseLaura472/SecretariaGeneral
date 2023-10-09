@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -61,7 +62,8 @@ public class UsuarioRestController {
 		requests.put("usuario", usuario_nom);
 		requests.put("contrasena", contrasena);
 
-		String url = "https://apirest-production-0e0a.up.railway.app/api/londraPost/v1/obtenerDatos";
+		// String url = "https://apirest-production-0e0a.up.railway.app/api/londraPost/v1/obtenerDatos";
+		String url = "http://virtual.uap.edu.bo:7174/api/londraPost/v1/obtenerDatos";
 
 		HttpHeaders headers = new HttpHeaders();
 
@@ -71,18 +73,20 @@ public class UsuarioRestController {
 
 		RestTemplate restTemplate = new RestTemplate();
 
-		ResponseEntity<Map> resp = restTemplate.exchange(url, HttpMethod.POST, req, Map.class);
-		Persona per = new Persona();
-		per.setCi_persona(resp.getBody().get("per_num_doc").toString());
-		per.setNombre_persona(resp.getBody().get("per_nombres").toString());
-		per.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
-		per.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
-		per.setEstado_persona("A");
-		System.out.println(per.getCi_persona());
-		Persona pe = personaDao.getPersonaCI(resp.getBody().get("per_num_doc").toString());
-		// System.out.println(pe.getNombre_persona());
+		try {
+			ResponseEntity<Map> resp = restTemplate.exchange(url, HttpMethod.POST, req, Map.class);	
+			System.out.println(resp.getBody().get("status").toString());
 
-		if (pe == null && resp.getBody().get("status").toString().equals("200")) {
+			Persona per = new Persona();
+			per.setCi_persona(resp.getBody().get("per_num_doc").toString());
+			per.setNombre_persona(resp.getBody().get("per_nombres").toString());
+			per.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
+			per.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+			per.setEstado_persona("A");
+			System.out.println(per.getCi_persona());
+			Persona pe = personaDao.getPersonaCI(resp.getBody().get("per_num_doc").toString());
+
+			if (pe == null && resp.getBody().get("status").toString().equals("200")) {
 			Persona persona = new Persona();
 			persona.setCi_persona(resp.getBody().get("per_num_doc").toString());
 			persona.setNombre_persona(resp.getBody().get("per_nombres").toString());
@@ -131,7 +135,12 @@ public class UsuarioRestController {
 			return "redirect:/adm/InicioAdm";
 		}
 
-		return "redirect:/LoginR";
+
+		} catch (HttpServerErrorException.InternalServerError e) {
+			return "redirect:/";
+		}
+		
+		return "redirect:/";
 	}
 
 	@PostMapping(value = "LoginF")
