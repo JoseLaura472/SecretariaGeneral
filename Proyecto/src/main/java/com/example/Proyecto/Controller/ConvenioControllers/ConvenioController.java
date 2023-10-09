@@ -221,7 +221,7 @@ public class ConvenioController {
         String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
 
         // Ruta del PDF de la marca de agua
-        String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+        String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
         try {
             // Crear un nuevo documento PDF de salida
@@ -351,7 +351,7 @@ public class ConvenioController {
             String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
 
             // Ruta del PDF de la marca de agua
-            String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
             try {
                 // Crear un nuevo documento PDF de salida

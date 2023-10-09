@@ -224,7 +224,7 @@ public class ResolucionController {
         String pdfOutputPath2 = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
 
         // Ruta del PDF de la marca de agua
-        String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+        String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
         try {
             // Crear un nuevo documento PDF de salida
@@ -406,7 +406,7 @@ public class ResolucionController {
             
             // Ruta donde guardarás el PDF con marca de agua
             String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
-           String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+           String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
             try {
                 // Crear un nuevo documento PDF de salida
@@ -472,7 +472,7 @@ public class ResolucionController {
             
             // Ruta donde guardarás el PDF con marca de agua
             String pdfOutputPath = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
-           String watermarkImagePath = rutaDirectorioM + "marcaejem.png";
+           String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
             try {
                 // Crear un nuevo documento PDF de salida
