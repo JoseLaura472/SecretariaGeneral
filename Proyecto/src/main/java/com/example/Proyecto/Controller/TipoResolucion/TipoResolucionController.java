@@ -133,6 +133,6 @@ public class TipoResolucionController {
         model.addAttribute("tipoResoluciones", tipoResolucions);
         model.addAttribute("id_encryptado", encryptedIds);
 
-        return "tpresolucion/tableFragmentTpResol :: table";
+        return "tpresolucion/tableFragmentTpresol :: table";
     }
 }

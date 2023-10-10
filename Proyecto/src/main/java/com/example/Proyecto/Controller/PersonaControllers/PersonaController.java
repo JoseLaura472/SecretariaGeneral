@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Persona;
+import com.example.Proyecto.Models.Entity.TipoBeneficiado;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IPersonaService;
+import com.example.Proyecto.Models.IService.IUsuarioService;
 import com.example.Proyecto.Models.Otros.Encryptar;
 
 @Controller
@@ -27,7 +30,10 @@ public class PersonaController {
     @Autowired
     private IPersonaService personaService;
 
-    @RequestMapping(value = "PersonaR", method = RequestMethod.GET)
+    @Autowired
+    private IUsuarioService usuarioService;
+
+    @RequestMapping(value = "PersonaRr", method = RequestMethod.GET)
     public String PersonaR(@Validated Persona persona, Model model, HttpServletRequest request) throws Exception {
 
         if (request.getSession().getAttribute("persona") != null) {
@@ -45,6 +51,51 @@ public class PersonaController {
             return "redirect:/";
         }
     }
+
+    @RequestMapping(value = "PersonaR", method = RequestMethod.GET)
+    public String ConsejoR(HttpServletRequest request, @Validated Persona persona, Model model) throws Exception {
+
+        if (request.getSession().getAttribute("persona") != null) {
+
+            List<Persona> personas = personaService.findAll();
+            List<String> encryptedIds = new ArrayList<>();
+            for (Persona persona2 : personas) {
+                String id_encryptado = Encryptar.encrypt(Long.toString(persona2.getId_persona()));
+                encryptedIds.add(id_encryptado);
+            }
+            model.addAttribute("persona", new Persona());
+            model.addAttribute("personas", personas);
+            model.addAttribute("id_encryptado", encryptedIds);
+
+            return "persona/persona-adm";
+
+        } else {
+            return "redirect:/";
+        }
+
+    }
+
+    @RequestMapping(value = "PersonaF", method = RequestMethod.POST)
+    public String TipoConvenioF(HttpServletRequest request, @Validated Persona persona) { 
+
+        String correo = persona.getEmail_persona();
+        String numeroCarnet = persona.getCi_persona();
+
+        persona.setEstado_persona("A");
+        personaService.save(persona);
+
+        Long idPersonaRegistrada = persona.getId_persona();
+
+        Usuario usuario = new Usuario();
+        usuario.setUsuario_nom(correo);
+        usuario.setContrasena(numeroCarnet);
+        usuario.setEstado("I");
+        usuario.setPersona(persona);;
+        usuarioService.save(usuario);
+
+        return "redirect:/adm/PersonaR";
+    }
+    
 
     @RequestMapping(value = "/editar-persona/{id_persona}")
     public String editar_c(@PathVariable("id_persona") String id_persona, Model model, HttpServletRequest request) {
@@ -120,5 +171,6 @@ public class PersonaController {
 
         return "persona/tableFragmentPer :: table";
     }
+    
 
 }
