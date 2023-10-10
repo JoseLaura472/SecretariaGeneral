@@ -15,6 +15,7 @@
                 <tr>
                     <th>Nro Convenio</th>
                     <th>Titúlo del Convenio</th>
+                    <th>Objetivo del Convenio</th>
                     <th>Tipo del Convenio</th>
                     <th>Representante</th>
                     <th>Autoridad</th>
@@ -31,6 +32,7 @@
                 <tr th:each="con, index : ${convenios}" th:if="${con.estado_convenio != 'X'}">
                     <td th:text="${con.numero_convenio}"></td>
                     <td th:text="${con.titulo_convenio}"></td>
+                    <td th:text="${con.objeto_convenio}"></td>
                     <td th:text="${con.tipoConvenio.nombre_tipo_convenio}"></td>
                     <td th:text="${con.representante.persona.nombre_persona}+' '+${con.representante.persona.ap_paterno_persona}+' '+${con.representante.persona.ap_materno_persona}"></td>
                     <td th:text="${con.autoridad.persona.nombre_persona}+' '+${con.autoridad.persona.ap_paterno_persona}+' '+${con.autoridad.persona.ap_materno_persona}"></td>

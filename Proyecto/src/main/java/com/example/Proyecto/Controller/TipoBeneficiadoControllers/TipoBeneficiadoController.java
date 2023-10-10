@@ -131,7 +131,7 @@ public class TipoBeneficiadoController {
         model.addAttribute("tipoBeneficiados", tipoBeneficiados);
         model.addAttribute("id_encryptado", encryptedIds);
 
-        return "tpconvenio/tableFragmentTp :: table";
+        return "tpbeneficiado/tableFragmentTpBenefi :: table";
     }
 
 }

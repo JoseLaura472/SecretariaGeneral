@@ -2,6 +2,7 @@ package com.example.Proyecto.Models.Entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,8 @@ public class Resolucion extends SigaUsicRevisiones{
     private String numero_resolucion;
     private String folio_resolucion;
     private String folio_respaldo_resolucion;
+    
+    @Column(length = 10485760)
     private String objeto_resolucion;
     private String gestion_resolucion;
     private String estado_resolucion;

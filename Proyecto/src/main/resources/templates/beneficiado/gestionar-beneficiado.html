@@ -71,7 +71,7 @@
                                                     <div class="controls">
                                                         <select class="select2 form-control square"
                                                             id="select2-tags1" th:field="${beneficiado.tipoBeneficiado}"
-                                                            name="id_tipo_beneficiado">
+                                                            name="id_tipo_beneficiado" data-validation-required-message="Deber Ingresar los Datos" required>
                                                             <option value="">Seleccione una opción</option>
                                                             <option th:each="tbenefi : ${tipoBeneficiados}"
                                                                 th:value="${tbenefi.id_tipo_beneficiado}"

@@ -2,6 +2,7 @@ package com.example.Proyecto.Models.Entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,8 @@ public class Convenio extends SigaUsicRevisiones {
     private String titulo_convenio;
     private String numero_convenio;
     private String folio_convenio;
+    
+    @Column(length = 10485760)
     private String objeto_convenio;
     private String gestion_convenio;
     private String estado_convenio;

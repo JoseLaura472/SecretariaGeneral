@@ -138,6 +138,6 @@ public class BeneficiadoController {
         model.addAttribute("beneficiados", beneficiados);
         model.addAttribute("id_encryptado", encryptedIds);
 
-        return "institucion/tableFragmentBenefi :: table";
+        return "beneficiado/tableFragmentBenefi :: table";
     }
 }

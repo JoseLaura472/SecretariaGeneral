@@ -61,7 +61,7 @@
                                                     <div class="controls">
                                                         <select class="select2 form-control square"
                                                             id="select2-tags1" th:field="${autoridad.persona}"
-                                                            name="id_persona">
+                                                            name="id_persona" data-validation-required-message="Deber Ingresar los Datos" required>
                                                             <option value="">Seleccione una opción</option>
                                                             <option th:each="per : ${personas}"
                                                                 th:value="${per.id_persona}"
@@ -79,7 +79,7 @@
                                                     <div class="controls">
                                                         <select class="select2 form-control square"
                                                             id="select2-tags" th:field="${autoridad.consejo}"
-                                                            name="id_consejo">
+                                                            name="id_consejo" data-validation-required-message="Deber Ingresar los Datos" required>
                                                             <option value="">Seleccione una opción</option>
                                                             <option th:each="con : ${consejos}"
                                                                 th:value="${con.id_consejo}"
@@ -96,7 +96,7 @@
                                                     <h5>Fecha Inicio</h5>
                                                     <div class="controls">
                                                         <input th:field="${autoridad.fecha_inicio}" type="date"
-                                                            name="text" class="form-control mb-1 square" required>
+                                                            name="text" class="form-control mb-1 square" data-validation-required-message="Deber Ingresar los Datos" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
                                                     <h5>Fecha Final</h5>
                                                     <div class="controls">
                                                         <input th:field="${autoridad.fecha_final}" type="date"
-                                                            name="text" class="form-control mb-1 square" required>
+                                                            name="text" class="form-control mb-1 square" data-validation-required-message="Deber Ingresar los Datos" required>
                                                     </div>
                                                 </div>
                                             </div>
