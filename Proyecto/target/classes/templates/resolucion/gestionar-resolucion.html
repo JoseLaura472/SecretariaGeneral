@@ -41,11 +41,11 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
                                     <th:block th:if="${resolucion.id_resolucion != null}">
-                                        <form class="form" action="/adm/ResolucionModF" method="post" novalidate
+                                        <form class="form" action="/adm/ResolucionModF" method="post"
                                             enctype="multipart/form-data">
                                     </th:block>
                                     <th:block th:if="${resolucion.id_resolucion == null}">
-                                        <form id="form1" class="form" action="/adm/ResolucionF" method="post" novalidate
+                                        <form id="form1" class="form" action="/adm/ResolucionF" method="post"
                                             enctype="multipart/form-data">
                                     </th:block>
                                     <input type="hidden" th:field="${resolucion.id_resolucion}">
@@ -65,10 +65,10 @@
                                                     <label class="col-md-5 label-control"
                                                         for="userinput1">Autoridad</label>
                                                     <div class="col-md-7">
-                                                        <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                            id="select2-tags2" th:field="${resolucion.autoridad}"
-                                                            name="id_autoridad">
+                                                        <select class="select2 form-control square"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required id="select2-tags2"
+                                                            th:field="${resolucion.autoridad}" name="id_autoridad">
                                                             <option value="">Seleccionar una Autoridad</option>
                                                             <option th:each="aut : ${autoridades}"
                                                                 th:value="${aut.id_autoridad}"
@@ -86,9 +86,10 @@
                                                     <label class="col-md-5 label-control">Tipo
                                                         Resolucion</label>
                                                     <div class="col-md-7">
-                                                        <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                            id="select2-tags4" th:field="${resolucion.tipoResolucion}"
+                                                        <select class="select2 form-control square"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required id="select2-tags4"
+                                                            th:field="${resolucion.tipoResolucion}"
                                                             name="id_tipo_convenio">
                                                             <option value="">Seleccionar un tipo de Convenio</option>
                                                             <option th:each="trs : ${tipoResoluciones}"
@@ -112,8 +113,9 @@
                                                         Resolución</label>
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.numero_resolucion}" type="text"
-                                                            name="text" class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos">
+                                                            name="text" class="form-control mb-1 square"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,7 +127,9 @@
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_resolucion}" type="text"
                                                             id="campoFormato1" name="campoFormato1" class="form-control"
-                                                            required placeholder=" Ejemplo: 01-03">
+                                                            placeholder=" Ejemplo: 01-03"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -140,8 +144,9 @@
                                                         Resolución</label>
                                                     <div class="col-md-7">
                                                         <input type="date" class="form-control" id="date13"
-                                                            th:field="${resolucion.fecha_resolucion}" required
-                                                            data-validation-required-message="Debe Ingresar una Fecha">
+                                                            th:field="${resolucion.fecha_resolucion}"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,7 +159,7 @@
                                                     <div class="col-md-7">
 
                                                         <input type="file" class="form-control-file" id="fileInput"
-                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}">
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}" data-validation-required-message="Deber Ingresar los Datos" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,9 +171,10 @@
                                                 <div class="form-group row mx-auto">
                                                     <label class="col-md-5 label-control">Beneficiado</label>
                                                     <div class="col-md-7">
-                                                        <select class="select2 form-control square" required
-                                                            data-validation-required-message="Debe Seleccionar una opción"
-                                                            id="select2-tags3" th:field="${resolucion.beneficiado}"
+                                                        <select class="select2 form-control square"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required id="select2-tags3"
+                                                            th:field="${resolucion.beneficiado}"
                                                             name="id_tipo_convenio">
                                                             <option value="">Seleccione un beneficiado</option>
                                                             <th:block
@@ -195,11 +201,10 @@
                                                     <label class="col-md-5 label-control"
                                                         for="userinput6">Resuelve</label>
                                                     <div class="col-md-7">
-                                                        <textarea
-                                                            data-validation-required-message="Debe Ingresar los Datos"
-                                                            required th:field="${resolucion.objeto_resolucion}"
-                                                            id="userinput8" rows="6" class="form-control border-primary"
-                                                            name="bio"
+                                                        <textarea th:field="${resolucion.objeto_resolucion}"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required id="userinput8" rows="6"
+                                                            class="form-control border-primary" name="bio"
                                                             placeholder="Resumen de la Resolución"></textarea>
 
                                                     </div>
@@ -219,8 +224,7 @@
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_respaldo_resolucion}"
                                                             type="text" id="campoFormato2" name="campoFormato2"
-                                                            class="form-control mb-1 square" required
-                                                            data-validation-required-message="Debe Ingresar los Datos"
+                                                            class="form-control mb-1 square" data-validation-required-message="Deber Ingresar los Datos" required
                                                             placeholder=" Ejemplo: 04-15">
                                                     </div>
                                                 </div>
@@ -233,7 +237,7 @@
                                                     <div class="col-md-7">
 
                                                         <input type="file" class="form-control-file" id="fileInput"
-                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file2}">
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file2}" data-validation-required-message="Deber Ingresar los Datos" required>
                                                     </div>
                                                 </div>
                                             </div>

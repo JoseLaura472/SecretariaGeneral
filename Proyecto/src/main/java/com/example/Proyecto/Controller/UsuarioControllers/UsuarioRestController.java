@@ -126,6 +126,7 @@ public class UsuarioRestController {
 			Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
 			if (usuario != null) {
 			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde API "+usuario.getPersona().getNombre_persona());
 
 			session.setAttribute("usuario", usuario);
 			session.setAttribute("persona", usuario.getPersona());
@@ -143,6 +144,7 @@ public class UsuarioRestController {
 			
 			if (usuario != null) {
 			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde credenciales modificadas "+usuario.getPersona().getNombre_persona());
 
 			session.setAttribute("usuario", usuario);
 			session.setAttribute("persona", usuario.getPersona());
@@ -152,6 +154,7 @@ public class UsuarioRestController {
 			}
 			
 		}
+		System.out.println("Error en las Credenciales");
 		
 		return "redirect:/";
 	}
