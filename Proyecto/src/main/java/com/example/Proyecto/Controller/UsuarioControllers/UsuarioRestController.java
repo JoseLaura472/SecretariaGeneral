@@ -62,7 +62,7 @@ public class UsuarioRestController {
 		requests.put("usuario", usuario_nom);
 		requests.put("contrasena", contrasena);
 
-		// String url = "https://apirest-production-0e0a.up.railway.app/api/londraPost/v1/obtenerDatos";
+		// String url = "http://localhost:3333/api/londraPost/v1/obtenerDatos";
 		String url = "http://virtual.uap.edu.bo:7174/api/londraPost/v1/obtenerDatos";
 
 		HttpHeaders headers = new HttpHeaders();

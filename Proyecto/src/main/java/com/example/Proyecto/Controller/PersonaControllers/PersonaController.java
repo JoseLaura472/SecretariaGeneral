@@ -19,6 +19,7 @@ import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Persona;
 import com.example.Proyecto.Models.Entity.TipoBeneficiado;
 import com.example.Proyecto.Models.Entity.Usuario;
+import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IPersonaService;
 import com.example.Proyecto.Models.IService.IUsuarioService;
 import com.example.Proyecto.Models.Otros.Encryptar;
@@ -32,6 +33,9 @@ public class PersonaController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private IConsejoService consejoService;
 
     @RequestMapping(value = "PersonaRr", method = RequestMethod.GET)
     public String PersonaR(@Validated Persona persona, Model model, HttpServletRequest request) throws Exception {
@@ -84,12 +88,11 @@ public class PersonaController {
         persona.setEstado_persona("A");
         personaService.save(persona);
 
-        Long idPersonaRegistrada = persona.getId_persona();
-
         Usuario usuario = new Usuario();
         usuario.setUsuario_nom(correo);
         usuario.setContrasena(numeroCarnet);
         usuario.setEstado("I");
+        usuario.setConsejo(consejoService.findOne(1L));
         usuario.setPersona(persona);;
         usuarioService.save(usuario);
 
