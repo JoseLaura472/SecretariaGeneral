@@ -22,6 +22,7 @@
                     <th>Beneficiado</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
+                    <th>Tiempo Restante</th>
                     <th>Nro Folio</th>
                     <th>Ver Convenio</th>
                     <th>Acciones</th>
@@ -37,8 +38,9 @@
                     <td th:text="${con.representante.persona.nombre_persona}+' '+${con.representante.persona.ap_paterno_persona}+' '+${con.representante.persona.ap_materno_persona}"></td>
                     <td th:text="${con.autoridad.persona.nombre_persona}+' '+${con.autoridad.persona.ap_paterno_persona}+' '+${con.autoridad.persona.ap_materno_persona}"></td>
                     <td th:text="${con.beneficiado.nombre_beneficiado}"></td>
-                    <td th:text="${con.fecha_inicio}"></td>
-                    <td th:text="${con.fecha_final}"></td>
+                    <td><div class="fechaInicio" data-id="2" th:text="${con.fecha_inicio}">2023-10-05</div></td>
+                    <td><div class="fechaFin" data-id="2" th:text="${con.fecha_final}">2023-10-20</div></td>
+                    <td><div class="tiempoRestante" data-id="2"></div></td>
                     <td th:text="${con.folio_convenio}"></td>
                     <td>
                         <center>

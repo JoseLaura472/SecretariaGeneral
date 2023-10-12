@@ -23,19 +23,24 @@
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-           
+
             <section id="basic-form-layouts">
                 <div class="row match-height">
                     <div class="col-md-12">
                         <div class="card border-bottom-dark box-shadow-2 border-bottom-2">
                             <div class="card-header card-head-inverse bg-dark">
-                                <h4 th:if="${session.usuario.estado != 'AU'}" class="card-title text-white" id="basic-layout-form" th:text="'Lista de Convenios del '+${session.usuario.consejo.nombre_consejo}"></h4>
-                                <h4 th:if="${session.usuario.estado == 'AU'}" class="card-title text-white" id="basic-layout-form"  >Lista general de Convenios</h4>
+                                <h4 th:if="${session.usuario.estado != 'AU'}" class="card-title text-white"
+                                    id="basic-layout-form"
+                                    th:text="'Lista de Convenios del '+${session.usuario.consejo.nombre_consejo}"></h4>
+                                <h4 th:if="${session.usuario.estado == 'AU'}" class="card-title text-white"
+                                    id="basic-layout-form">Lista general de Convenios</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
-                                        <li th:if="${session.usuario.estado != 'AU'}"><a href="/adm/ConvenioForm" type="button" class="btn btn-success buttonAnimation" data-animation="pulse"><i class="la la-plus"></i>
-                                            Nuevo Registro</a></li>
+                                        <li th:if="${session.usuario.estado != 'AU'}"><a href="/adm/ConvenioForm"
+                                                type="button" class="btn btn-success buttonAnimation"
+                                                data-animation="pulse"><i class="la la-plus"></i>
+                                                Nuevo Registro</a></li>
                                         <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                                         <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                     </ul>
@@ -50,38 +55,38 @@
                     </div>
                 </div>
                 <div class="modal fade" tabindex="-1" id="ModalEvaluacion" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
 
-                        <div>
+                            <div>
 
 
-                            <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <iframe width="800" height="800" id="iframe-pdf" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-            <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+                <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
 
-                        <div>
+                            <div>
 
 
-                            <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
+                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
-            </div>
             </section>
-          
+
         </div>
     </div>
     <!-- END: Content-->
@@ -91,6 +96,50 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
+
+    <script>
+        function calcularTiempoRestante(fechaInicioElement, fechaFinElement, tiempoRestanteElement) {
+            const ahora = new Date();
+            const fechaInicio = new Date(fechaInicioElement.textContent);
+            const fechaFin = new Date(fechaFinElement.textContent);
+            const tiempoRestante = fechaFin - ahora;
+
+            const dias = Math.floor(tiempoRestante / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((tiempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((tiempoRestante % (1000 * 60)) / 1000);
+
+            tiempoRestanteElement.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+
+            if (tiempoRestante <= 0) {
+                tiempoRestanteElement.textContent = "Finalizado";
+                tiempoRestanteElement.style.backgroundColor = "red";
+                tiempoRestanteElement.style.color = "white";
+            } else {
+                tiempoRestanteElement.style.backgroundColor = "transparent";
+                tiempoRestanteElement.style.color = "initial";
+            }
+        }
+
+        // Llama a la función para calcular el tiempo restante para cada fila
+        document.querySelectorAll('.fechaInicio').forEach((fechaInicioElement, index) => {
+            const fechaFinElement = document.querySelectorAll('.fechaFin')[index];
+            const tiempoRestanteElement = document.querySelectorAll('.tiempoRestante')[index];
+            calcularTiempoRestante(fechaInicioElement, fechaFinElement, tiempoRestanteElement);
+        });
+
+        // Actualiza el tiempo restante cada segundo para cada fila
+        setInterval(() => {
+            document.querySelectorAll('.fechaInicio').forEach((fechaInicioElement, index) => {
+                const fechaFinElement = document.querySelectorAll('.fechaFin')[index];
+                const tiempoRestanteElement = document.querySelectorAll('.tiempoRestante')[index];
+                calcularTiempoRestante(fechaInicioElement, fechaFinElement, tiempoRestanteElement);
+            });
+        }, 1000);
+    </script>
+
+
+
     <script type="text/javascript">
         function renombrar(id_archivo_adjunto) {
             var id_a = id_archivo_adjunto;
@@ -107,19 +156,19 @@
         }
     </script>
 
-<script type="text/javascript">
-    function abrirDocumento(ruta) {
-        // Codificar la ruta para que sea una URL válida
-        var rutaCodificada = encodeURIComponent(ruta);
+    <script type="text/javascript">
+        function abrirDocumento(ruta) {
+            // Codificar la ruta para que sea una URL válida
+            var rutaCodificada = encodeURIComponent(ruta);
 
-        // Muestra el modal
-        $("#ModalEvaluacion2").modal("show");
+            // Muestra el modal
+            $("#ModalEvaluacion2").modal("show");
 
-        // Configura la fuente del iframe con la ruta codificada del documento
-        $("#iframe-pdf2").attr("src", `../../../adm/openFileConvenioMarca?ruta=${rutaCodificada}`);
-    }
-</script>
-   
+            // Configura la fuente del iframe con la ruta codificada del documento
+            $("#iframe-pdf2").attr("src", `../../../adm/openFileConvenioMarca?ruta=${rutaCodificada}`);
+        }
+    </script>
+
 
     <script>
         function MandarURL(a) {
