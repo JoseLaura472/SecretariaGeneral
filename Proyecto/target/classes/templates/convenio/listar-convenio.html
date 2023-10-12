@@ -100,17 +100,25 @@
     <script>
         function calcularTiempoRestante(fechaInicioElement, fechaFinElement, tiempoRestanteElement) {
             const ahora = new Date();
-            const fechaInicio = new Date(fechaInicioElement.textContent);
-            const fechaFin = new Date(fechaFinElement.textContent);
+            const fechaInicioStr = fechaInicioElement.textContent;
+            const fechaFinStr = fechaFinElement.textContent;
+    
+            // Parsea las fechas en formato dd-MM-yyyy
+            const [diaInicio, mesInicio, anioInicio] = fechaInicioStr.split('-');
+            const [diaFin, mesFin, anioFin] = fechaFinStr.split('-');
+    
+            const fechaInicio = new Date(anioInicio, mesInicio - 1, diaInicio);
+            const fechaFin = new Date(anioFin, mesFin - 1, diaFin);
+    
             const tiempoRestante = fechaFin - ahora;
-
+    
             const dias = Math.floor(tiempoRestante / (1000 * 60 * 60 * 24));
             const horas = Math.floor((tiempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
             const segundos = Math.floor((tiempoRestante % (1000 * 60)) / 1000);
-
+    
             tiempoRestanteElement.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
-
+    
             if (tiempoRestante <= 0) {
                 tiempoRestanteElement.textContent = "Finalizado";
                 tiempoRestanteElement.style.backgroundColor = "red";
@@ -120,14 +128,14 @@
                 tiempoRestanteElement.style.color = "initial";
             }
         }
-
+    
         // Llama a la función para calcular el tiempo restante para cada fila
         document.querySelectorAll('.fechaInicio').forEach((fechaInicioElement, index) => {
             const fechaFinElement = document.querySelectorAll('.fechaFin')[index];
             const tiempoRestanteElement = document.querySelectorAll('.tiempoRestante')[index];
             calcularTiempoRestante(fechaInicioElement, fechaFinElement, tiempoRestanteElement);
         });
-
+    
         // Actualiza el tiempo restante cada segundo para cada fila
         setInterval(() => {
             document.querySelectorAll('.fechaInicio').forEach((fechaInicioElement, index) => {
@@ -137,6 +145,7 @@
             });
         }, 1000);
     </script>
+    
 
 
 
