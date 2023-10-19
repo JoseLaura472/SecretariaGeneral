@@ -9,53 +9,7 @@
 
 <body>
   
-    <div class="table-responsive" th:fragment="table">
-        <table class="table table-striped table-bordered file-export" id="example" style="text-align: center;">
-            <thead>
-                <tr>
-                    <th>Nro resolución</th>
-                    <th>Resuelve</th>
-                    <th>Nro Folio</th>
-                    <th>Autoridad</th>             
-                    <th>Tipo de resolución</th>
-                    <th>Beneficiado</th>
-                    <th>Fecha Resolución</th>
-                    <th>Resoluciones</th>
-                    <th>Respaldo</th>
-                    <th>Acciones</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="res, index : ${resoluciones}" th:if="${res.estado_resolucion != 'X' }">
-                    <td th:text="${res.numero_resolucion}"></td>
-                    <td th:text="${res.objeto_resolucion}"></td>
-                    <td th:text="${res.folio_resolucion}"></td>
-                    <td th:text="${res.autoridad.persona.nombre_persona}+' '+${res.autoridad.persona.ap_paterno_persona}+' '+${res.autoridad.persona.ap_materno_persona}"></td>
-                    <td th:text="${res.tipoResolucion.nombre_tipo_resolucion}"></td>
-                    <td th:text="${res.beneficiado.nombre_beneficiado}"></td>
-                    <td th:text="${#dates.format(res.fecha_resolucion, 'dd-MM-yyyy')}"></td>
-                    <td>
-                        <center>
-                            <a th:onclick="renombrar([[${res.id_resolucion}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #000000;" title="Ver Archivo"></i></a>
-                            <a th:onclick="abrirDocumento([[${res.ruta_marca_resolucion}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #000000;" title="Ver Archivo con Marca de Agua"></i></a>
-                    </td>
-                    <td>
-                        <center>
-                            <a th:onclick="renombrar2([[${res.id_resolucion}]])"><i class="fa-solid fa-eye" style="font-size: 30px; color: #286fc0;" title="Ver Respaldo"></i></a>
-                            <a th:onclick="abrirDocumento([[${res.respaldo_marca_resolucion}]])"><i class="fa-solid fa-book" style="font-size: 30px; color: #286fc0;" title="Ver Respaldo con Marca de Agua"></i></a>
-                        </center>
-                    </td>
-                    <td>
-                        <center>
-                            <a th:if="${session.usuario.estado != 'AU'}" th:href="${'/adm/editar-resolucion/'+res.id_resolucion}"><i class="fa-solid fa-pen-to-square" style="font-size: 30px; color: #e1d602;" title="Editar"></i></a>
-                            <a th:if="${session.usuario.estado == 'S'}" th:id="${res.id_resolucion}" onclick="MandarURL(this.id)"><i class="fa-solid fa-trash" style="font-size: 30px; color: #ff0000;" title="Eliminar"></i></a>
-                        </center>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    
     
 
 </body>
