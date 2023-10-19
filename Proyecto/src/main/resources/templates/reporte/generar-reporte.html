@@ -219,8 +219,7 @@
                                                                     </div>
                                                                     <div class="tab-pane" id="tabVerticalLeft2"
                                                                         aria-labelledby="baseVerticalLeft-tab2">
-                                                                        <form
-                                                                            action="/adm/generarReporteFechasConvenio"
+                                                                        <form action="/adm/generarReporteFechasConvenio"
                                                                             method="post">
                                                                             <div class="row">
                                                                                 <div class="col-md-4"
@@ -351,6 +350,7 @@
                                                         </div>
 
                                                     </div>
+                                                    <!--RESOLUCIONESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-->
                                                     <div class="tab-pane" id="tabLable12"
                                                         aria-labelledby="baseLable1-tab2">
 
@@ -389,8 +389,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj2"
+                                                                                            onchange="AutoConsj2()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -410,8 +410,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj2"
+                                                                                            onchange="AutoConsj2()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -432,8 +432,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj2"
+                                                                                            onchange="AutoConsj2()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -453,8 +453,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj2"
+                                                                                            onchange="AutoConsj2()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -473,7 +473,7 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_autoridad1"
-                                                                                            id="id_auto1">
+                                                                                            id="id_auto2">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -509,8 +509,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj3"
+                                                                                            onchange="AutoConsj3()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -530,8 +530,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj3"
+                                                                                            onchange="AutoConsj3()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -552,8 +552,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj3"
+                                                                                            onchange="AutoConsj3()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -573,8 +573,8 @@
                                                                                         <select
                                                                                             class="select2 form-control square"
                                                                                             name="id_consejo1"
-                                                                                            id="id_consj1"
-                                                                                            onchange="AutoConsj1()">
+                                                                                            id="id_consj3"
+                                                                                            onchange="AutoConsj3()">
                                                                                             <option value="">Seleccione
                                                                                                 una opción
                                                                                             </option>
@@ -636,7 +636,7 @@
                                         </div>
                                     </div>
 
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -696,6 +696,46 @@
                 }
                 html += '</option>';
                 $('#id_auto1').html(html);
+            });
+        }//);
+    </script>
+
+    <script>
+        function AutoConsj2() {
+            var j = document.getElementById("id_consj2").value;
+            //alert(i);
+            $.getJSON("/adm/Autori", {
+                autoriId: j,
+                ajax: 'true'
+            }, function (data) {
+                var html = '<option value="">--Seleccione una Autoridad--</option>';
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id_autoridad + '">'
+                        + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + '</option>';
+                }
+                html += '</option>';
+                $('#id_auto2').html(html);
+            });
+        }//);
+    </script>
+
+    <script>
+        function AutoConsj3() {
+            var j = document.getElementById("id_consj3").value;
+            //alert(i);
+            $.getJSON("/adm/Autori", {
+                autoriId: j,
+                ajax: 'true'
+            }, function (data) {
+                var html = '<option value="">--Seleccione una Autoridad--</option>';
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id_autoridad + '">'
+                        + data[i].persona.nombre_persona + ' ' + data[i].persona.ap_paterno_persona + ' ' + data[i].persona.ap_materno_persona + '</option>';
+                }
+                html += '</option>';
+                $('#id_auto3').html(html);
             });
         }//);
     </script>

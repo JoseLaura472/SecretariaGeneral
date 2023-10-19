@@ -154,8 +154,8 @@ public class ReporteController {
 
     @PostMapping("/generarReporteAutoridadResolucion")
     public String generarReporteAutoridadResolucion(
-            @RequestParam(value = "id_autoridad1") Long id_autoridad,
-            @RequestParam(value = "id_consejo1") Long id_consejo, Model model)
+            @RequestParam("id_autoridad1") Long id_autoridad,
+            @RequestParam("id_consejo1") Long id_consejo, Model model)
             throws FileNotFoundException, IOException {
 
         Autoridad autoridad = autoridadService.findOne(id_autoridad);
