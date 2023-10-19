@@ -1747,7 +1747,7 @@ body.vertical-layout.menu-open .main-menu .navigation .navigation-header .nav-me
     .nav.nav-tabs .nav-item .nav-link:hover:not(.active) {
       border-color: transparent; }
     .nav.nav-tabs .nav-item .nav-link.active {
-      background-color: #fff;
+      background-color: #e9eaff;
       border-radius: 0.25rem 0.25rem 0 0;
       border-color: #babfc7 #babfc7 #fff; }
     .nav.nav-tabs .nav-item .nav-link i.float-right {
