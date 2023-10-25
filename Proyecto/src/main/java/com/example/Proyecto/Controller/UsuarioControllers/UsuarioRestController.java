@@ -134,6 +134,19 @@ public class UsuarioRestController {
 			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
 
 			return "redirect:/adm/InicioAdm";	
+			}else{
+			Usuario usuario2 = usuarioService.getUsuarioContraseña2(usuario_nom, contrasena);
+			
+			if (usuario2 != null) {
+			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde credenciales modificadas "+usuario2.getPersona().getNombre_persona());
+
+			session.setAttribute("usuario", usuario2);
+			session.setAttribute("persona", usuario2.getPersona());
+
+			flash.addAttribute("success", usuario2.getPersona().getNombre_persona());
+			return "redirect:/adm/InicioAdm";	
+			}	
 			}
 		
 		}
