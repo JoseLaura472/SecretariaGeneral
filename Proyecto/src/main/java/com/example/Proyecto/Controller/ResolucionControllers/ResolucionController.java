@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +70,7 @@ public class ResolucionController {
     @Autowired
     private IArchivoAdjuntoService archivoAdjuntoService;
 
-     @Autowired
+    @Autowired
     private IRespaldoResolucionService respaldoResolucionService;
 
     @Autowired
@@ -80,24 +83,88 @@ public class ResolucionController {
     private ITipoBeneficiadoService tipoBeneficiadoService;
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
-    @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET) // Pagina principal
-    public String ResolucionL(HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET)
+    public String ResolucionL(@RequestParam(name = "year", required = false) Integer selectedYear,
+            HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
-
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            List<Resolucion> resoluciones;
             if (usuario.getEstado().equals("AU")) {
-                model.addAttribute("resoluciones", resolucionService.findAll());
+                resoluciones = resolucionService.findAll();
             } else {
-                model.addAttribute("resoluciones", resolucionService.resolucionPorIdConsejo(consejo.getId_consejo()));
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
             }
 
-            return "resolucion/listar-resolucion";
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
 
+            model.addAttribute("resoluciones", resoluciones);
+            model.addAttribute("years", years);
+
+            if (selectedYear != null) {
+                // Filtrar resoluciones por el año seleccionado
+                resoluciones = resoluciones.stream()
+                        .filter(resolucion -> resolucion.getFecha_resolucion().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().getYear() == selectedYear)
+                        .collect(Collectors.toList());
+            }
+
+            model.addAttribute("resoluciones", resoluciones);
+
+            return "resolucion/listar-resolucion";
         } else {
             return "redirect:/";
         }
+    }
 
+    @RequestMapping(value = "/ResolucionP", method = RequestMethod.GET)
+    public String ResolucionP(@RequestParam(name = "year", required = false) Integer selectedYear,
+            HttpServletRequest request, Model model) {
+        if (request.getSession().getAttribute("usuario") != null) {
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            List<Resolucion> resoluciones;
+            if (usuario.getEstado().equals("AU")) {
+                resoluciones = resolucionService.findAll();
+            } else {
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
+            }
+
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
+
+            model.addAttribute("resolucion", new Resolucion());
+            model.addAttribute("resoluciones", resoluciones);
+            model.addAttribute("consejos", consejoService.findAll());
+            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("beneficiados", beneficiadoService.findAll());
+            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
+            model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
+            model.addAttribute("years", years);
+
+            if (selectedYear != null) {
+                // Filtrar resoluciones por el año seleccionado
+                resoluciones = resoluciones.stream()
+                        .filter(resolucion -> resolucion.getFecha_resolucion().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().getYear() == selectedYear)
+                        .collect(Collectors.toList());
+                
+                return "redirect:/adm/ResolucionL";
+            }
+
+            model.addAttribute("resoluciones", resoluciones);
+
+            return "resolucion/gestionar-resolucion";
+        } else {
+            return "redirect:/";
+        }
     }
 
     @RequestMapping(value = "ResolucionForm", method = RequestMethod.GET)
@@ -150,9 +217,9 @@ public class ResolucionController {
 
         MultipartFile multipartFile = resolucion.getFile();
         MultipartFile multipartFile2 = resolucion.getFile2();
-       
+
         RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
-         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
+        ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         // (1)
         Path rootPath = Paths.get("archivos/resoluciones/");
@@ -169,7 +236,7 @@ public class ResolucionController {
             System.err.println("Error al crear el directorio: " + e.getMessage());
         }
 
-        //Respaldo en resolución
+        // Respaldo en resolución
         Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
         Path rootAbsolutPathR = rootPathR.toAbsolutePath();
         String rutaDirectorioR = rootAbsolutPathR + "";
@@ -194,7 +261,7 @@ public class ResolucionController {
         String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
         model.addAttribute("di", rutaArchivo);
         List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
-        
+
         resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
         resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
@@ -213,14 +280,12 @@ public class ResolucionController {
         // Ruta completa del archivo PDF original que recibes
         String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
 
-      
-
         // Ruta donde guardarás el PDF con marca de agua
         String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
 
         // Ruta completa del archivo PDF original que recibes
         String pdfFilePath2 = rutaArchivoR + File.separator + resolucion.getNombreArchivo2();
-         // Ruta donde guardarás el PDF con marca de agua
+        // Ruta donde guardarás el PDF con marca de agua
         String pdfOutputPath2 = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
 
         // Ruta del PDF de la marca de agua
@@ -229,7 +294,7 @@ public class ResolucionController {
         try {
             // Crear un nuevo documento PDF de salida
             com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-            
+
             // Inicializar el escritor de PDF para el nuevo documento
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
             document.open();
@@ -279,7 +344,7 @@ public class ResolucionController {
         try {
             // Crear un nuevo documento PDF de salida
             com.itextpdf.text.Document document2 = new com.itextpdf.text.Document();
-            
+
             // Inicializar el escritor de PDF para el nuevo documento
             PdfWriter writer2 = PdfWriter.getInstance(document2, new FileOutputStream(pdfOutputPath2));
             document2.open();
@@ -366,10 +431,10 @@ public class ResolucionController {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
         MultipartFile multipartFile = resolucion.getFile();
-  
+
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
-         MultipartFile multipartFile2 = resolucion.getFile2();
-       
+        MultipartFile multipartFile2 = resolucion.getFile2();
+
         RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         String alfaString = generateRandomAlphaNumericString();
@@ -392,21 +457,21 @@ public class ResolucionController {
         resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
         Integer ad2 = adjuntarArchivo.adjuntarArchivoResolucionRespaldo(resolucion, rutaArchivoR);
-        
+
         if (ad == 1) {
             ArchivoAdjunto barchivoAdjunto = archivoAdjuntoService
                     .buscarArchivoAdjuntoPorResolucion(resolucion.getId_resolucion());
-           
+
             barchivoAdjunto.setNombre_archivo(resolucion.getNombreArchivo());
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
-           
-             // Ruta completa del archivo PDF original que recibes
-            String pdfFilePath = rutaArchivo  + resolucion.getNombreArchivo();
-            
+
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo + resolucion.getNombreArchivo();
+
             // Ruta donde guardarás el PDF con marca de agua
             String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
-           String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
             try {
                 // Crear un nuevo documento PDF de salida
@@ -457,22 +522,23 @@ public class ResolucionController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-                 
+
             resolucion.setRuta_marca_resolucion(pdfOutputPath);
-           
+
         }
-           if (ad2 == 1) {
-            RespaldoResolucion respaldoArchivo = respaldoResolucionService.buscarArchivoAdjuntoPorResolucion(resolucion.getId_resolucion()); 
+        if (ad2 == 1) {
+            RespaldoResolucion respaldoArchivo = respaldoResolucionService
+                    .buscarArchivoAdjuntoPorResolucion(resolucion.getId_resolucion());
             respaldoArchivo.setNombre_archivo(resolucion.getNombreArchivo2());
             respaldoArchivo.setRuta(rutaArchivoR);
             respaldoResolucionService.modificarArchivoAdjunto(respaldoArchivo);
-           
-             // Ruta completa del archivo PDF original que recibes
-            String pdfFilePath = rutaArchivoR  + resolucion.getNombreArchivo2();
-            
+
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivoR + resolucion.getNombreArchivo2();
+
             // Ruta donde guardarás el PDF con marca de agua
             String pdfOutputPath = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
-           String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
 
             try {
                 // Crear un nuevo documento PDF de salida
@@ -524,11 +590,9 @@ public class ResolucionController {
                 e.printStackTrace();
             }
             resolucion.setRespaldo_marca_resolucion(pdfOutputPath);
-           
+
         }
 
-     
-     
         resolucion.setRespaldo_marca_resolucion(resolucion.getRespaldo_marca_resolucion());
         resolucion.setRuta_marca_resolucion(resolucion.getRuta_marca_resolucion());
 
@@ -550,11 +614,12 @@ public class ResolucionController {
         return new FileSystemResource(file);
     }
 
-      @RequestMapping(value = "/openFileResolucionRespaldo/{id}", method = RequestMethod.GET, produces = "application/pdf")
+    @RequestMapping(value = "/openFileResolucionRespaldo/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public @ResponseBody FileSystemResource abrirArchivoMedianteResourseRespaldo(HttpServletResponse response,
             @PathVariable("id") long id_resolucion) throws FileNotFoundException {
-                RespaldoResolucion respaldoResolucion = respaldoResolucionService.buscarArchivoAdjuntoPorResolucion(id_resolucion);
- 
+        RespaldoResolucion respaldoResolucion = respaldoResolucionService
+                .buscarArchivoAdjuntoPorResolucion(id_resolucion);
+
         File file = new File(respaldoResolucion.getRuta() + respaldoResolucion.getNombre_archivo());
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
@@ -578,8 +643,6 @@ public class ResolucionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
- 
 
     @RequestMapping(value = "/eliminar-resolucion/{id_resolucion}")
     public String eliminar_resolucion(HttpServletRequest request, @PathVariable("id_resolucion") Long id_resolucion)

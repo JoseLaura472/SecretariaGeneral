@@ -33,6 +33,15 @@
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
+                                        <li th:if="${session.usuario.estado != 'AU'}">
+                                            <select class="select2 form-control square"
+                                                data-validation-required-message="Deber Ingresar los Datos" required
+                                                id="select2-tags7">
+                                                <option value="">Listar resolución año...</option>
+                                            </select>
+                                        </li>
+
+
                                         <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                                         <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                     </ul>
@@ -159,7 +168,9 @@
                                                     <div class="col-md-7">
 
                                                         <input type="file" class="form-control-file" id="fileInput"
-                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}">
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file}"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,8 +235,9 @@
                                                     <div class="col-md-7">
                                                         <input th:field="${resolucion.folio_respaldo_resolucion}"
                                                             type="text" id="campoFormato2" name="campoFormato2"
-                                                            class="form-control mb-1 square" data-validation-required-message="Deber Ingresar los Datos" required
-                                                            placeholder=" Ejemplo: 04-15">
+                                                            class="form-control mb-1 square"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required placeholder=" Ejemplo: 04-15">
                                                     </div>
                                                 </div>
                                             </div>
@@ -237,7 +249,9 @@
                                                     <div class="col-md-7">
 
                                                         <input type="file" class="form-control-file" id="fileInput"
-                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file2}">
+                                                            name="pdfFile" accept=".pdf" th:field="${resolucion.file2}"
+                                                            data-validation-required-message="Deber Ingresar los Datos"
+                                                            required>
                                                     </div>
                                                 </div>
                                             </div>
