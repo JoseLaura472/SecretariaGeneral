@@ -43,6 +43,7 @@ public class Resolucion extends SigaUsicRevisiones{
     private String respaldo_marca_resolucion;
     @DateTimeFormat(pattern = "yyy-MM-dd")
     private Date fecha_resolucion;
+    private String tp_res;
 
     @Transient
     private MultipartFile file; 
