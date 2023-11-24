@@ -83,7 +83,7 @@ public class ResolucionController {
     private ITipoBeneficiadoService tipoBeneficiadoService;
 
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
-    @RequestMapping(value = "/ResolucionL", method = RequestMethod.GET)
+    @RequestMapping(value = "/ResolucionL", method = RequestMethod.POST)
     public String ResolucionL(@RequestParam(name = "year", required = false) Integer selectedYear,
             HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {

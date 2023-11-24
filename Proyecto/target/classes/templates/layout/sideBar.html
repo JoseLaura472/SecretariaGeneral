@@ -42,25 +42,29 @@
                     </ul>
                 </li>
 
-                <li class="nav-item"><a href="#"><i class="la la-user"></i><span class="menu-title"
+                <!-- <li class="nav-item"><a href="#"><i class="la la-user"></i><span class="menu-title"
                             data-i18n="Dashboard">RESOLUCION</span></a>
                     <ul class="menu-content" style="background: #3046b6;">
                         <li th:each="year : ${years}">
                             <a th:href="'/adm/ResolucionL?year=' + ${year}" th:text="${year}"></a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
+               
 
-
+                
                 <li><a class="menu-item" href="/adm/ConvenioL"><i class="la la-file-text"></i><span>Adicionar
                             Convenios</span></a>
                 </li>
 
-                <li><a class="menu-item" href="/adm/ResolucionL"><i class="la la-file-text"></i><span>Adicionar
+                <!-- <li><a class="menu-item" href="/adm/ResolucionL"><i class="la la-file-text"></i><span>Adicionar
                             Resoluciones</span></a>
+                </li> -->
+                <li><a type="button" th:data-toggle="${'modal'}" th:data-target="${'#fadeIn'}" onclick="openModal()"><i class="la la-user"></i><span
+                    class="menu-title">Listar Resoluciones</span></a>
                 </li>
 
-                <li><a class="menu-item" href="/adm/ResolucionP"><i class="la la-file-text"></i><span>AAAdicionar
+                <li><a class="menu-item" href="/adm/ResolucionP"><i class="la la-file-text"></i><span>Adicionar
                             Resoluciones</span></a>
                 </li>
 
@@ -69,7 +73,11 @@
 
             </ul>
         </div>
+
+        
     </div>
+
+
 </body>
 
 </html>
