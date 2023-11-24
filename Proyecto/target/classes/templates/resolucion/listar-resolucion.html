@@ -56,6 +56,7 @@
                                                 <tr>
                                                     <th>Nro resolución</th>
                                                     <th>Resuelve</th>
+                                                    <th>Tp_Res</th>
                                                     <th>Nro Folio</th>
                                                     <th>Autoridad</th>
                                                     <th>Tipo de resolución</th>
@@ -72,6 +73,9 @@
                                                     th:if="${res.estado_resolucion != 'X' }">
                                                     <td th:text="${res.numero_resolucion}"></td>
                                                     <td th:text="${res.objeto_resolucion}"></td>
+                                                    <td th:if="${res.tp_res == 'PUBLICO'}" th:text="${res.tp_res}"></td>
+                                                    <td th:if="${res.tp_res == 'PRIVADO'}" th:text="${res.tp_res}"></td>
+                                                    <td th:if="${res.tp_res == NULL}" th:text="${'SIN TP_RES'}"></td>
                                                     <td th:text="${res.folio_resolucion}"></td>
                                                     <td
                                                         th:text="${res.autoridad.persona.nombre_persona}+' '+${res.autoridad.persona.ap_paterno_persona}+' '+${res.autoridad.persona.ap_materno_persona}">
