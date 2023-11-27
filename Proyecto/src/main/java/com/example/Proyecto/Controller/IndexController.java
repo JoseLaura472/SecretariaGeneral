@@ -50,7 +50,7 @@ public class IndexController {
 
             return "adm/inicio-adm";
         }else{
-            return "/";
+            return "redirect:/";
         }
         
     }

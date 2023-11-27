@@ -1,7 +1,10 @@
 package com.example.Proyecto.Controller.ConsejoControllers;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.Consejo;
+import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IConsejoService;
+import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.Otros.Encryptar;
 
 @Controller
@@ -26,6 +31,9 @@ public class ConsejoController {
 
     @Autowired
     private IConsejoService consejoService;
+
+    @Autowired
+    private IResolucionService resolucionService;
 
     @RequestMapping(value = "ConsejoR", method = RequestMethod.GET)
     public String ConsejoR(HttpServletRequest request, @Validated Consejo consejo, Model model) throws Exception {
@@ -38,6 +46,21 @@ public class ConsejoController {
                 String id_encryptado = Encryptar.encrypt(Long.toString(consejo2.getId_consejo()));
                 encryptedIds.add(id_encryptado);
             }
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo3 = consejoService.findOne(usuario.getConsejo().getId_consejo());
+              List<Resolucion> resoluciones;
+            if (usuario.getEstado().equals("AU")) {
+                resoluciones = resolucionService.findAll();
+            } else {
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo3.getId_consejo());
+            }
+
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
+
+            model.addAttribute("years", years);
             model.addAttribute("consejo", new Consejo());
             model.addAttribute("consejos", consejos);
             model.addAttribute("id_encryptado", encryptedIds);
