@@ -30,21 +30,25 @@
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid bg-light pt-3 d-none d-lg-block">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
+                <div class="col-lg-2 text-center text-lg-left mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <img  src="img/UAP-DIGITAL-NEGRO.webp" width="170px" height="70px">
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center text-lg-left mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
                         <p><i class="fa fa-envelope mr-2"></i>rectorado@uap.edu.bo</p>
                         <p class="text-body px-3">|</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+591-3 842 2135</p>
                     </div>
                 </div>
-                <div class="col-lg-6 text-center text-lg-right">
+                <div class="col-lg-5 text-center text-lg-right">
                     <div class="d-inline-flex align-items-center">
                         <a class="text-primary px-3" href="https://www.facebook.com/uap1993?locale=es_LA">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                       
                     </div>
                 </div>
             </div>
@@ -95,44 +99,44 @@
                 <div class="row align-items-center" style="min-height: 60px;">
                     <div class="col-md-10">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="mb-3 mb-md-0">
                                     <select class="custom-select px-4" style="height: 47px;">
-                                        <option selected>Destination</option>
-                                        <option value="1">Destination 1</option>
-                                        <option value="2">Destination 1</option>
-                                        <option value="3">Destination 1</option>
+                                        <option selected disabled>Gestión</option>
+                                        <th:block th:each="year : ${years}">
+                                            <option th:value="${year}" th:text="${year}">Destination 1</option>
+                                        </th:block>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
+                                <div class="mb-3 mb-md-0">
+                                    <select class="custom-select px-4" style="height: 47px;">
+                                        <option selected disabled>Consejo</option>
+                                        <th:block th:each="c : ${consejos}">
+                                            <option th:value="${c.id_consejo}" th:text="${c.nombre_consejo}">Destination 1</option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-3">
                                 <div class="mb-3 mb-md-0">
                                     <div class="date" id="date1" data-target-input="nearest">
-                                        <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Depart Date" data-target="#date1" data-toggle="datetimepicker"/>
+                                        <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Fecha Inicio" data-target="#date1" data-toggle="datetimepicker"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3 mb-md-0">
                                     <div class="date" id="date2" data-target-input="nearest">
-                                        <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Return Date" data-target="#date2" data-toggle="datetimepicker"/>
+                                        <input type="text" class="form-control p-4 datetimepicker-input" placeholder="Fecha Fin" data-target="#date2" data-toggle="datetimepicker"/>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3 mb-md-0">
-                                    <select class="custom-select px-4" style="height: 47px;">
-                                        <option selected>Duration</option>
-                                        <option value="1">Duration 1</option>
-                                        <option value="2">Duration 1</option>
-                                        <option value="3">Duration 1</option>
-                                    </select>
-                                </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Submit</button>
+                        <button class="btn btn-primary btn-block" type="submit" style="height: 47px; margin-top: -2px;">Obtener</button>
                     </div>
                 </div>
             </div>
@@ -145,8 +149,8 @@
     <div class="container-fluid py-5">
         <div class="container pt-5 pb-3">
             <div class="text-center mb-3 pb-3">
-                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
-                <h1>Pefect Tour Packages</h1>
+                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">RESOLUCIONES</h6>
+                <h1>RESULTADOS OBTENIDOS</h1>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -168,101 +172,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-2.jpg" alt="">
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                            </div>
-                            <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">$350</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-3.jpg" alt="">
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                            </div>
-                            <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">$350</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-4.jpg" alt="">
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                            </div>
-                            <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">$350</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-5.jpg" alt="">
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                            </div>
-                            <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">$350</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <img class="img-fluid" src="img/package-6.jpg" alt="">
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between mb-3">
-                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>Thailand</small>
-                                <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>3 days</small>
-                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
-                            </div>
-                            <a class="h5 text-decoration-none" href="">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
-                                    <h5 class="m-0">$350</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
     </div>
