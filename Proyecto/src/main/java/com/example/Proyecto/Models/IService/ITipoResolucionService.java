@@ -12,4 +12,6 @@ public interface ITipoResolucionService {
     public TipoResolucion findOne(Long id);
 
     public void delete(Long id);
+
+    public List<TipoResolucion> tpResolucionPorIdConsejo(Long id_consejo);
 }

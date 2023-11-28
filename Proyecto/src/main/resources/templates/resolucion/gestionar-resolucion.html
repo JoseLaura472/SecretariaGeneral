@@ -90,9 +90,9 @@
                                                             data-validation-required-message="Deber Ingresar los Datos"
                                                             required id="select2-tags4"
                                                             th:field="${resolucion.tipoResolucion}"
-                                                            name="id_tipo_convenio">
-                                                            <option value="">Seleccionar un tipo de Convenio</option>
-                                                            <option th:each="trs : ${tipoResoluciones}"
+                                                            name="id_tipo_resolucion">
+                                                            <option value="">Seleccionar un tipo de Resolución</option>
+                                                            <option th:each="trs : ${tipoResolucioness}"
                                                                 th:value="${trs.id_tipo_resolucion}"
                                                                 th:if="${trs.estado_tipo_resolucion != 'X'}"
                                                                 th:text="${trs.nombre_tipo_resolucion}">

@@ -41,4 +41,8 @@ public class Consejo extends SigaUsicRevisiones{
       @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
     private List<Usuario> usuario;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    private List<TipoResolucion> tipoResoluciones;
 }

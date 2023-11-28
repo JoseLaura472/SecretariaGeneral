@@ -66,6 +66,7 @@ public class TipoResolucionController {
             model.addAttribute("years", years);
             model.addAttribute("tipoResolucion", new TipoResolucion());
             model.addAttribute("tipoResoluciones", tipoResolucions);
+            model.addAttribute("consejos", consejoService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
 
             return "tpresolucion/gestionar-tpresolucion";

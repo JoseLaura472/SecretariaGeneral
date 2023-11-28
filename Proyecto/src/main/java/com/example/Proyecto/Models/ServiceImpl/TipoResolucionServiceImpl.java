@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Proyecto.Models.Dao.ITipoResolucionDao;
+import com.example.Proyecto.Models.Entity.Autoridad;
 import com.example.Proyecto.Models.Entity.TipoResolucion;
 import com.example.Proyecto.Models.IService.ITipoResolucionService;
 
@@ -33,6 +34,11 @@ public class TipoResolucionServiceImpl implements ITipoResolucionService{
     @Override
     public void delete(Long id) {
         tipoResolucionDao.deleteById(id);
+    }
+
+    @Override
+    public List<TipoResolucion> tpResolucionPorIdConsejo(Long id_consejo) {
+        return (List<TipoResolucion>) tipoResolucionDao.tpResolucionPorIdConsejo(id_consejo);
     }
     
 }

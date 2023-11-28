@@ -155,7 +155,7 @@ public class ResolucionController {
                         .filter(resolucion -> resolucion.getFecha_resolucion().toInstant()
                                 .atZone(ZoneId.systemDefault()).toLocalDate().getYear() == selectedYear)
                         .collect(Collectors.toList());
-                
+
                 return "redirect:/adm/ResolucionL";
             }
 
@@ -178,7 +178,8 @@ public class ResolucionController {
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("tipoResolucioness",
+                    tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("beneficiados", beneficiadoService.findAll());
             model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
