@@ -61,74 +61,7 @@
     <script src="../../../app-assets/js/scripts/extensions/ex-component-sweet-alerts.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
-    <!--
-    <script>
-        $(document).ready(function () {
-            $('#login').submit(function (event) {
-                event.preventDefault(); // Evita el envío del formulario por defecto
 
-                var form = $(this);
-                var submitBtn = form.find('input[type="submit"]'); // Encuentra el botón de envío del formulario
-                submitBtn.prop('disabled', true); // Desactiva el botón
-
-                var url = form.attr('action');
-                var formData = form.serialize(); // Serializa los datos del formulario
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function (data) {
-                        console.log(data);
-                        if (data == 'S') {
-                            location.replace('/adm/InicioAdm');
-                        } else {
-                            if (data == 'A') {
-                                location.replace('/adm/InicioAdm');
-                            } else {
-
-                            }
-                            if (data == 'AU') {
-                                location.replace('/adm/InicioAdm');
-                            }
-                            else {
-                                if (data == '2') {
-                                    var timerInterval
-                                    Swal.fire({
-                                        title: "Datos Incorrectos",
-                                        timer: 1800,
-                                        text: "Revise la información Ingresada",
-                                        type: "error",
-                                        confirmButtonClass: 'btn btn-warning',
-                                        buttonsStyling: false,
-                                        onBeforeOpen: function () {
-                                            Swal.showLoading()
-                                            timerInterval = setInterval(function () {
-                                                Swal.getContent().querySelector('strong')
-                                                    .textContent = Swal.getTimerLeft()
-                                            }, 100)
-                                        },
-                                        onClose: function () {
-                                            clearInterval(timerInterval)
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                        submitBtn.prop('disabled', false); // Reactiva el botón después de recibir la respuesta
-                        form[0].reset(); // Limpia los datos del formulario
-                    },
-                    error: function () {
-                        submitBtn.prop('disabled', false); // Reactiva el botón en caso de error
-                    }
-                });
-            });
-        });
-
-    </script>
-    -->
-
-    
 </body>
 
 </html>

@@ -171,41 +171,4 @@ public class UsuarioRestController {
 		
 		return "redirect:/";
 	}
-
-	@PostMapping(value = "LoginF")
-	public String PersonaF(HttpServletRequest request,
-			@RequestParam(name = "usuario_nom", required = false) String usuario_nom,
-			@RequestParam(name = "contrasena", required = false) String contrasena) {
-
-		Long resultado = usuarioService.validar_adm(usuario_nom, contrasena);
-
-		if (resultado != null) {
-			Usuario usuario = usuarioService.findOne(resultado);
-
-			if (usuario.getEstado().equals("S")) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("usuario", usuario);
-				session.setAttribute("persona", usuario.getPersona());
-				return "S";
-			} else {
-				if (usuario.getEstado().equals("A")) {
-					HttpSession session = request.getSession(true);
-					session.setAttribute("usuario", usuario);
-					session.setAttribute("persona", usuario.getPersona());
-					return "A";
-				}
-				if (usuario.getEstado().equals("AU")) {
-					HttpSession session = request.getSession(true);
-					session.setAttribute("usuario", usuario);
-					session.setAttribute("persona", usuario.getPersona());
-					return "AU";
-				} else {
-					return "2";
-				}
-			}
-
-		} else {
-			return "2";
-		}
-	}
 }
