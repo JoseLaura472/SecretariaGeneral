@@ -39,6 +39,7 @@ import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.RespaldoResolucion;
+import com.example.Proyecto.Models.Entity.TipoResolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
@@ -143,7 +144,7 @@ public class ResolucionController {
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("tipoResolucioness", tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("beneficiados", beneficiadoService.findAll());
             model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
@@ -166,7 +167,7 @@ public class ResolucionController {
             return "redirect:/";
         }
     }
-
+    /* 
     @RequestMapping(value = "ResolucionForm", method = RequestMethod.GET)
     public String ResolucionR(HttpServletRequest request, @Validated Resolucion resolucion, Model model)
             throws Exception {
@@ -174,12 +175,15 @@ public class ResolucionController {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
             List<Resolucion> resoluciones = resolucionService.findAll();
+            List<TipoResolucion> listTipoR = tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo());
+            for (TipoResolucion tipoResolucion : listTipoR) {
+                System.out.println(tipoResolucion.getNombre_tipo_resolucion());
+            }
 
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResolucioness",
-                    tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
+            model.addAttribute("tipoResolucioness", tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("beneficiados", beneficiadoService.findAll());
             model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
@@ -191,6 +195,7 @@ public class ResolucionController {
         }
 
     }
+    */
 
     // Generador de Caracteres aleatorios
     public String generateRandomAlphaNumericString() {

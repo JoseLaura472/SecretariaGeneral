@@ -106,6 +106,7 @@ public class TipoResolucionController {
                     encryptedIds.add(id_encryptado);
                 }
                 model.addAttribute("tipoResoluciones", tipoResolucions);
+                model.addAttribute("consejos", consejoService.findAll());
                 model.addAttribute("id_encryptado", encryptedIds);
                 return "tpresolucion/gestionar-tpresolucion";
 
