@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -86,6 +87,45 @@ public class ResolucionController {
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ResolucionL", method = RequestMethod.POST)
     public String ResolucionL(@RequestParam(name = "year", required = false) Integer selectedYear,
+            HttpServletRequest request, Model model) {
+        if (request.getSession().getAttribute("usuario") != null) {
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            List<Resolucion> resoluciones;
+            if (usuario.getEstado().equals("AU")) {
+                resoluciones = resolucionService.findAll();
+            } else {
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
+            }
+
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
+
+            model.addAttribute("resoluciones", resoluciones);
+            model.addAttribute("years", years);
+
+            if (selectedYear != null) {
+                // Filtrar resoluciones por el año seleccionado
+                resoluciones = resoluciones.stream()
+                        .filter(resolucion -> resolucion.getFecha_resolucion().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().getYear() == selectedYear)
+                        .collect(Collectors.toList());
+            }
+
+            model.addAttribute("resoluciones", resoluciones);
+
+            return "resolucion/listar-resolucion";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
+    @RequestMapping(value = "/ResolucionLV", method = RequestMethod.GET)
+    public String ResolucionLV(@RequestParam(name = "years", required = false) Integer selectedYear,
             HttpServletRequest request, Model model) {
         if (request.getSession().getAttribute("usuario") != null) {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
@@ -404,7 +444,14 @@ public class ResolucionController {
         resolucion.setRespaldoResolucion(respaldoResolucion2);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
-        return "redirect:/adm/ResolucionL";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(resolucion.getFecha_resolucion());
+
+        // Obtener el año como un entero
+        int year = calendar.get(Calendar.YEAR);
+        redirectAttrs.addAttribute("years", year);
+        return "redirect:/adm/ResolucionLV";
     }
 
     @RequestMapping(value = "/editar-resolucion/{id_resolucion}")
