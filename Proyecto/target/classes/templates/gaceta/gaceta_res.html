@@ -11,7 +11,7 @@
     <head th:replace="layout/head :: head"></head>
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> 
@@ -139,30 +139,40 @@
 
 
     <!-- Packages Start -->
-    <div class="container-fluid py-5">
-        <div class="container pt-5 pb-3">
+   
+    <div class="container-fluid py-1">
+        <div class="container pt-1 pb-3">
             <div class="text-center mb-3 pb-3">
                 <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">RESOLUCIONES</h6>
                 <h1>RESULTADOS OBTENIDOS</h1>
             </div>
+          
             <div class="row">
-
-                <div th:each="resolucion : ${resoluciones}" class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-item bg-white mb-2">
-                        <div class="p-4">
-                            <a class="h5 text-decoration-none" th:text="${resolucion.objeto_resolucion}">Discover amazing places of the world with us</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-center">
-                                    <a class="btn btn-info"  th:onclick="abrirDocumento([[${resolucion.respaldo_marca_resolucion}]])">Ver</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-               
+                <div class="col-lg-12">
+                    <table id="resolucionesTable" class="table">
+                        <!-- Aquí coloca el encabezado de tu tabla -->
+                        <thead>
+                            <tr>
+                                <th>Número de Resolución</th>
+                                <th>Objeto de Resolución</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
               
+                            <tr th:each="resolucion : ${resoluciones}">
+                                <td th:text="${resolucion.numero_resolucion}"></td>
+                                <td th:text="${resolucion.objeto_resolucion}"></td>
+                                <td>
+                                <a class="btn btn-success" style="color: bisque;" th:onclick="abrirDocumento([[${resolucion.respaldo_marca_resolucion}]])">Ver</a>
+                                </td>
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+         
             <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -225,8 +235,13 @@
         </div>
     </div>
     <!-- Footer End -->
-
-
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resolucionesTable').DataTable();
+        });
+    </script>
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
     <div th:replace="layout/script :: script"></div>
@@ -243,7 +258,7 @@
         }
     </script>
     <!-- JavaScript Libraries -->
-
+   
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
@@ -257,6 +272,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+ 
 </body>
 
 </html>

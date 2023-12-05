@@ -87,6 +87,8 @@ public class GacetaController {
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList()));
         model.addAttribute("consejos", consejoService.findAll());
+
+      
         return "gaceta/gaceta_res";
     }
     
