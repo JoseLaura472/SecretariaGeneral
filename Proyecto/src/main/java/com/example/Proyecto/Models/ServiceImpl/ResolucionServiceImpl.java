@@ -53,6 +53,11 @@ public class ResolucionServiceImpl implements IResolucionService {
         return (List<Resolucion>) resolucionDao.buscarResolucionesPorIntervaloDeFechas(fechaInicio, fechaFin, id_consejo);
     }
 
+    @Override
+    public List<Resolucion> resolucionesActivas() {
+          return (List<Resolucion>) resolucionDao.resolucionesActivas();
+    }
+
 
 
 }

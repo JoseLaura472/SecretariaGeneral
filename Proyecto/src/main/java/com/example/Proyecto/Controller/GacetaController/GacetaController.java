@@ -61,7 +61,7 @@ public class GacetaController {
         @RequestParam("id_consejo") Long idConsejo, Model model)
         throws FileNotFoundException, IOException {
     
-        List<Resolucion> resoluciones = resolucionService.findAll();
+        List<Resolucion> resoluciones = resolucionService.resolucionesActivas();
         Set<Integer> years = resoluciones.stream()
             .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
                 .toLocalDate().getYear())

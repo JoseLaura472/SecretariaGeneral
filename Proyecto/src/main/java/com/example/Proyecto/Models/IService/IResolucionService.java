@@ -21,4 +21,6 @@ public interface IResolucionService {
     public List<Resolucion> resolucionPorAutoridadConsejo(Long id_autoridad, Long id_consejo);
 
     public List<Resolucion> buscarResolucionesPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo);
+
+    public List<Resolucion> resolucionesActivas();
 }

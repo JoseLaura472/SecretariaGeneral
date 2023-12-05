@@ -23,6 +23,9 @@ public interface IResolucionDao extends CrudRepository<Resolucion, Long>{
     @Query(value = "select * from resolucion as res where res.id_autoridad=?1 AND res.id_consejo=?2", nativeQuery = true)
     public List<Resolucion> resolucionPorAutoridadConsejo(Long id_autoridad, Long id_consejo);
 
+     @Query(value = "select * from resolucion as res where res.estado_resolucion = 'A'", nativeQuery = true)
+    public List<Resolucion> resolucionesActivas();
+
     @Query(value = "SELECT * FROM resolucion AS r WHERE r.fecha_resolucion BETWEEN ?1 AND ?2 AND r.id_consejo = ?3", nativeQuery = true)
     public List<Resolucion> buscarResolucionesPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo);
 }
