@@ -177,108 +177,113 @@ public class ConvenioController {
             HttpServletRequest request, @RequestParam("id_representante") Long id_representante)
             throws FileNotFoundException, IOException {// validar los
 
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-        Representante representante = representanteService.findOne(id_representante);
-        MultipartFile multipartFile = convenio.getFile();
-        ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
-        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
-        // (1)
-        Path rootPath = Paths.get("archivos/convenios/");
-        Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath + "";
-        try {
-            if (!Files.exists(rootPath)) {
-                Files.createDirectories(rootPath);
-                System.out.println("Directorio creado: " + rutaDirectorio);
-            } else {
-                System.out.println("El directorio ya existe: " + rutaDirectorio);
-            }
-        } catch (IOException e) {
-            System.err.println("Error al crear el directorio: " + e.getMessage());
-        }
+        if (request.getSession().getAttribute("usuario") != null) {
 
-        Path rootPathM = Paths.get("archivos/marca_agua");
-        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
-        String rutaDirectorioM = rootAbsolutPathM + "/";
-
-        String alfaString = generateRandomAlphaNumericString();
-        String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
-        String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
-        model.addAttribute("di", rutaArchivo);
-        List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
-        convenio.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
-        Integer ad = adjuntarArchivo.adjuntarArchivoConvenio(convenio, rutaArchivo);
-        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
-
-        archivoAdjunto.setRuta(rutaArchivo);
-        archivoAdjunto.setEstado_archivo_adjunto("A");
-        ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
-        // Ruta completa del archivo PDF original que recibes
-        String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
-
-        // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
-
-        // Ruta del PDF de la marca de agua
-        String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
-
-        try {
-            // Crear un nuevo documento PDF de salida
-            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-
-            // Inicializar el escritor de PDF para el nuevo documento
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
-            document.open();
-
-            // Cargar el PDF original
-            PdfReader reader = new PdfReader(pdfFilePath);
-
-            // Obtener el número total de páginas en el PDF original
-            int pageCount = reader.getNumberOfPages();
-
-            // Cargar la imagen de la marca de agua
-            com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
-
-            // Definir la posición y la escala de la marca de agua
-            float xPosition = 80; // Cambia esto según tus necesidades
-            float yPosition = 100; // Cambia esto según tus necesidades
-            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
-
-            // Iterar a través de las páginas del PDF original
-            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
-                // Agregar una nueva página al documento de salida
-                document.newPage();
-
-                // Obtener el contenido de la página actual
-                PdfContentByte contentByte = writer.getDirectContent();
-
-                // Obtener la página actual del PDF original
-                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-
-                // Agregar la página del PDF original al nuevo documento
-                contentByte.addTemplate(page, 0, 0);
-
-                // Agregar la marca de agua (imagen) a la página actual
-                watermarkImage.setAbsolutePosition(xPosition, yPosition);
-                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
-                        watermarkImage.getHeight() * scaleFactor);
-                contentByte.addImage(watermarkImage);
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+            Representante representante = representanteService.findOne(id_representante);
+            MultipartFile multipartFile = convenio.getFile();
+            ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
+            AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
+            // (1)
+            Path rootPath = Paths.get("archivos/convenios/");
+            Path rootAbsolutPath = rootPath.toAbsolutePath();
+            String rutaDirectorio = rootAbsolutPath + "";
+            try {
+                if (!Files.exists(rootPath)) {
+                    Files.createDirectories(rootPath);
+                    System.out.println("Directorio creado: " + rutaDirectorio);
+                } else {
+                    System.out.println("El directorio ya existe: " + rutaDirectorio);
+                }
+            } catch (IOException e) {
+                System.err.println("Error al crear el directorio: " + e.getMessage());
             }
 
-            // Cerrar el documento
-            document.close();
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Path rootPathM = Paths.get("archivos/marca_agua");
+            Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+            String rutaDirectorioM = rootAbsolutPathM + "/";
+
+            String alfaString = generateRandomAlphaNumericString();
+            String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
+            String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
+            model.addAttribute("di", rutaArchivo);
+            List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
+            convenio.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+            Integer ad = adjuntarArchivo.adjuntarArchivoConvenio(convenio, rutaArchivo);
+            archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+
+            archivoAdjunto.setRuta(rutaArchivo);
+            archivoAdjunto.setEstado_archivo_adjunto("A");
+            ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+
+            // Ruta donde guardarás el PDF con marca de agua
+            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
+
+            // Ruta del PDF de la marca de agua
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+
+            try {
+                // Crear un nuevo documento PDF de salida
+                com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+
+                // Inicializar el escritor de PDF para el nuevo documento
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+                document.open();
+
+                // Cargar el PDF original
+                PdfReader reader = new PdfReader(pdfFilePath);
+
+                // Obtener el número total de páginas en el PDF original
+                int pageCount = reader.getNumberOfPages();
+
+                // Cargar la imagen de la marca de agua
+                com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+
+                // Definir la posición y la escala de la marca de agua
+                float xPosition = 80; // Cambia esto según tus necesidades
+                float yPosition = 100; // Cambia esto según tus necesidades
+                float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+
+                // Iterar a través de las páginas del PDF original
+                for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                    // Agregar una nueva página al documento de salida
+                    document.newPage();
+
+                    // Obtener el contenido de la página actual
+                    PdfContentByte contentByte = writer.getDirectContent();
+
+                    // Obtener la página actual del PDF original
+                    PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+
+                    // Agregar la página del PDF original al nuevo documento
+                    contentByte.addTemplate(page, 0, 0);
+
+                    // Agregar la marca de agua (imagen) a la página actual
+                    watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                    watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                            watermarkImage.getHeight() * scaleFactor);
+                    contentByte.addImage(watermarkImage);
+                }
+
+                // Cerrar el documento
+                document.close();
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            convenio.setRepresentante(representante);
+            convenio.setRuta_marca_convenio(pdfOutputPath);
+            convenio.setConsejo(consejo);
+            convenio.setArchivoAdjunto(archivoAdjunto2);
+            convenio.setEstado_convenio("A");
+            convenioService.save(convenio);
+            return "redirect:/adm/ConvenioL";
+        } else {
+            return "redirect:/";
         }
-        convenio.setRepresentante(representante);
-        convenio.setRuta_marca_convenio(pdfOutputPath);
-        convenio.setConsejo(consejo);
-        convenio.setArchivoAdjunto(archivoAdjunto2);
-        convenio.setEstado_convenio("A");
-        convenioService.save(convenio);
-        return "redirect:/adm/ConvenioL";
     }
 
     @RequestMapping(value = "/editar-convenio/{id_convenio}")

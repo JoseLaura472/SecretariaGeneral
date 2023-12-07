@@ -184,7 +184,8 @@ public class ResolucionController {
             model.addAttribute("resolucion", new Resolucion());
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResolucioness", tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
+            model.addAttribute("tipoResolucioness",
+                    tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("beneficiados", beneficiadoService.findAll());
             model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
@@ -207,35 +208,40 @@ public class ResolucionController {
             return "redirect:/";
         }
     }
-    /* 
-    @RequestMapping(value = "ResolucionForm", method = RequestMethod.GET)
-    public String ResolucionR(HttpServletRequest request, @Validated Resolucion resolucion, Model model)
-            throws Exception {
-        if (request.getSession().getAttribute("usuario") != null) {
-            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-            List<Resolucion> resoluciones = resolucionService.findAll();
-            List<TipoResolucion> listTipoR = tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo());
-            for (TipoResolucion tipoResolucion : listTipoR) {
-                System.out.println(tipoResolucion.getNombre_tipo_resolucion());
-            }
-
-            model.addAttribute("resolucion", new Resolucion());
-            model.addAttribute("resoluciones", resoluciones);
-            model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResolucioness", tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
-            model.addAttribute("beneficiados", beneficiadoService.findAll());
-            model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
-            model.addAttribute("autoridades", autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
-
-            return "resolucion/gestionar-resolucion";
-
-        } else {
-            return "redirect:/";
-        }
-
-    }
-    */
+    /*
+     * @RequestMapping(value = "ResolucionForm", method = RequestMethod.GET)
+     * public String ResolucionR(HttpServletRequest request, @Validated Resolucion
+     * resolucion, Model model)
+     * throws Exception {
+     * if (request.getSession().getAttribute("usuario") != null) {
+     * Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+     * Consejo consejo =
+     * consejoService.findOne(usuario.getConsejo().getId_consejo());
+     * List<Resolucion> resoluciones = resolucionService.findAll();
+     * List<TipoResolucion> listTipoR =
+     * tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo());
+     * for (TipoResolucion tipoResolucion : listTipoR) {
+     * System.out.println(tipoResolucion.getNombre_tipo_resolucion());
+     * }
+     * 
+     * model.addAttribute("resolucion", new Resolucion());
+     * model.addAttribute("resoluciones", resoluciones);
+     * model.addAttribute("consejos", consejoService.findAll());
+     * model.addAttribute("tipoResolucioness",
+     * tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
+     * model.addAttribute("beneficiados", beneficiadoService.findAll());
+     * model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
+     * model.addAttribute("autoridades",
+     * autoridadService.autoridadPorIdConsejo(consejo.getId_consejo()));
+     * 
+     * return "resolucion/gestionar-resolucion";
+     * 
+     * } else {
+     * return "redirect:/";
+     * }
+     * 
+     * }
+     */
 
     // Generador de Caracteres aleatorios
     public String generateRandomAlphaNumericString() {
@@ -258,200 +264,206 @@ public class ResolucionController {
     public String ResolucionF(@Validated Resolucion resolucion, HttpServletRequest request,
             RedirectAttributes redirectAttrs, Model model)
             throws FileNotFoundException, IOException {
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+        if (request.getSession().getAttribute("usuario") != null) {
 
-        MultipartFile multipartFile = resolucion.getFile();
-        MultipartFile multipartFile2 = resolucion.getFile2();
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
 
-        RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
-        ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
-        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
-        // (1)
-        Path rootPath = Paths.get("archivos/resoluciones/");
-        Path rootAbsolutPath = rootPath.toAbsolutePath();
-        String rutaDirectorio = rootAbsolutPath + "";
-        try {
-            if (!Files.exists(rootPath)) {
-                Files.createDirectories(rootPath);
-                System.out.println("Directorio creado: " + rutaDirectorio);
-            } else {
-                System.out.println("El directorio ya existe: " + rutaDirectorio);
-            }
-        } catch (IOException e) {
-            System.err.println("Error al crear el directorio: " + e.getMessage());
-        }
+            MultipartFile multipartFile = resolucion.getFile();
+            MultipartFile multipartFile2 = resolucion.getFile2();
 
-        // Respaldo en resolución
-        Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
-        Path rootAbsolutPathR = rootPathR.toAbsolutePath();
-        String rutaDirectorioR = rootAbsolutPathR + "";
-        try {
-            if (!Files.exists(rootPathR)) {
-                Files.createDirectories(rootPathR);
-                System.out.println("Directorio creado: " + rutaDirectorioR);
-            } else {
-                System.out.println("El directorio ya existe: " + rutaDirectorioR);
-            }
-        } catch (IOException e) {
-            System.err.println("Error al crear el directorio: " + e.getMessage());
-        }
-
-        Path rootPathM = Paths.get("archivos/marca_agua");
-        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
-        String rutaDirectorioM = rootAbsolutPathM + "/";
-
-        String alfaString = generateRandomAlphaNumericString();
-        String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
-        String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
-        String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
-        model.addAttribute("di", rutaArchivo);
-        List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
-
-        resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
-        resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
-        Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
-        Integer ad2 = adjuntarArchivo.adjuntarArchivoResolucionRespaldo(resolucion, rutaArchivoR);
-        archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
-
-        archivoAdjunto.setRuta(rutaArchivo);
-        archivoAdjunto.setEstado_archivo_adjunto("A");
-        ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
-
-        respaldoResolucion.setNombre_archivo("respaldo" + "-" + alfaString + ".pdf");
-        respaldoResolucion.setRuta(rutaArchivoR);
-        respaldoResolucion.setEstado_archivo_adjunto("A");
-        RespaldoResolucion respaldoResolucion2 = respaldoResolucionService.registrarArchivoAdjunto(respaldoResolucion);
-
-        // Ruta completa del archivo PDF original que recibes
-        String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
-
-        // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
-
-        // Ruta completa del archivo PDF original que recibes
-        String pdfFilePath2 = rutaArchivoR + File.separator + resolucion.getNombreArchivo2();
-        // Ruta donde guardarás el PDF con marca de agua
-        String pdfOutputPath2 = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
-
-        // Ruta del PDF de la marca de agua
-        String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
-
-        try {
-            // Crear un nuevo documento PDF de salida
-            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-
-            // Inicializar el escritor de PDF para el nuevo documento
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
-            document.open();
-
-            // Cargar el PDF original
-            PdfReader reader = new PdfReader(pdfFilePath);
-
-            // Obtener el número total de páginas en el PDF original
-            int pageCount = reader.getNumberOfPages();
-
-            // Cargar la imagen de la marca de agua
-            com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
-
-            // Definir la posición y la escala de la marca de agua
-            float xPosition = 80; // Cambia esto según tus necesidades
-            float yPosition = 100; // Cambia esto según tus necesidades
-            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
-
-            // Iterar a través de las páginas del PDF original
-            for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
-                // Agregar una nueva página al documento de salida
-                document.newPage();
-
-                // Obtener el contenido de la página actual
-                PdfContentByte contentByte = writer.getDirectContent();
-
-                // Obtener la página actual del PDF original
-                PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
-
-                // Agregar la página del PDF original al nuevo documento
-                contentByte.addTemplate(page, 0, 0);
-
-                // Agregar la marca de agua (imagen) a la página actual
-                watermarkImage.setAbsolutePosition(xPosition, yPosition);
-                watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
-                        watermarkImage.getHeight() * scaleFactor);
-                contentByte.addImage(watermarkImage);
+            RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
+            ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
+            AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
+            // (1)
+            Path rootPath = Paths.get("archivos/resoluciones/");
+            Path rootAbsolutPath = rootPath.toAbsolutePath();
+            String rutaDirectorio = rootAbsolutPath + "";
+            try {
+                if (!Files.exists(rootPath)) {
+                    Files.createDirectories(rootPath);
+                    System.out.println("Directorio creado: " + rutaDirectorio);
+                } else {
+                    System.out.println("El directorio ya existe: " + rutaDirectorio);
+                }
+            } catch (IOException e) {
+                System.err.println("Error al crear el directorio: " + e.getMessage());
             }
 
-            // Cerrar el documento
-            document.close();
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            // Crear un nuevo documento PDF de salida
-            com.itextpdf.text.Document document2 = new com.itextpdf.text.Document();
-
-            // Inicializar el escritor de PDF para el nuevo documento
-            PdfWriter writer2 = PdfWriter.getInstance(document2, new FileOutputStream(pdfOutputPath2));
-            document2.open();
-
-            // Cargar el PDF original
-            PdfReader reader2 = new PdfReader(pdfFilePath2);
-
-            // Obtener el número total de páginas en el PDF original
-            int pageCount2 = reader2.getNumberOfPages();
-
-            // Cargar la imagen de la marca de agua
-            com.itextpdf.text.Image watermarkImage2 = com.itextpdf.text.Image.getInstance(watermarkImagePath);
-
-            // Definir la posición y la escala de la marca de agua
-            float xPosition = 80; // Cambia esto según tus necesidades
-            float yPosition = 100; // Cambia esto según tus necesidades
-            float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
-
-            // Iterar a través de las páginas del PDF original
-            for (int pageNumber = 1; pageNumber <= pageCount2; pageNumber++) {
-                // Agregar una nueva página al documento de salida
-                document2.newPage();
-
-                // Obtener el contenido de la página actual
-                PdfContentByte contentByte2 = writer2.getDirectContent();
-
-                // Obtener la página actual del PDF original
-                PdfImportedPage page2 = writer2.getImportedPage(reader2, pageNumber);
-
-                // Agregar la página del PDF original al nuevo documento
-                contentByte2.addTemplate(page2, 0, 0);
-
-                // Agregar la marca de agua (imagen) a la página actual
-                watermarkImage2.setAbsolutePosition(xPosition, yPosition);
-                watermarkImage2.scaleAbsolute(watermarkImage2.getWidth() * scaleFactor,
-                        watermarkImage2.getHeight() * scaleFactor);
-                contentByte2.addImage(watermarkImage2);
+            // Respaldo en resolución
+            Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
+            Path rootAbsolutPathR = rootPathR.toAbsolutePath();
+            String rutaDirectorioR = rootAbsolutPathR + "";
+            try {
+                if (!Files.exists(rootPathR)) {
+                    Files.createDirectories(rootPathR);
+                    System.out.println("Directorio creado: " + rutaDirectorioR);
+                } else {
+                    System.out.println("El directorio ya existe: " + rutaDirectorioR);
+                }
+            } catch (IOException e) {
+                System.err.println("Error al crear el directorio: " + e.getMessage());
             }
 
-            // Cerrar el documento
-            document2.close();
-            reader2.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Path rootPathM = Paths.get("archivos/marca_agua");
+            Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+            String rutaDirectorioM = rootAbsolutPathM + "/";
+
+            String alfaString = generateRandomAlphaNumericString();
+            String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
+            String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
+            String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
+            model.addAttribute("di", rutaArchivo);
+            List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
+
+            resolucion.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+            resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
+            Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
+            Integer ad2 = adjuntarArchivo.adjuntarArchivoResolucionRespaldo(resolucion, rutaArchivoR);
+            archivoAdjunto.setNombre_archivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
+
+            archivoAdjunto.setRuta(rutaArchivo);
+            archivoAdjunto.setEstado_archivo_adjunto("A");
+            ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
+
+            respaldoResolucion.setNombre_archivo("respaldo" + "-" + alfaString + ".pdf");
+            respaldoResolucion.setRuta(rutaArchivoR);
+            respaldoResolucion.setEstado_archivo_adjunto("A");
+            RespaldoResolucion respaldoResolucion2 = respaldoResolucionService
+                    .registrarArchivoAdjunto(respaldoResolucion);
+
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo + File.separator + resolucion.getNombreArchivo();
+
+            // Ruta donde guardarás el PDF con marca de agua
+            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + resolucion.getNombreArchivo();
+
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath2 = rutaArchivoR + File.separator + resolucion.getNombreArchivo2();
+            // Ruta donde guardarás el PDF con marca de agua
+            String pdfOutputPath2 = rutaArchivoR + File.separator + "con_marca_" + resolucion.getNombreArchivo2();
+
+            // Ruta del PDF de la marca de agua
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+
+            try {
+                // Crear un nuevo documento PDF de salida
+                com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+
+                // Inicializar el escritor de PDF para el nuevo documento
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+                document.open();
+
+                // Cargar el PDF original
+                PdfReader reader = new PdfReader(pdfFilePath);
+
+                // Obtener el número total de páginas en el PDF original
+                int pageCount = reader.getNumberOfPages();
+
+                // Cargar la imagen de la marca de agua
+                com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+
+                // Definir la posición y la escala de la marca de agua
+                float xPosition = 80; // Cambia esto según tus necesidades
+                float yPosition = 100; // Cambia esto según tus necesidades
+                float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+
+                // Iterar a través de las páginas del PDF original
+                for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                    // Agregar una nueva página al documento de salida
+                    document.newPage();
+
+                    // Obtener el contenido de la página actual
+                    PdfContentByte contentByte = writer.getDirectContent();
+
+                    // Obtener la página actual del PDF original
+                    PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+
+                    // Agregar la página del PDF original al nuevo documento
+                    contentByte.addTemplate(page, 0, 0);
+
+                    // Agregar la marca de agua (imagen) a la página actual
+                    watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                    watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                            watermarkImage.getHeight() * scaleFactor);
+                    contentByte.addImage(watermarkImage);
+                }
+
+                // Cerrar el documento
+                document.close();
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                // Crear un nuevo documento PDF de salida
+                com.itextpdf.text.Document document2 = new com.itextpdf.text.Document();
+
+                // Inicializar el escritor de PDF para el nuevo documento
+                PdfWriter writer2 = PdfWriter.getInstance(document2, new FileOutputStream(pdfOutputPath2));
+                document2.open();
+
+                // Cargar el PDF original
+                PdfReader reader2 = new PdfReader(pdfFilePath2);
+
+                // Obtener el número total de páginas en el PDF original
+                int pageCount2 = reader2.getNumberOfPages();
+
+                // Cargar la imagen de la marca de agua
+                com.itextpdf.text.Image watermarkImage2 = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+
+                // Definir la posición y la escala de la marca de agua
+                float xPosition = 80; // Cambia esto según tus necesidades
+                float yPosition = 100; // Cambia esto según tus necesidades
+                float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+
+                // Iterar a través de las páginas del PDF original
+                for (int pageNumber = 1; pageNumber <= pageCount2; pageNumber++) {
+                    // Agregar una nueva página al documento de salida
+                    document2.newPage();
+
+                    // Obtener el contenido de la página actual
+                    PdfContentByte contentByte2 = writer2.getDirectContent();
+
+                    // Obtener la página actual del PDF original
+                    PdfImportedPage page2 = writer2.getImportedPage(reader2, pageNumber);
+
+                    // Agregar la página del PDF original al nuevo documento
+                    contentByte2.addTemplate(page2, 0, 0);
+
+                    // Agregar la marca de agua (imagen) a la página actual
+                    watermarkImage2.setAbsolutePosition(xPosition, yPosition);
+                    watermarkImage2.scaleAbsolute(watermarkImage2.getWidth() * scaleFactor,
+                            watermarkImage2.getHeight() * scaleFactor);
+                    contentByte2.addImage(watermarkImage2);
+                }
+
+                // Cerrar el documento
+                document2.close();
+                reader2.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            resolucion.setRuta_marca_resolucion(pdfOutputPath);
+            resolucion.setRespaldo_marca_resolucion(pdfOutputPath2);
+            resolucion.setConsejo(consejo);
+            resolucion.setArchivoAdjunto(archivoAdjunto2);
+            resolucion.setRespaldoResolucion(respaldoResolucion2);
+            resolucion.setEstado_resolucion("A");
+            resolucionService.save(resolucion);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(resolucion.getFecha_resolucion());
+
+            // Obtener el año como un entero
+            int year = calendar.get(Calendar.YEAR);
+            redirectAttrs.addAttribute("years", year);
+            return "redirect:/adm/ResolucionLV";
+        } else {
+            return "redirect:/";
         }
-
-        resolucion.setRuta_marca_resolucion(pdfOutputPath);
-        resolucion.setRespaldo_marca_resolucion(pdfOutputPath2);
-        resolucion.setConsejo(consejo);
-        resolucion.setArchivoAdjunto(archivoAdjunto2);
-        resolucion.setRespaldoResolucion(respaldoResolucion2);
-        resolucion.setEstado_resolucion("A");
-        resolucionService.save(resolucion);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(resolucion.getFecha_resolucion());
-
-        // Obtener el año como un entero
-        int year = calendar.get(Calendar.YEAR);
-        redirectAttrs.addAttribute("years", year);
-        return "redirect:/adm/ResolucionLV";
     }
 
     @RequestMapping(value = "/editar-resolucion/{id_resolucion}")

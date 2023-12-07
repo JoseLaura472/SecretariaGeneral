@@ -136,44 +136,46 @@ public class UsuarioController {
     }
 
     @PostMapping("/verificar-contrasena")
-    public String verificarContrasena(HttpServletRequest request,@RequestParam("contrasena") String contrasena, Model model) {
+    public String verificarContrasena(HttpServletRequest request, @RequestParam("contrasena") String contrasena,
+            Model model) {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-     
-        String codigoActual = usuario.getUsuario_codigo(); 
+
+        String codigoActual = usuario.getUsuario_codigo();
         String contrasenaActual = usuario.getContrasena();
 
         if (!codigoActual.equals("cambiado")) {
-          
-        if (contrasena.equals(codigoActual)) {
 
-            // La contraseña es válida, establece un indicador para activar el modal
-        
-            model.addAttribute("activo", true);
-            
-        }else{
-            model.addAttribute("activoError", true);
-        }   
-        }else{
-    
-        if (contrasena.equals(contrasenaActual)) {
-         
-            // La contraseña es válida, establece un indicador para activar el modal
-        
-            model.addAttribute("activo", true);
-            
-        }else{
-            model.addAttribute("activoError", true);
-        }   
+            if (contrasena.equals(codigoActual)) {
+
+                // La contraseña es válida, establece un indicador para activar el modal
+
+                model.addAttribute("activo", true);
+
+            } else {
+                model.addAttribute("activoError", true);
+            }
+        } else {
+
+            if (contrasena.equals(contrasenaActual)) {
+
+                // La contraseña es válida, establece un indicador para activar el modal
+
+                model.addAttribute("activo", true);
+
+            } else {
+                model.addAttribute("activoError", true);
+            }
         }
-        
+
         // Redirige de nuevo a la página con el modal
         return "adm/inicio-adm";
     }
 
     @PostMapping("/cambiar-contrasena")
-    public String cambiarContrasena(HttpServletRequest request,@RequestParam("contrasena") String contrasena, Model model) {
+    public String cambiarContrasena(HttpServletRequest request, @RequestParam("contrasena") String contrasena,
+            Model model) {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-     
+
         usuario.setEstado(usuario.getEstado());
         usuario.setContrasena(contrasena);
         usuario.setUsuario_codigo("cambiado");
@@ -181,7 +183,7 @@ public class UsuarioController {
         usuario.setPersona(usuario.getPersona());
         usuario.setUsuario_nom(usuario.getUsuario_nom());
         usuarioService.save(usuario);
-        
+
         // Redirige de nuevo a la página con el modal
         return "redirect:/adm/InicioAdm";
     }
