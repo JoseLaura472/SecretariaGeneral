@@ -116,7 +116,7 @@
                                                                     class="fa-solid fa-pen-to-square"
                                                                     style="font-size: 30px; color: #e1d602;"
                                                                     title="Editar"></i></a>
-                                                            <a th:if="${session.usuario.estado == 'S'}"
+                                                            <a th:if="${session.usuario.estado != 'AU'}"
                                                                 th:id="${res.id_resolucion}"
                                                                 onclick="MandarURL(this.id)"><i
                                                                     class="fa-solid fa-trash"
