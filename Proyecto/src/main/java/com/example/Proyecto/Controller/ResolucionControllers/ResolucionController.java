@@ -470,6 +470,9 @@ public class ResolucionController {
     public String editar_p(@PathVariable("id_resolucion") Long id_resolucion, HttpServletRequest request, Model model)
             throws NumberFormatException, Exception {
         if (request.getSession().getAttribute("usuario") != null) {
+
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
             Resolucion resolucion = resolucionService.findOne(id_resolucion);
             model.addAttribute("resolucion", resolucion);
 
@@ -477,7 +480,8 @@ public class ResolucionController {
 
             model.addAttribute("resoluciones", resoluciones);
             model.addAttribute("consejos", consejoService.findAll());
-            model.addAttribute("tipoResoluciones", tipoResolucionService.findAll());
+            model.addAttribute("tipoResolucioness",
+                    tipoResolucionService.tpResolucionPorIdConsejo(consejo.getId_consejo()));
             model.addAttribute("beneficiados", beneficiadoService.findAll());
             model.addAttribute("tipoBeneficiados", tipoBeneficiadoService.findAll());
             model.addAttribute("autoridades", autoridadService.findAll());
