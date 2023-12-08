@@ -668,7 +668,7 @@ public class ResolucionController {
         resolucion.setConsejo(consejo);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
-        return "redirect:/adm/ResolucionL";
+        return "redirect:/adm/ResolucionLV";
 
     }
 
