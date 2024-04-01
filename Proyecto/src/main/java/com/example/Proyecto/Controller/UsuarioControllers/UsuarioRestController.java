@@ -72,35 +72,101 @@ public class UsuarioRestController {
 		HttpEntity<HashMap> req = new HttpEntity(requests, headers);
 
 		RestTemplate restTemplate = new RestTemplate();
-		Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
-			Usuario usuario2 = usuarioService.getUsuarioContraseña2(usuario_nom, contrasena);
 
-				if (usuario != null) {
-				HttpSession session = request.getSession(true);
-				//System.out.println("existe la persona desde API "+usuario.getPersona().getNombre_persona());
+		try {
+			ResponseEntity<Map> resp = restTemplate.exchange(url, HttpMethod.POST, req, Map.class);	
+			System.out.println(resp.getBody().get("status").toString());
+
+			Persona per = new Persona();
+			per.setCi_persona(resp.getBody().get("per_num_doc").toString());
+			per.setNombre_persona(resp.getBody().get("per_nombres").toString());
+			per.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
+			per.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+			per.setEstado_persona("A");
+			System.out.println(per.getCi_persona());
+			Persona pe = personaDao.getPersonaCI(resp.getBody().get("per_num_doc").toString());
+
+			if (pe == null && resp.getBody().get("status").toString().equals("200")) {
+			Persona persona = new Persona();
+			persona.setCi_persona(resp.getBody().get("per_num_doc").toString());
+			persona.setNombre_persona(resp.getBody().get("per_nombres").toString());
+			persona.setAp_paterno_persona(resp.getBody().get("per_ap_paterno").toString());
+			persona.setAp_materno_persona(resp.getBody().get("per_ap_materno").toString());
+			persona.setEmail_persona(resp.getBody().get("perd_email_personal").toString());
+			persona.setTelefono_persona(resp.getBody().get("perd_celular").toString());
+
+			// String dDate = resp.getBody().get("fecha_nac").toString();
+			// DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			// Date cDate = df.parse(dDate);
+			// persona.setFec_nacimiento(cDate);
+
+			persona.setSexo_persona(resp.getBody().get("per_sexo").toString());
+			persona.setDependencia_persona(resp.getBody().get("eo_descripcion").toString());
+			persona.setEstado_persona("A");
+			personaService.save(persona);
+
+			Usuario usuario = new Usuario();
+			usuario.setUsuario_nom(usuario_nom);
+			usuario.setUsuario_codigo(contrasena);
+			usuario.setPersona(persona);
+			usuario.setConsejo(consejoService.findOne(1L));
+			usuario.setEstado("I");
+			usuarioService.save(usuario);
+
+			HttpSession session = request.getSession(true);
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
+
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+
+			return "redirect:/adm/InicioAdm";
+
+		} else if (pe.getCi_persona().equals(per.getCi_persona())) {
 	
-				session.setAttribute("usuario", usuario);
-				session.setAttribute("persona", usuario.getPersona());
-	
-				flash.addAttribute("success", usuario.getPersona().getNombre_persona());
-	
-				return "redirect:/adm/InicioAdm";	
-				}else{
-				
-				
-				if (usuario2 != null) {
-				HttpSession session = request.getSession(true);
-				//System.out.println("existe la persona desde credenciales modificadas "+usuario2.getPersona().getNombre_persona());
-	
-				session.setAttribute("usuario", usuario2);
-				session.setAttribute("persona", usuario2.getPersona());
-	
-				flash.addAttribute("success", usuario2.getPersona().getNombre_persona());
-				return "redirect:/adm/InicioAdm";	
-				}	
-				}
-	
+			Usuario usuario = usuarioService.getUsuarioContraseña(usuario_nom, contrasena);
+			if (usuario != null) {
+			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde API "+usuario.getPersona().getNombre_persona());
+
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
+
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+
+			return "redirect:/adm/InicioAdm";	
+			}else{
+			Usuario usuario2 = usuarioService.getUsuarioContraseña2(usuario_nom, contrasena);
+			
+			if (usuario2 != null) {
+			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde credenciales modificadas "+usuario2.getPersona().getNombre_persona());
+
+			session.setAttribute("usuario", usuario2);
+			session.setAttribute("persona", usuario2.getPersona());
+
+			flash.addAttribute("success", usuario2.getPersona().getNombre_persona());
+			return "redirect:/adm/InicioAdm";	
+			}	
+			}
 		
+		}
+
+
+		} catch (HttpServerErrorException.InternalServerError e) {
+			Usuario usuario = usuarioService.getUsuarioContraseña2(usuario_nom, contrasena);
+			
+			if (usuario != null) {
+			HttpSession session = request.getSession(true);
+			System.out.println("existe la persona desde credenciales modificadas "+usuario.getPersona().getNombre_persona());
+
+			session.setAttribute("usuario", usuario);
+			session.setAttribute("persona", usuario.getPersona());
+
+			flash.addAttribute("success", usuario.getPersona().getNombre_persona());
+			return "redirect:/adm/InicioAdm";	
+			}
+			
+		}
 		System.out.println("Error en las Credenciales");
 		
 		return "redirect:/";
