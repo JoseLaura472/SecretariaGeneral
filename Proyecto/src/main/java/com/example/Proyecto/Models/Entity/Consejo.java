@@ -39,7 +39,7 @@ public class Consejo extends SigaUsicRevisiones{
     private List<Convenio> convenio;
 
       @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
     private List<Usuario> usuario;
 
     @JsonIgnore
