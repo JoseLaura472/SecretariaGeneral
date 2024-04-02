@@ -30,6 +30,6 @@ public class TipoBeneficiado extends SigaUsicRevisiones{
     private String estado_tipo_beneficiado;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBeneficiado", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoBeneficiado", fetch = FetchType.LAZY)
     private List<Beneficiado> beneficiados;
 }

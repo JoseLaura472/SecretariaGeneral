@@ -35,12 +35,12 @@ public class Beneficiado extends SigaUsicRevisiones {
     private String estado_beneficiado;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_beneficiado")
     private TipoBeneficiado tipoBeneficiado;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficiado", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficiado", fetch = FetchType.LAZY)
     private List<Resolucion> resoluciones;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beneficiado", fetch = FetchType.LAZY)

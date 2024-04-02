@@ -35,7 +35,7 @@ public class Institucion extends SigaUsicRevisiones {
     //private List<Convenio> convenios;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institucion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institucion", fetch = FetchType.LAZY)
     private List<Representante> representantes;
 
 }

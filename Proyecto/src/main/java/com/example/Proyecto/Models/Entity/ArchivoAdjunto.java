@@ -32,7 +32,7 @@ public class ArchivoAdjunto extends SigaUsicRevisiones {
     private String requerimiento_archivo_adjunto;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivoAdjunto", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "archivoAdjunto", fetch = FetchType.LAZY)
     private List<Convenio> convenio;
 
 

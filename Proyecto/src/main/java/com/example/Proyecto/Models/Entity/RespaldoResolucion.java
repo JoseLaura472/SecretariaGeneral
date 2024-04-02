@@ -33,7 +33,7 @@ public class RespaldoResolucion extends SigaUsicRevisiones {
 
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "respaldoResolucion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "respaldoResolucion", fetch = FetchType.LAZY)
     private List<Resolucion> resolucion;
 
 }

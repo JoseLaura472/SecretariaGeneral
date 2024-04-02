@@ -56,19 +56,19 @@ public class Convenio extends SigaUsicRevisiones {
 
     // Tabla Autoridad
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_autoridad")
     private Autoridad autoridad;
 
     // Tabla Representante
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_representante")
     private Representante representante;
 
     // Tabla TipoConvenio
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_convenio")
     private TipoConvenio tipoConvenio;
 
@@ -80,18 +80,18 @@ public class Convenio extends SigaUsicRevisiones {
 
     // Tabla Consejo
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_consejo")
     private Consejo consejo;
 
     // Tabla Archivo Adjunto
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_archivo_adjunto")
     private ArchivoAdjunto archivoAdjunto;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_beneficiado")
     private Beneficiado beneficiado;
 

@@ -31,18 +31,18 @@ public class Consejo extends SigaUsicRevisiones{
     private String estado_consejo;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.LAZY)
     private List<Autoridad> autoridad;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.LAZY)
     private List<Convenio> convenio;
 
       @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.LAZY)
     private List<Usuario> usuario;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consejo", fetch = FetchType.LAZY)
     private List<TipoResolucion> tipoResoluciones;
 }

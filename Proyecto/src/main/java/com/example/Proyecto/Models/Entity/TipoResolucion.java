@@ -34,12 +34,12 @@ public class TipoResolucion extends SigaUsicRevisiones{
     private String estado_tipo_resolucion;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoResolucion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoResolucion", fetch = FetchType.LAZY)
     private List<Resolucion> resoluciones;
 
     // Tabla Consejo
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_consejo")
     private Consejo consejo;
 }

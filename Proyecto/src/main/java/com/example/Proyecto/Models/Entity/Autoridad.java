@@ -42,18 +42,18 @@ public class Autoridad extends SigaUsicRevisiones {
 
     // Tabla Persona
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona")
     private Persona persona;
 
     // Tabla Consejo
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_consejo")
     private Consejo consejo;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "autoridad", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "autoridad", fetch = FetchType.LAZY)
     private List<Convenio> convenio;
 
 }

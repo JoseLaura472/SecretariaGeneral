@@ -32,7 +32,7 @@ public class TipoConvenio extends SigaUsicRevisiones {
     private String estado_tipo_convenio;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoConvenio", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoConvenio", fetch = FetchType.LAZY)
     private List<Convenio> convenios;
 
 }
