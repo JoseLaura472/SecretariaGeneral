@@ -494,16 +494,24 @@ public class ResolucionController {
     }
 
     @PostMapping(value = "/ResolucionModF")
-    public String ResolucionModF(@Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model,
+    public String ResolucionModF(@RequestParam("id_resolucion") Long idResolucion, @Validated Resolucion resolucion, RedirectAttributes redirectAttrs, Model model,
             HttpServletRequest request)
             throws IOException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+        Resolucion resolucionActual = resolucionService.findOne(idResolucion);
+        ArchivoAdjunto archivoAdjuntoActual = archivoAdjuntoService.buscarArchivoAdjuntoPorResolucion(idResolucion);
+        RespaldoResolucion respaldoActual = respaldoResolucionService.buscarArchivoAdjuntoPorResolucion(idResolucion);
+
+
+        String archivoNombreString = archivoAdjuntoActual.getNombre_archivo();
+        String respaldoNombreString = respaldoActual.getNombre_archivo();
+        
         MultipartFile multipartFile = resolucion.getFile();
 
         ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
         MultipartFile multipartFile2 = resolucion.getFile2();
-
+   
         RespaldoResolucion respaldoResolucion = new RespaldoResolucion();
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         String alfaString = generateRandomAlphaNumericString();
@@ -522,8 +530,14 @@ public class ResolucionController {
         Path rootAbsolutPathM = rootPathM.toAbsolutePath();
         String rutaDirectorioM = rootAbsolutPathM + "/";
 
-        resolucion.setNombreArchivo((alfaString + ".pdf"));
-        resolucion.setNombreArchivo2("respaldo" + "-" + alfaString + ".pdf");
+        if (archivoNombreString.startsWith("mod")) {
+            resolucion.setNombreArchivo((archivoAdjuntoActual.getNombre_archivo()));
+            resolucion.setNombreArchivo2(respaldoActual.getNombre_archivo());  
+        } else {
+            resolucion.setNombreArchivo(("mod-"+archivoAdjuntoActual.getNombre_archivo()));
+            resolucion.setNombreArchivo2("mod-respaldo" + "-" + archivoAdjuntoActual.getNombre_archivo());
+        }
+        
         Integer ad = adjuntarArchivo.adjuntarArchivoResolucion(resolucion, rutaArchivo);
         Integer ad2 = adjuntarArchivo.adjuntarArchivoResolucionRespaldo(resolucion, rutaArchivoR);
 
