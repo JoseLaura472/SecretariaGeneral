@@ -2,7 +2,10 @@ package com.example.Proyecto.Controller.UsuarioControllers;
 
 import java.io.IOException;
 
+import java.time.ZoneId;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.Proyecto.Models.Entity.Consejo;
+import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IPersonaService;
+import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.IService.IUsuarioService;
 
 @Controller
@@ -34,6 +40,9 @@ public class UsuarioController {
 
     @Autowired
     private IPersonaService personaService;
+
+    @Autowired
+    private IResolucionService resolucionService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() throws Exception {
@@ -63,6 +72,22 @@ public class UsuarioController {
         if (request.getSession().getAttribute("usuario") != null) {
             model.addAttribute("usuarios", usuarioService.findAll());
 
+            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
+            List<Resolucion> resoluciones;
+            if (usuario.getEstado().equals("AU")) {
+                resoluciones = resolucionService.findAll();
+            } else {
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
+            }
+
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
+
+            model.addAttribute("years", years);
             return "usuario/listar-usuario";
         } else {
             return "redirect:/";

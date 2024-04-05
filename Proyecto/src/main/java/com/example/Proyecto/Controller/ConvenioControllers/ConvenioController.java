@@ -5,6 +5,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.time.ZoneId;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -35,6 +39,7 @@ import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
 import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Representante;
+import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
@@ -43,6 +48,7 @@ import com.example.Proyecto.Models.IService.IConsejoService;
 import com.example.Proyecto.Models.IService.IConvenioService;
 import com.example.Proyecto.Models.IService.IInstitucionService;
 import com.example.Proyecto.Models.IService.IRepresentanteService;
+import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
 import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
@@ -86,6 +92,9 @@ public class ConvenioController {
     @Autowired
     private ITipoBeneficiadoService tipoBeneficiadoService;
 
+    @Autowired
+    private IResolucionService resolucionService;
+
     // FUNCION PARA LISTAR LOS REGISTRO DE PERSONA
     @RequestMapping(value = "/ConvenioL", method = RequestMethod.GET) // Pagina principal
     public String ConvenioL(@Validated Convenio convenio, HttpServletRequest request, Model model) throws Exception {
@@ -99,6 +108,8 @@ public class ConvenioController {
             }
 
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+            Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
 
             if (usuario.getEstado().equals("AU")) {
                 model.addAttribute("convenios", convenioService.findAll());
@@ -106,7 +117,20 @@ public class ConvenioController {
                 model.addAttribute("convenios",
                         convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
             }
+            
+            List<Resolucion> resoluciones;
+            if (usuario.getEstado().equals("AU")) {
+                resoluciones = resolucionService.findAll();
+            } else {
+                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
+            }
 
+            Set<Integer> years = resoluciones.stream()
+                    .map(resolucion -> resolucion.getFecha_resolucion().toInstant().atZone(ZoneId.systemDefault())
+                            .toLocalDate().getYear())
+                    .collect(Collectors.toSet());
+
+            model.addAttribute("years", years);
             model.addAttribute("instituciones", institucionService.findAll());
             model.addAttribute("representantes", representanteService.findAll());
             model.addAttribute("id_encryptado", encryptedIds);
