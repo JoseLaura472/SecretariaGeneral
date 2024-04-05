@@ -750,7 +750,7 @@ public class ResolucionController {
 
     }
 
-
+/* 
     @GetMapping(value = "/GenerarMarcaAguaResoluciones")
     public String GenerarMarcaAguaResoluciones( RedirectAttributes redirectAttrs, Model model,
             HttpServletRequest request)
@@ -839,6 +839,6 @@ public class ResolucionController {
         }
         return "redirect:/";      
  }
-
+*/
  
 }
