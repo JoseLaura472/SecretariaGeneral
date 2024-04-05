@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -682,6 +683,12 @@ public class ResolucionController {
         resolucion.setConsejo(consejo);
         resolucion.setEstado_resolucion("A");
         resolucionService.save(resolucion);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(resolucion.getFecha_resolucion());
+
+        // Obtener el año como un entero
+        int year = calendar.get(Calendar.YEAR);
+        redirectAttrs.addAttribute("years", year);
         return "redirect:/adm/ResolucionLV";
 
     }
@@ -743,4 +750,95 @@ public class ResolucionController {
 
     }
 
+
+    @GetMapping(value = "/GenerarMarcaAguaResoluciones")
+    public String GenerarMarcaAguaResoluciones( RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request)
+            throws IOException {
+            
+        AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
+           
+        Path rootPath = Paths.get("archivos/resoluciones/");
+        Path rootAbsolutPath = rootPath.toAbsolutePath();
+        String rutaDirectorio = rootAbsolutPath + "";
+        String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
+        
+        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        String rutaDirectorioM = rootAbsolutPathM + "/";
+        
+        long idInicial = 1;  // ID inicial
+        long idFinal = 4;   // ID final
+        
+        for (long id = idInicial; id <= idFinal; id++) {
+        
+            // Busca el archivo adjunto por cada ID
+            ArchivoAdjunto archivo = archivoAdjuntoService.buscarArchivoAdjuntoPorResolucion(id);
+            Resolucion resolucion = resolucionService.findOne(id);
+
+            // Ruta completa del archivo PDF original que recibes
+            String pdfFilePath = rutaArchivo + File.separator + archivo.getNombre_archivo();
+
+            // Ruta donde guardarás el PDF con marca de agua
+            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + archivo.getNombre_archivo();
+            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+            try {
+                // Crear un nuevo documento PDF de salida
+                com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+
+                // Inicializar el escritor de PDF para el nuevo documento
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfOutputPath));
+                document.open();
+
+                // Cargar el PDF original
+                PdfReader reader = new PdfReader(pdfFilePath);
+
+                // Obtener el número total de páginas en el PDF original
+                int pageCount = reader.getNumberOfPages();
+
+                // Cargar la imagen de la marca de agua
+                com.itextpdf.text.Image watermarkImage = com.itextpdf.text.Image.getInstance(watermarkImagePath);
+
+                // Definir la posición y la escala de la marca de agua
+                float xPosition = 80; // Cambia esto según tus necesidades
+                float yPosition = 100; // Cambia esto según tus necesidades
+                float scaleFactor = 0.4f; // Cambia esto para ajustar la escala
+
+                // Iterar a través de las páginas del PDF original
+                for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+                    // Agregar una nueva página al documento de salida
+                    document.newPage();
+
+                    // Obtener el contenido de la página actual
+                    PdfContentByte contentByte = writer.getDirectContent();
+
+                    // Obtener la página actual del PDF original
+                    PdfImportedPage page = writer.getImportedPage(reader, pageNumber);
+
+                    // Agregar la página del PDF original al nuevo documento
+                    contentByte.addTemplate(page, 0, 0);
+
+                    // Agregar la marca de agua (imagen) a la página actual
+                    watermarkImage.setAbsolutePosition(xPosition, yPosition);
+                    watermarkImage.scaleAbsolute(watermarkImage.getWidth() * scaleFactor,
+                            watermarkImage.getHeight() * scaleFactor);
+                    contentByte.addImage(watermarkImage);
+                }
+
+                // Cerrar el documento
+                document.close();
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            resolucion.setRuta_marca_resolucion(pdfOutputPath);
+            resolucion.setEstado_resolucion("A");
+            resolucionService.save(resolucion);
+        }
+        return "redirect:/";      
+ }
+
+ 
 }
