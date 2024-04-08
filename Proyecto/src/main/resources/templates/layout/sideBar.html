@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        /* Estilo para el fondo con degradado */
+        .fondo-degradado {
+        
+            background: linear-gradient(90deg, rgba(31,199,115,1) 26%, rgba(39,170,224,1) 60%, rgba(68,180,203,1) 100%);
+        }
+    </style>
 </head>
 
 <body>
@@ -71,7 +79,8 @@
                 </li>
                 <li><a class="menu-item" href="/adm/ReporteCon"><i class="la la-file-text"></i><span>Reportes</span></a>
                 </li>
-                <li><a class="menu-item"  th:onclick="abrirDocumento('D:\USIC_2024\SISTEMAS\SecretariaGeneral\archivos\manual/\manual.pdf')" ><i class="la la-file-text"></i><span>Manual de Usuario</span></a>
+                <li style="background: linear-gradient(90deg, rgba(31,199,115,1) 26%, rgba(39,170,224,1) 60%, rgba(68,180,203,1) 100%);">
+                    <a  class="menu-item"  th:onclick="abrirDocumento('/home/ubuntu/Documentos/spring boot/SecretariaGeneral/archivos/manual//manual.pdf')" ><i class="la la-book"></i><span>Manual de Usuario</span></a>
                 </li>
 
             </ul>
