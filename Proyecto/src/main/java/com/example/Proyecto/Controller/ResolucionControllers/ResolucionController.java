@@ -840,5 +840,23 @@ public class ResolucionController {
         return "redirect:/";      
  }
 */
+@GetMapping(value = "/verificarArchivos")
+    public String verificarArchivos( RedirectAttributes redirectAttrs, Model model,
+            HttpServletRequest request) {
+    // Obtener todos los registros de ArchivoAdjunto
+    List<ArchivoAdjunto> archivos = archivoAdjuntoService.listarArchivoAdjunto();
+
+    // Iterar sobre cada registro y verificar si el archivo asociado existe
+    for (ArchivoAdjunto archivo : archivos) {
+        String rutaArchivo = archivo.getRuta();
+        File archivoVerificacion = new File(rutaArchivo);
+
+        if (!archivoVerificacion.exists()) {
+            // El archivo no existe, imprimir el ID del registro
+            System.out.println("ID de archivo no existente: " + archivo.getId());
+        }
+    }
+    return "redirect:/";
+}
  
 }
