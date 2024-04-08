@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.Proyecto.Models.Entity.Consejo;
+import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IConsejoService;
+import com.example.Proyecto.Models.IService.IConvenioService;
 import com.example.Proyecto.Models.IService.IResolucionService;
 
 @Controller
@@ -29,11 +31,20 @@ public class IndexController {
     @Autowired
     private IConsejoService consejoService;
 
+    @Autowired
+    private IConvenioService convenioService;
+
+
     @RequestMapping(value = "InicioAdm", method = RequestMethod.GET)
     public String PlantillaBasia(Model model,HttpServletRequest request) {
         if (request.getSession().getAttribute("usuario") != null) {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+            List<Resolucion> resolucionesPublico = resolucionService.findAll();
+            List<Convenio> conveniosPublico = convenioService.findAll();
+            int numResolucion = resolucionesPublico.size();
+            int numConvenio = conveniosPublico.size();
+
               List<Resolucion> resoluciones;
             if (usuario.getEstado().equals("AU")) {
                 resoluciones = resolucionService.findAll();
@@ -47,6 +58,9 @@ public class IndexController {
                     .collect(Collectors.toSet());
 
             model.addAttribute("years", years);
+            model.addAttribute("numResolucion", numResolucion);
+            model.addAttribute("numConvenio", numConvenio);
+
 
             return "adm/inicio-adm";
         }else{
