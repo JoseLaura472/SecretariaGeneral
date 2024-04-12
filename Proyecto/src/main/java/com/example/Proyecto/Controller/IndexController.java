@@ -68,4 +68,14 @@ public class IndexController {
         }
         
     }
+
+    @RequestMapping(value = "/respaldos", method = RequestMethod.GET)
+    public String tablaRespaldo(Model model,HttpServletRequest request) {
+     
+
+
+            return "prueba/prueba";
+      
+        
+    }
 }

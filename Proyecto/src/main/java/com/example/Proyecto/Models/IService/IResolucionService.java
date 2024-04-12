@@ -23,4 +23,6 @@ public interface IResolucionService {
     public List<Resolucion> buscarResolucionesPorIntervaloDeFechas(Date fechaInicio, Date fechaFin, Long id_consejo);
 
     public List<Resolucion> resolucionesActivas();
+
+    public Resolucion resolucionPorRespaldo(Long id_respaldo);
 }

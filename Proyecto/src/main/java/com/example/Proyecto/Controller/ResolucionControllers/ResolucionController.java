@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
+import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.RespaldoResolucion;
 import com.example.Proyecto.Models.Entity.TipoResolucion;
@@ -841,22 +842,36 @@ public class ResolucionController {
  }
 */
 @GetMapping(value = "/verificarArchivos")
-    public String verificarArchivos( RedirectAttributes redirectAttrs, Model model,
-            HttpServletRequest request) {
+public String verificarArchivos(RedirectAttributes redirectAttrs, Model model, HttpServletRequest request) {
     // Obtener todos los registros de ArchivoAdjunto
-    List<ArchivoAdjunto> archivos = archivoAdjuntoService.listarArchivoAdjunto();
+    List<RespaldoResolucion> respaldos = respaldoResolucionService.listarArchivoAdjuntoJPQL();
+    
+    // Crear una lista para almacenar las Resoluciones que necesitan ser verificadas
+    List<Resolucion> resolucionesPorVerificar = new ArrayList<>();
 
     // Iterar sobre cada registro y verificar si el archivo asociado existe
-    for (ArchivoAdjunto archivo : archivos) {
-        String rutaArchivo = archivo.getRuta();
+    for (RespaldoResolucion respaldo : respaldos) {
+        String rutaArchivo = respaldo.getRuta();
         File archivoVerificacion = new File(rutaArchivo);
 
         if (!archivoVerificacion.exists()) {
-            // El archivo no existe, imprimir el ID del registro
-            System.out.println("ID de archivo no existente: " + archivo.getId());
+            // Si el archivo no existe, agregar la Resolución correspondiente a la lista
+            
+            Resolucion resolucion = resolucionService.resolucionPorRespaldo(respaldo.getId_respaldo_resolucion());
+            resolucionesPorVerificar.add(resolucion);
         }
     }
-    return "redirect:/";
+
+    // Aquí puedes hacer lo que necesites con la lista de resoluciones por verificar
+    // Por ejemplo, puedes agregarla al modelo para mostrarla en tu vista
+    model.addAttribute("resolucionesPorVerificar", resolucionesPorVerificar);
+
+    
+    // Redirigir a algún lugar, por ejemplo, la página de inicio
+    return "prueba/prueba";
 }
+
+ 
+
  
 }

@@ -58,6 +58,11 @@ public class ResolucionServiceImpl implements IResolucionService {
           return (List<Resolucion>) resolucionDao.resolucionesActivas();
     }
 
+    @Override
+    public Resolucion resolucionPorRespaldo(Long id_respaldo) {
+        return resolucionDao.resolucionPorRespaldo(id_respaldo);
+    }
+
 
 
 }
