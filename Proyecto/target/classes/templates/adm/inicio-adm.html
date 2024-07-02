@@ -10,7 +10,7 @@
 
 <body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click"
     data-menu="vertical-menu-modern" data-col="2-columns">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <!-- BEGIN: Header-->
     <nav th:replace="layout/topBar :: topBar"></nav>
     <!-- END: Header-->
@@ -26,21 +26,7 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <div class="modal fade" tabindex="-1" id="ModalEvaluacion2" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-
-                        <div>
-
-
-                            <iframe width="800" height="800" id="iframe-pdf2" frameborder="0"
-                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+                <div th:replace="layout/modalManual :: modalManual"></div>
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="form-group">
 
@@ -184,43 +170,30 @@
                    
                 </div>
                 <div class="row">
-                    <div class="col-xl-6 col-md-12">
+                    <div class="col-xl-4 col-md-12">
                         <div class="card overflow-hidden">
                             <div class="card-content">
-                                <div class="media align-items-stretch">
-                                    <div class="bg-info p-2 media-middle">
-                                        <i class="icon-docs font-large-2 text-white"></i>
-                                    </div>
-                                    <div class="media-body p-2">
-                                        <h4>Total Resoluciones</h4>
-                              
-                                    </div>
-                                    <div class="media-right p-2 media-middle">
-                                        <h1 class="info" th:text="${numResolucion}"></h1>
-                                    </div>
-                                </div>
+                                
+                                  
+                                    
+                                    <canvas id="myChart" style="width:100%;max-width:400px"></canvas>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-12">
+                        <div class="card overflow-hidden">
+                            <div class="card-content">
+                                
+                                  
+                                    
+                                    <canvas id="myChart2" style="width:100%;max-width:400px"></canvas>
+                                 
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-6 col-md-12">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="media align-items-stretch">
-                                    <div class="bg-warning p-2 media-middle rounded-left">
-                                        <i class="icon-docs font-large-2 text-white"></i>
-                                    </div>
-                                    <div class="media-body p-2">
-                                        <h4>Total Convenios</h4>
-                       
-                                    </div>
-                                    <div class="media-right p-2 media-middle">
-                                        <h1 class="warning" th:text="${numConvenio}"></h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                 
                 </div>
             </div>
         </div>
@@ -237,19 +210,62 @@
     <footer th:replace="layout/footer :: footer"> </footer>
 
     <div th:replace="layout/script :: script"></div>
+    <script th:inline="javascript">
+        
+         var numResolucionCao = [[${numResolucionCao}]]; // Asignar el valor de numResolucion del modelo
+        var numConvenioCao = [[${numConvenioCao}]]; // Asignar el valor de numConvenio del modelo
+        var xValues = ["Resoluciones", "Convenios"];
+        var yValues = [numResolucionCao, numConvenioCao];
+        var barColors = ["red", "green"];
+        
+        new Chart("myChart", {
+          type: "bar",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            legend: {display: false},
+            title: {
+              display: true,
+              text: "Estadística General Cao"
+            }
+          }
+        });
+        </script>
 
-    <script type="text/javascript">
-        function abrirDocumento(ruta) {
-            // Codificar la ruta para que sea una URL válida
-            var rutaCodificada = encodeURIComponent(ruta);
-            
-            // Muestra el modal
-            $("#ModalEvaluacion2").modal("show");
+<script th:inline="javascript">
+        
+    var numResolucionHcu = [[${numResolucionHcu}]]; // Asignar el valor de numResolucion del modelo
+   var numConvenioHcu = [[${numConvenioHcu}]]; // Asignar el valor de numConvenio del modelo
+   var xValues = ["Resoluciones", "Convenios"];
+   var yValues = [numResolucionHcu, numConvenioHcu];
+   var barColors = ["red", "green"];
+   
+   new Chart("myChart2", {
+     type: "bar",
+     data: {
+       labels: xValues,
+       datasets: [{
+         backgroundColor: barColors,
+         data: yValues
+       }]
+     },
+     options: {
+       legend: {display: false},
+       title: {
+         display: true,
+         text: "Estadística General Hcu"
+       }
+     }
+   });
+   </script>
 
-            // Configura la fuente del iframe con la ruta codificada del documento
-            $("#iframe-pdf2").attr("src", `../../../adm/openFileResolucionMarca?ruta=${rutaCodificada}`);
-        }
-    </script>
+
+
 
     <script th:inline="javascript">
         /* Verifica si activoError es true y muestra un SweetAlert de error */

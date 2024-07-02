@@ -11,7 +11,7 @@ import com.example.Proyecto.Models.Entity.Resolucion;
 
 public interface IResolucionDao extends CrudRepository<Resolucion, Long>{
 
-    @Query("select a from Resolucion a left join a.consejo c where c.id_consejo=?1")
+    @Query("select a from Resolucion a left join a.consejo c where c.id_consejo=?1 AND a.estado_resolucion = 'A'")
     public List<Resolucion> resolucionPorIdConsejo(Long id_consejo);
 
     /* 

@@ -40,10 +40,14 @@ public class IndexController {
         if (request.getSession().getAttribute("usuario") != null) {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
-            List<Resolucion> resolucionesPublico = resolucionService.findAll();
-            List<Convenio> conveniosPublico = convenioService.findAll();
-            int numResolucion = resolucionesPublico.size();
-            int numConvenio = conveniosPublico.size();
+            List<Resolucion> resolucionesPublicoCao = resolucionService.resolucionPorIdConsejo(3L);
+            List<Convenio> conveniosPublicoCao = convenioService.convenioPorIdConsejo(3L);
+            List<Resolucion> resolucionesPublicoHcu = resolucionService.resolucionPorIdConsejo(2L);
+            List<Convenio> conveniosPublicoHcu = convenioService.convenioPorIdConsejo(2L);
+            int numResolucionCao = resolucionesPublicoCao.size();
+            int numConvenioCao = conveniosPublicoCao.size();
+            int numResolucionHcu = resolucionesPublicoHcu.size();
+            int numConvenioHcu = conveniosPublicoHcu.size();
 
               List<Resolucion> resoluciones;
             if (usuario.getEstado().equals("AU")) {
@@ -58,8 +62,10 @@ public class IndexController {
                     .collect(Collectors.toSet());
 
             model.addAttribute("years", years);
-            model.addAttribute("numResolucion", numResolucion);
-            model.addAttribute("numConvenio", numConvenio);
+            model.addAttribute("numResolucionCao", numResolucionCao);
+            model.addAttribute("numConvenioCao", numConvenioCao);
+            model.addAttribute("numResolucionHcu", numResolucionHcu);
+            model.addAttribute("numConvenioHcu", numConvenioHcu);
 
 
             return "adm/inicio-adm";

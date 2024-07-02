@@ -91,6 +91,18 @@
         <script src="../../../app-assets/js/scripts/forms/select/form-select2.js"></script>
         <script src="../../../app-assets/js/scripts/modal/components-modal.js"></script>
         <!-- END: Page JS-->
+        <script type="text/javascript">
+            function abrirDocumento(ruta) {
+                // Codificar la ruta para que sea una URL válida
+                var rutaCodificada = encodeURIComponent(ruta);
+                
+                // Muestra el modal
+                $("#ModalEvaluacion2").modal("show");
+    
+                // Configura la fuente del iframe con la ruta codificada del documento
+                $("#iframe-pdf2").attr("src", `../../../adm/openFileResolucionMarca?ruta=${rutaCodificada}`);
+            }
+        </script>
     </div>
 </body>
 
