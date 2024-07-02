@@ -1,7 +1,10 @@
 package com.example.Proyecto.Controller;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,7 @@ public class IndexController {
         if (request.getSession().getAttribute("usuario") != null) {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
+
             List<Resolucion> resolucionesPublicoCao = resolucionService.resolucionPorIdConsejo(3L);
             List<Convenio> conveniosPublicoCao = convenioService.convenioPorIdConsejo(3L);
             List<Resolucion> resolucionesPublicoHcu = resolucionService.resolucionPorIdConsejo(2L);
@@ -49,11 +53,21 @@ public class IndexController {
             int numResolucionHcu = resolucionesPublicoHcu.size();
             int numConvenioHcu = conveniosPublicoHcu.size();
 
-              List<Resolucion> resoluciones;
-            if (usuario.getEstado().equals("AU")) {
+            List<Resolucion> resoluciones;
+            List<Convenio> convenios;
+            if (usuario.getEstado().equals("AU") || usuario.getEstado().equals("S")) {
                 resoluciones = resolucionService.findAll();
+                convenios = convenioService.findAll();
+                model.addAttribute("numResolucionCao", numResolucionCao);
+                model.addAttribute("numConvenioCao", numConvenioCao);
+                model.addAttribute("numResolucionHcu", numResolucionHcu);
+                model.addAttribute("numConvenioHcu", numConvenioHcu);
             } else {
-                resoluciones = resolucionService.resolucionPorIdConsejo(consejo.getId_consejo());
+                resoluciones = resolucionService.resolucionPorIdConsejo(usuario.getConsejo().getId_consejo());
+                convenios = convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo());
+                model.addAttribute("titulo", usuario.getConsejo().getNombre_consejo() + " ("+usuario.getConsejo().getSigla_consejo()+")");
+                model.addAttribute("numResolucion", resoluciones.size());
+                model.addAttribute("numConvenio", convenios.size());
             }
 
             Set<Integer> years = resoluciones.stream()
@@ -62,12 +76,35 @@ public class IndexController {
                     .collect(Collectors.toSet());
 
             model.addAttribute("years", years);
-            model.addAttribute("numResolucionCao", numResolucionCao);
-            model.addAttribute("numConvenioCao", numConvenioCao);
-            model.addAttribute("numResolucionHcu", numResolucionHcu);
-            model.addAttribute("numConvenioHcu", numConvenioHcu);
+            
+            // Agrupar por año y contar las resoluciones
+        Map<Integer, Long> resolucionesPorAnio = resoluciones.stream()
+                .collect(Collectors.groupingBy(
+                        resolucion -> resolucion.getFecha_resolucion().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().getYear(),
+                        Collectors.counting()
+                ));
 
+        Map<Integer, Long> conveniosPorAnio = convenios.stream()
+                .collect(Collectors.groupingBy(
+                        convenio -> convenio.getRegistro().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate().getYear(),
+                        Collectors.counting()));
 
+        // Convertir el resultado a una lista de pares (año, cantidad) y ordenarla por año
+        List<Entry<Integer, Long>> resolucionesPorAnioList = new ArrayList<>(resolucionesPorAnio.entrySet());
+        resolucionesPorAnioList.sort(Entry.comparingByKey());
+
+        List<Entry<Integer, Long>> conveniosPorAnioList = new ArrayList<>(conveniosPorAnio.entrySet());
+        conveniosPorAnioList.sort(Entry.comparingByKey());
+
+        for (Entry<Integer,Long> entry : conveniosPorAnioList) {
+            System.out.println(entry.getKey());
+        }
+
+        model.addAttribute("resoluciones", resolucionesPorAnioList);
+        model.addAttribute("convenios", conveniosPorAnioList);
+        
             return "adm/inicio-adm";
         }else{
             return "redirect:/";

@@ -23,10 +23,10 @@
 		</dependency>
 
 		<dependency>
-    <groupId>com.itextpdf</groupId>
-    <artifactId>itextpdf</artifactId>
-    <version>5.5.13.2</version> <!-- Utiliza la versión adecuada -->
-</dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.2</version> <!-- Utiliza la versión adecuada -->
+		</dependency>
 		
 		<dependency>
 		    <groupId>com.sun.mail</groupId>
