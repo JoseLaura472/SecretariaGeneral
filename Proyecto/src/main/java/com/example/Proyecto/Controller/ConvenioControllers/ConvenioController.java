@@ -363,12 +363,12 @@ public class ConvenioController {
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         String alfaString = generateRandomAlphaNumericString();
 
-        Path rootPath = Paths.get("archivos/convenios/");
+        Path rootPath = Paths.get("Proyecto/archivos/convenios/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
-        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
         Path rootAbsolutPathM = rootPathM.toAbsolutePath();
         String rutaDirectorioM = rootAbsolutPathM + "/";
 

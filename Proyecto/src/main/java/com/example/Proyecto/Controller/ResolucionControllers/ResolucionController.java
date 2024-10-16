@@ -449,17 +449,17 @@ public class ResolucionController {
         AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
         String alfaString = generateRandomAlphaNumericString();
 
-        Path rootPath = Paths.get("archivos/resoluciones/");
+        Path rootPath = Paths.get("Proyecto/archivos/resoluciones/");
         Path rootAbsolutPath = rootPath.toAbsolutePath();
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
-        Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
+        Path rootPathR = Paths.get("Proyecto/archivos/resoluciones/respaldo");
         Path rootAbsolutPathR = rootPathR.toAbsolutePath();
         String rutaDirectorioR = rootAbsolutPathR + "";
         String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
 
-        Path rootPathM = Paths.get("archivos/marca_agua");
+        Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
         Path rootAbsolutPathM = rootPathM.toAbsolutePath();
         String rutaDirectorioM = rootAbsolutPathM + "/";
 
