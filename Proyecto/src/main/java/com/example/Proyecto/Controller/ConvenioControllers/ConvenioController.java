@@ -222,7 +222,7 @@ public class ConvenioController {
             }
 
             Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
-            String rutaDirectorioM = rootPathM.toAbsolutePath() + "/";
+            String rutaDirectorioM = rootPathM + "/";
 
             String alfaString = generateRandomAlphaNumericString();
             String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
@@ -364,12 +364,12 @@ public class ConvenioController {
         String alfaString = generateRandomAlphaNumericString();
 
         Path rootPath = Paths.get("Proyecto/archivos/convenios/");
-        Path rootAbsolutPath = rootPath.toAbsolutePath();
+        Path rootAbsolutPath = rootPath;
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
         Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
-        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        Path rootAbsolutPathM = rootPathM;
         String rutaDirectorioM = rootAbsolutPathM + "/";
 
         convenio.setNombreArchivo((alfaString + ".pdf"));

@@ -450,17 +450,17 @@ public class ResolucionController {
         String alfaString = generateRandomAlphaNumericString();
 
         Path rootPath = Paths.get("Proyecto/archivos/resoluciones/");
-        Path rootAbsolutPath = rootPath.toAbsolutePath();
+        Path rootAbsolutPath = rootPath;
         String rutaDirectorio = rootAbsolutPath + "";
         String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
 
         Path rootPathR = Paths.get("Proyecto/archivos/resoluciones/respaldo");
-        Path rootAbsolutPathR = rootPathR.toAbsolutePath();
+        Path rootAbsolutPathR = rootPathR;
         String rutaDirectorioR = rootAbsolutPathR + "";
         String rutaArchivoR = adjuntarArchivo.crearSacDirectorio(rutaDirectorioR);
 
         Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
-        Path rootAbsolutPathM = rootPathM.toAbsolutePath();
+        Path rootAbsolutPathM = rootPathM;
         String rutaDirectorioM = rootAbsolutPathM + "/";
 
         if (archivoNombreString.startsWith("mod")) {
