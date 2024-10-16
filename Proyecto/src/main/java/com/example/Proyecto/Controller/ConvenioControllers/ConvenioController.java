@@ -1,18 +1,18 @@
 package com.example.Proyecto.Controller.ConvenioControllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.time.ZoneId;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,13 +53,10 @@ import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
 import com.example.Proyecto.Models.IService.ITipoConvenioService;
 import com.example.Proyecto.Models.Otros.AdjuntarArchivo;
 import com.example.Proyecto.Models.Otros.Encryptar;
-
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileOutputStream;
 
 @Controller
 @RequestMapping("/adm")
@@ -211,7 +208,7 @@ public class ConvenioController {
             AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
             // (1)
             Path rootPath = Paths.get("archivos/convenios/");
-            Path rootAbsolutPath = rootPath.toAbsolutePath();
+            Path rootAbsolutPath = rootPath;
             String rutaDirectorio = rootAbsolutPath + "";
             try {
                 if (!Files.exists(rootPath)) {
@@ -225,8 +222,8 @@ public class ConvenioController {
             }
 
             Path rootPathM = Paths.get("archivos/marca_agua");
-            Path rootAbsolutPathM = rootPathM.toAbsolutePath();
-            String rutaDirectorioM = rootAbsolutPathM + "/";
+            Path rootAbsolutPathM = rootPathM;
+            String rutaDirectorioM = rootAbsolutPathM + "";
 
             String alfaString = generateRandomAlphaNumericString();
             String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);

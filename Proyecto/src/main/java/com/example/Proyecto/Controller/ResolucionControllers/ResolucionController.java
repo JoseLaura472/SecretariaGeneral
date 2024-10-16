@@ -39,16 +39,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Proyecto.Models.Entity.ArchivoAdjunto;
 import com.example.Proyecto.Models.Entity.Consejo;
-import com.example.Proyecto.Models.Entity.Convenio;
 import com.example.Proyecto.Models.Entity.Resolucion;
 import com.example.Proyecto.Models.Entity.RespaldoResolucion;
-import com.example.Proyecto.Models.Entity.TipoResolucion;
 import com.example.Proyecto.Models.Entity.Usuario;
 import com.example.Proyecto.Models.IService.IArchivoAdjuntoService;
 import com.example.Proyecto.Models.IService.IAutoridadService;
 import com.example.Proyecto.Models.IService.IBeneficiadoService;
 import com.example.Proyecto.Models.IService.IConsejoService;
-
 import com.example.Proyecto.Models.IService.IResolucionService;
 import com.example.Proyecto.Models.IService.IRespaldoResolucionService;
 import com.example.Proyecto.Models.IService.ITipoBeneficiadoService;
@@ -279,7 +276,7 @@ public class ResolucionController {
             AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
             // (1)
             Path rootPath = Paths.get("archivos/resoluciones/");
-            Path rootAbsolutPath = rootPath.toAbsolutePath();
+            Path rootAbsolutPath = rootPath;
             String rutaDirectorio = rootAbsolutPath + "";
             try {
                 if (!Files.exists(rootPath)) {
@@ -294,7 +291,7 @@ public class ResolucionController {
 
             // Respaldo en resolución
             Path rootPathR = Paths.get("archivos/resoluciones/respaldo");
-            Path rootAbsolutPathR = rootPathR.toAbsolutePath();
+            Path rootAbsolutPathR = rootPathR;
             String rutaDirectorioR = rootAbsolutPathR + "";
             try {
                 if (!Files.exists(rootPathR)) {
@@ -308,8 +305,8 @@ public class ResolucionController {
             }
 
             Path rootPathM = Paths.get("archivos/marca_agua");
-            Path rootAbsolutPathM = rootPathM.toAbsolutePath();
-            String rutaDirectorioM = rootAbsolutPathM + "/";
+            Path rootAbsolutPathM = rootPathM;
+            String rutaDirectorioM = rootAbsolutPathM + "";
 
             String alfaString = generateRandomAlphaNumericString();
             String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
