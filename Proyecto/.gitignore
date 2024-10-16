@@ -12,6 +12,7 @@
 
 # Archivos de compilación de Maven
 target/
+../archivos/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
