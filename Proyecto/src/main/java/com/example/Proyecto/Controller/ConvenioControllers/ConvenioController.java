@@ -107,14 +107,13 @@ public class ConvenioController {
             Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
             Consejo consejo = consejoService.findOne(usuario.getConsejo().getId_consejo());
 
-
             if (usuario.getEstado().equals("AU")) {
                 model.addAttribute("convenios", convenioService.findAll());
             } else {
                 model.addAttribute("convenios",
                         convenioService.convenioPorIdConsejo(usuario.getConsejo().getId_consejo()));
             }
-            
+
             List<Resolucion> resoluciones;
             if (usuario.getEstado().equals("AU")) {
                 resoluciones = resolucionService.findAll();
@@ -196,7 +195,7 @@ public class ConvenioController {
     @RequestMapping(value = "/ConvenioF", method = RequestMethod.POST) // Enviar datos de Registro a Lista
     public String ConvenioF(@Validated Convenio convenio, RedirectAttributes redirectAttrs, Model model,
             HttpServletRequest request, @RequestParam("id_representante") Long id_representante)
-            throws FileNotFoundException, IOException {// validar los
+            throws FileNotFoundException, IOException {
 
         if (request.getSession().getAttribute("usuario") != null) {
 
@@ -206,10 +205,11 @@ public class ConvenioController {
             MultipartFile multipartFile = convenio.getFile();
             ArchivoAdjunto archivoAdjunto = new ArchivoAdjunto();
             AdjuntarArchivo adjuntarArchivo = new AdjuntarArchivo();
-            // (1)
-            Path rootPath = Paths.get("archivos/convenios/");
-            Path rootAbsolutPath = rootPath;
-            String rutaDirectorio = rootAbsolutPath + "";
+
+            // Crear directorios necesarios
+            Path rootPath = Paths.get("Proyecto/archivos/convenios/");
+            String rutaDirectorio = rootPath.toString();
+
             try {
                 if (!Files.exists(rootPath)) {
                     Files.createDirectories(rootPath);
@@ -221,13 +221,11 @@ public class ConvenioController {
                 System.err.println("Error al crear el directorio: " + e.getMessage());
             }
 
-            Path rootPathM = Paths.get("archivos/marca_agua");
-            Path rootAbsolutPathM = rootPathM;
-            String rutaDirectorioM = rootAbsolutPathM + "";
+            Path rootPathM = Paths.get("Proyecto/archivos/marca_agua");
+            String rutaDirectorioM = rootPathM.toAbsolutePath() + "/";
 
             String alfaString = generateRandomAlphaNumericString();
             String rutaArchivo = adjuntarArchivo.crearSacDirectorio(rutaDirectorio);
-            String rutaArchivoM = adjuntarArchivo.crearSacDirectorio(rutaDirectorioM);
             model.addAttribute("di", rutaArchivo);
             List<ArchivoAdjunto> listArchivos = archivoAdjuntoService.listarArchivoAdjunto();
             convenio.setNombreArchivo((listArchivos.size() + 1) + "-" + alfaString + ".pdf");
@@ -237,16 +235,27 @@ public class ConvenioController {
             archivoAdjunto.setRuta(rutaArchivo);
             archivoAdjunto.setEstado_archivo_adjunto("A");
             ArchivoAdjunto archivoAdjunto2 = archivoAdjuntoService.registrarArchivoAdjunto(archivoAdjunto);
+
             // Ruta completa del archivo PDF original que recibes
-            String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+            String pdfFilePath = rutaArchivo + convenio.getNombreArchivo();
 
             // Ruta donde guardarás el PDF con marca de agua
-            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
+            String pdfOutputPath = rutaArchivo + "con_marca_" + convenio.getNombreArchivo();
 
-            // Ruta del PDF de la marca de agua
-            String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
+            // Obtener la ruta del directorio de trabajo actual
+            String basePath = System.getProperty("user.dir");
+
+            // Ajustar la ruta de la imagen de la marca de agua
+            String watermarkImagePath = Paths.get(basePath, "Proyecto/archivos", "marca_agua", "marca_agua.png").toString();
 
             try {
+                // Chequeo para confirmar que el archivo de marca de agua existe
+                File watermarkFile = new File(watermarkImagePath);
+                if (!watermarkFile.exists()) {
+                    throw new FileNotFoundException(
+                            "La imagen de marca de agua no se encuentra en la ruta: " + watermarkImagePath);
+                }
+
                 // Crear un nuevo documento PDF de salida
                 com.itextpdf.text.Document document = new com.itextpdf.text.Document();
 
@@ -295,6 +304,7 @@ public class ConvenioController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             convenio.setRepresentante(representante);
             convenio.setRuta_marca_convenio(pdfOutputPath);
             convenio.setConsejo(consejo);
@@ -371,10 +381,10 @@ public class ConvenioController {
             barchivoAdjunto.setRuta(rutaArchivo);
             archivoAdjuntoService.modificarArchivoAdjunto(barchivoAdjunto);
             // Ruta completa del archivo PDF original que recibes
-            String pdfFilePath = rutaArchivo + File.separator + convenio.getNombreArchivo();
+            String pdfFilePath = rutaArchivo + convenio.getNombreArchivo();
 
             // Ruta donde guardarás el PDF con marca de agua
-            String pdfOutputPath = rutaArchivo + File.separator + "con_marca_" + convenio.getNombreArchivo();
+            String pdfOutputPath = rutaArchivo + "con_marca_" + convenio.getNombreArchivo();
 
             // Ruta del PDF de la marca de agua
             String watermarkImagePath = rutaDirectorioM + "marca_agua.png";
